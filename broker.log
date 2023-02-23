@@ -1,0 +1,4 @@
+D, [2023-02-23T15:39:07.081528 #27965] DEBUG -- : Attempt to connect to host: localhost...
+D, [2023-02-23T15:39:07.099484 #27965] DEBUG -- : Connection accepted
+D, [2023-02-23T15:39:07.099939 #27965] DEBUG -- : No previous session found by server, starting a new one.
+I, [2023-02-23T15:39:07.123287 #27965]  INFO -- : New packet PahoMqtt::Packet::Suback received.
