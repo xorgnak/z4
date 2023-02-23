@@ -296,11 +296,11 @@ location / {
 } 
 ";
 echo "DOMAIN: $DOMAINS"
-if [[ "$DOMAINS" == "" ]]; then
-    SSL=$ssn;
-else
+#if [[ "$DOMAINS" == "" ]]; then
+#    SSL=$ssn;
+#else
     SSL=$sss;
-fi
+#fi
 
 echo "$X NGINX"
 cat << END > /etc/nginx/nginx.conf
