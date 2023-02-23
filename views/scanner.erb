@@ -1,0 +1,68 @@
+<input type='hidden' name='app' value='<%= @app.id %>'>
+<input type='hidden' name='brand' value='<%= @brand.id %>'>
+<input type='hidden' name='team' value='<%= @team.id %>'>
+<input type='hidden' name='user' value='<%= @user.id %>'>
+<input type='hidden' name='campaign' value='<%= @campaign.id %>'>
+<input type='hidden' name='goto' value='<%= request.url %>/'>
+<!-- background image -->
+<canvas id='canvas' class='bg'></canvas>
+
+<h3 style='width: 100%; text-align: center; margin: 0; background-color: black; color: white;'>
+<span class='material-icons'>qr_code_scanner</span>
+<span><%= @app.id %>/<%= @brand.id %></span>
+</h3>
+
+<h5 style='width: 100%; text-align: center; margin: 0; background-color: black; color: white;'>
+<div id='qrcode' style='padding: 3%; background-color: white; width: min-content; margin-left: auto; margin-right: auto;'></div>
+</h5>
+
+<div id='scan' style='width: 100%; text-align: center;'>
+  <p style='width: 100%; text-align: center;'>
+    <span class='material-icons'>qr_code_2</span>
+    <input id='scan_user' name='give[user]' value='<%= @user.id %>' disabled>
+  </p>
+  <p style='width: 100%; text-align: center;'>
+    <span class='material-icons'>toll</span>
+    <input type='number' name='give[credits]' value='1' min='0'>
+  </p>
+  <% { titles: 'label', badges: 'verified_user'}.each_pair do |key, icon| %>
+  <p style='width: 100%; text-align: center;'>
+    <span class='material-icons'><%= icon %></span>
+    <datalist id='<%= key %>'>
+      <% @brand[key].keys.each do |x| %>
+        <option value='<%= x %>'>
+      <% end %>
+    </datalist>
+    <input list='<%= key %>' name='give[<%= key %>]' placeholder='<%= key %>'>
+  </p>
+  <% end %>
+  <p style='width: 100%; text-align: center;'>
+    <button type='submit' style='background-color: green; color: white;'>SEND</button>
+  </p>
+</div>
+
+<button id='tog' style='width: 100%; text-align: center;  background-color: black; color: white; position: fixed; bottom: 0; margin: 0;'>
+<span>
+<span class='material-icons'>toll</span>
+<span><%= @user.worth %></span>
+</span>
+
+<span>
+<span class='material-icons'>military_tech</span>
+<span><%= @user.level %></span>
+</span>
+
+</button>
+
+<script>
+$('#qrcode').qrcode("<%= Z4Badge.new(@app.id, @brand.id, @team.id, @user.id, @campaign.id).scanner %>")
+$('#qrcode').hide()
+$(function() {
+$(document).on('click', '#tog', function(ev) {
+  ev.preventDefault();
+  $("#body").toggle();
+  $("#qrcode").toggle();
+});
+});
+<%= erb :scanner_js %>
+</script>

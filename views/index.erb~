@@ -1,0 +1,23 @@
+<h1>index</h1>
+
+<pre class='mermaid' style=''>
+  gantt
+  dateFormat  hh:mm
+  axisFormat %H:%M
+  start  : crit, active, pre, 07:30, 1m
+  setup  : crit, milestone, setup, after pre, 5m
+  promo move      : promo1, after pre, 5m
+  promo arrival   : promo2, after promo1, 2m
+  promo event     : promo3, after promo2, 20m
+  influencer move      : influence1, after promo1, 5m
+  pitch  : crit, milestone, pitch, after setup, 5m
+  influencer arrival   : milestone, influence2, after pitch, 2m
+  influencer event     : influence3, after influence2, 15m
+  ambassador move      : am1, after influence2, 5m
+  ambassador arrival   : milestone, am2, after am1, 2m
+  piece  : crit, milestone, piece, after am2, 5m
+  ambassador departure : milestone, am4, after piece, 3m
+  influencer departure : milestone, influence4, after am4, 3m
+  promo departure : promo4, after influence4, 3m
+  end : crit, active, after promo4, 1m
+</pre>

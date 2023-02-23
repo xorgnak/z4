@@ -1,0 +1,6 @@
+<%= erb :content %>
+<ul>
+<% [:host, :body, :desc, :exchange, :credits].each do |e| %>
+<li><%= e %>: <%= @brand[e] %></li>
+<% end %>
+</ul>

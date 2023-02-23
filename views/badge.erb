@@ -1,0 +1,18 @@
+<!-- background image-->
+<img class='bg' src='<%= @brand[:img] || @app[:img] %>'>
+<!-- brand identifier -->
+<h3 style='width: 100%; text-align: center; margin: 0;  background-color: black; color: white;'>
+<span><%= params[:brand] %></span>
+</h3>
+<!-- qr badge -->
+<p style='min-width: 100%; text-align: center;'>
+<div id='qrcode' style='padding: 3%; background-color: white; width: min-content; margin-left: auto; margin-right: auto;'></div>
+</p>
+<!-- brand campaign -->
+<h5 style='width: 100%; text-align: center; margin: 0;  background-color: black; color: white;'>
+<span><%= params[:campaign] %></span>
+</h5>
+
+<script>
+$("#qrcode").qrcode("<%= Z4Badge.new(@app.id, @brand.id, @team.id, @user.id, @campaign.id).route('scan') %>")
+</script>

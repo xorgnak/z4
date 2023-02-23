@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+  <style>
+    html { max-width: 100vw; max-height: 100vh; }
+<% [ :html, :button, :input, :select ].each do |e| %>
+<%= e %> { font-family: monospace; font-size: x-large; vertical-align: middle; }
+<% end %>
+body { margin: 0; padding: 0; font-family: monospace; }
+.material-icons { vertical-align: middle; }
+#canvas { position: fixed; top: 0; left: 0; z-index: -10; width: 100%; height: 100%; }
+.bg {position: fixed; top: 0; left: 0; z-index: -10; width: 100%; height: 100%; }
+a { text-decoration: none; color: black; }
+</style>
+
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<!-- icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- badges -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+<!-- mqtt broker -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.1.0/paho-mqtt.js'></script>
+
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<!-- qr generator/scanner -->
+<script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+
+<!-- peerjs -->
+<!-- <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script> -->
+
+<!-- charts and images -->
+<script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+<script>
+  
+  function toJson(form) {
+      const array = $('form#' + form).serializeArray(); // Encodes the set of form elements as an array of names and values.
+      const json = {};
+      $.each(array, function () {
+	  json[this.name] = this.value || "";
+      });
+      return json;
+  }
+    
+  <%# erb :mqtt %>
+
+  <% if params.has_key?(:badge) %>
+  <%= erb :badge_js %>
+  <% elsif params.has_key?(:scanner) %>
+  <%= erb :scaner_js %>
+  <% end %>
+
+</script>	   
+</head><body>
+<form id='form' action='/' method='POST'>
+<%= yield %>
+</form>
+</body></html>

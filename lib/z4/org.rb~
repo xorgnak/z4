@@ -1,0 +1,47 @@
+module Z4Org
+  # { template: '', elements: [] }
+  def self.erb h={}
+    puts "erb: #{h}"
+    a = []
+    a << File.read(Z4Org.template("#{h[:template]}.org"))
+    [h[:elements]].flatten.each { |e|
+      if File.exists?(Z4Org.template("#{e}.org"));
+        a << File.read(Z4Org.template("#{e}.org"));
+      end
+    }
+    @params = h
+    @now = Time.now.strftime("%Y-%m-%d %a %R")
+    ERB.new(a.join("\n")).result(binding)
+  end
+
+  def self.template t
+    puts "template: #{t}"
+    "#{Dir.pwd}/org/#{t}.erb"
+  end
+  
+  def self.file f
+    puts "file: #{f}"
+    "#{Dir.pwd}/tmp/#{f}"
+  end
+
+  def self.eval f
+    puts "eval: #{f}"
+    ERB.new(File.read(Z4Org.template(f))).result(binding)
+  end
+  
+  def self.read f
+    puts "read: #{f}"
+    File.read(Z4Org.file(f))
+  end
+  
+  def self.tmp t, h={}
+    puts "tmp: #{t} #{h}"
+    File.open(Z4Org.file(t), 'w') { |f| f.write(Z4Org.erb(h)) }
+  end
+  
+  def self.export t
+    puts "export: #{t}"
+    `emacs --batch --eval "(require 'org)" #{Z4Org.file(t)} -f org-html-export-to-html`
+  end
+end
+

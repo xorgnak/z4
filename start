@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [[ ! -f env.sh || "$1" == "setup" ]]; then
+    mkdir -p views public db
+    ./bin/setup
+fi
+
+source env.sh
+
+ruby bin/console
