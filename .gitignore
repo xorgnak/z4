@@ -7,3 +7,7 @@
 /spec/reports/
 /tmp/
 env.sh
+/db/
+/tmp/
+/org/
+broker.log
