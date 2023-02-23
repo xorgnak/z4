@@ -295,6 +295,7 @@ location / {
     }
 } 
 ";
+echo "DOMAIN: $DOMAINS"
 if [[ "$DOMAINS" == "" ]]; then
     SSL=$ssn;
 else
@@ -351,7 +352,7 @@ HiddenServicePort 4321 127.0.0.1:4321
 HiddenServicePort 64738 127.0.0.1:64738
 END
 sudo service tor restart
-redis-cli set ONION `sudo cat /var/lib/tor/nomad/hostname`
+#redis-cli set ONION `sudo cat /var/lib/tor/nomad/hostname`
 
 echo "$X ICON"
 cat << END > /etc/icon
