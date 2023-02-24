@@ -189,20 +189,25 @@ class Z4Badge
   def initialize host, brand, team, user, campaign
     @host, @brand, @team, @user, @campaign = host, brand, team, user, campaign 
   end
+  def query h={}
+    o = []
+    { brand: @brand, team: @team, user: @user, campaign: @campaign }.merge(h).each_pair { |k,v|
+      vv = ERB::Util.url_encode v
+      o << %[#{k}=#{vv}]
+    }
+    return o.join("&")
+  end
   def route r
     url r
   end
   def url r
-    x = ERB::Util.url_encode %[#{r}?brand=#{@brand}&team=#{@team}&user=#{@user}&campaign=#{@campaign}]
-    %[https://#{@host}/#{x}]
+    return %[https://#{@host}/#{r}?#{query}]
   end
   def campaign x
-    xx = ERB::Util.url_encode %[badge?brand=#{@brand}&team=#{@team}&user=#{@user}&campaign=#{@campaign}&epoch=#{Time.now.utc.to_i}&x=#{x}]
-     %[https://#{@host}/#{xx}]                      
+    return %[https://#{@host}/campaign/#{query({ x: x })}]                      
   end
   def scanner
-    x = ERB::Util.url_encode %[user?brand=#{@brand}&team=#{@team}&user=#{@user}&campaign=#{@campaign}]
-    %[https://#{@host}/#{x}]
+    return %[https://#{@host}/user/#{query}]
   end
 end
 

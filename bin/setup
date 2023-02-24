@@ -7,6 +7,7 @@ bundle install
 
 mkdir -p views public db org templates
 
+if [[ ! -f "env.sh" ]]; then
 cat <<EOF > env.sh                                                                                                           
 # get from discord app dashboard
 export DISCORD_CLIENT_ID='';
@@ -16,4 +17,4 @@ export DISCORD_TOKEN='';
 export DISCORD_PERMISSIONS='';
 EOF
 editor env.sh
-
+fi

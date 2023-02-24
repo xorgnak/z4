@@ -2,3 +2,13 @@ D, [2023-02-23T15:39:07.081528 #27965] DEBUG -- : Attempt to connect to host: lo
 D, [2023-02-23T15:39:07.099484 #27965] DEBUG -- : Connection accepted
 D, [2023-02-23T15:39:07.099939 #27965] DEBUG -- : No previous session found by server, starting a new one.
 I, [2023-02-23T15:39:07.123287 #27965]  INFO -- : New packet PahoMqtt::Packet::Suback received.
+D, [2023-02-24T09:06:56.472966 #24083] DEBUG -- : Attempt to connect to host: localhost...
+D, [2023-02-24T09:06:56.483736 #24083] DEBUG -- : Connection accepted
+D, [2023-02-24T09:06:56.484093 #24083] DEBUG -- : No previous session found by server, starting a new one.
+I, [2023-02-24T09:06:56.559528 #24083]  INFO -- : New packet PahoMqtt::Packet::Suback received.
+D, [2023-02-24T09:08:02.561866 #24083] DEBUG -- : No activity is over timeout, disconnecting from localhost.
+D, [2023-02-24T09:08:02.564607 #24083] DEBUG -- : Disconnecting from localhost.
+D, [2023-02-24T09:10:11.947489 #24410] DEBUG -- : Attempt to connect to host: localhost...
+D, [2023-02-24T09:10:11.953569 #24410] DEBUG -- : Connection accepted
+D, [2023-02-24T09:10:11.953849 #24410] DEBUG -- : No previous session found by server, starting a new one.
+I, [2023-02-24T09:10:11.975583 #24410]  INFO -- : New packet PahoMqtt::Packet::Suback received.

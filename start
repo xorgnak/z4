@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if [[ ! -f env.sh || "$1" == "setup" ]]; then
-    mkdir -p views public db
+if [[ "$1" == "nomad" ]]; then
+    sudo ./exe/nomad.sh
+elif [[ "$1" == "setup" ]]; then
     ./bin/setup
+else
+    source env.sh
+    ruby bin/console
 fi
-
-source env.sh
-
-ruby bin/console

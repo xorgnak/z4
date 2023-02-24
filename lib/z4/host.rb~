@@ -35,11 +35,11 @@ class Z4Type
   def []= k,v
     DB[@type].update(@id, { k => v })
   end
-  def credit *a
-    DB[@type].credit @id, a[0] || 1
+  def credit a
+    DB[@type].credit @id, a.to_f
   end
-  def debit *a
-    DB[@type].debit @id, a[0] || 1
+  def debit a
+    DB[@type].debit @id, a.to_f
   end
   def incr k, i, *a
     h = DB[@type][@id][k.to_s]
@@ -197,7 +197,12 @@ class Z4Badge
     %[https://#{@host}/#{x}]
   end
   def campaign x
-    ERB::Util.url_encode %[https://#{@host}/badge?brand=#{@brand}&team=#{@team}&user=#{@user}&campaign=#{@campaign}&epoch=#{Time.now.utc.to_i}&x=#{x}]
+    xx = ERB::Util.url_encode %[badge?brand=#{@brand}&team=#{@team}&user=#{@user}&campaign=#{@campaign}&epoch=#{Time.now.utc.to_i}&x=#{x}]
+     %[https://#{@host}/#{xx}]                      
+  end
+  def scanner
+    x = ERB::Util.url_encode %[user?brand=#{@brand}&team=#{@team}&user=#{@user}&campaign=#{@campaign}]
+    %[https://#{@host}/#{x}]
   end
 end
 
