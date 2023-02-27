@@ -3,9 +3,10 @@ set -euo pipefail
 IFS=$'\n\t'
 set -vx
 
-bundle install
+# more reliable than bindler
+sudo gem install sinatra discordrb json dbm paho-mqtt browser rotp openssl rb-inotify
 
-mkdir -p views public db org templates
+mkdir -p views public db org html tmp templates
 
 if [[ ! -f "env.sh" ]]; then
 cat <<EOF > env.sh                                                                                                           

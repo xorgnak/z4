@@ -112,6 +112,13 @@ module Z4App
       end
     }
 
+    get('/report/:c') {
+      fn = "html/#{params[:c]}.html"
+      if File.exists?(fn)
+        return File.read(fn)
+      end
+    }
+    
     # form submit
     post('/') {
       puts "POST: #{params}"

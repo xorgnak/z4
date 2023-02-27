@@ -1,113 +1,128 @@
 module Z4Org
-  ORG = Hash.new {|h,k|
-    h[k] = lambda { |head, *headings|
-      File.open("org/#{k}.org", 'w') {|f| f.write([head.org, headings].flatten.join("\n")) }
-      `emacs --batch --eval "(require 'org)" org/#{k}.org -f org-html-export-to-html`
-    }
-  }
-  HEADING = Hash.new {|h,k| h[k] = Heading.new }
-  HEAD = Hash.new {|h,k| h[k] = Head.new }
 
-  class Head
-    def initialize
-      @doc = Hash.new {|h,k| h[k] = [] }
+  HEAD = %[#+TITLE: <%= @opts[:title] %>           
+#+TODO: <%= @opts[:todo].join(" ") %> | <%= @opts[:done].join(" ") %>
+#+OPTIONS: stat:t html-postamble:nil H:0 num:t toc:t \\n:t LaTeX:t skip:t d:t 
+#+OPTIONS: todo:t pri:t tags:nil @::t ::t |:t ^:t -:t f:t *:t <:t
+#+LANGUAGE: en
+#+INFOJS_OPT: view:t toc:t ltoc:t mouse:underline buttons:0 path:https://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+STARTUP: inlineimages
+]
+
+  class Html
+    def initialize t
+      @f = File.read("org/#{t}.html")
+      @style = /<style>([\w|\W]*)<\/style>/m.match(@f),
+      @script = /<script type="text\/javascript">([\w|\W]*)<\/script>/m.match(@f),
+      @body = /<body>([\w|\W]*)<\/body>/m.match(@f)
     end
-    def doc
-      @doc
+    def style
+      @style[1]
     end
-    def org
-      t = @doc.delete(:todo)
-      d = @doc.delete(:done)
-      a = [ %[#+TODO: #{t.join(" ")} | #{d.join(" ")}] ]
-      @doc.each_pair do |k, a|
-        a << %[#+#{k}: #{a.join(" ")}]
-      end
-      a << "\n\n"
-      return a.join("\n")
+    def script
+      @script[1]
     end
+    def body
+      @body[1]
+    end
+  end
+  def self.html t
+    Html.new(t)
+  end
+  ##
+  # @opts
+  # templates: []
+  # level: 1
+  # 
+  def self.generate t, h={}
+    @opts = {
+      title: "generated document",
+      templates: [],
+      todo: [ 'TODO(T!\@)' ],
+      done: [ 'DONE(D!\@)' ],
+      keywords: [],
+      tags: [],
+      level: 1,
+      text: "created at #{Time.now.utc}"
+    }.merge(h)
+    @app = @opts[:app] || 'localhost'
+    @brand = @opts[:brand] || 'localhost'
+    @team = @opts[:team] || 'localhost'
+    @campaign = @opts[:campaign] || 'localhost'
+    @role = @opts[:role] || '@everyone'
+    @user = @opts[:user] || 'noone'
+    @a = []
+    if @opts[:bare] != true
+      @a << HEAD
+    end
+    @opts[:templates].each {|e| @a << File.read("templates/#{e}.org.erb") }
+    @a << Heading.new(@opts).org
+    File.open("org/#{t}.org", 'w') { |f| f.write(ERB.new([@a.join("\n"), "\n"].join("")).result(binding)) }
+  end
+
+  def self.append t, h={}
+    @a = []
+    @a << Heading.new(h).org
+    File.open("org/#{t}.org", 'a') { |f| f.write(ERB.new([@a.join("\n"), "\n"].join("")).result(binding)) }
   end
   
   class Heading
-    def initialize
-      @doc = Hash.new {|h,k| h[k] = []}
-      @head = {}
-      @tag = []
-    end
-    def doc
-      @doc
-    end
-    def tag
-      @tag
-    end
-    def head
-      @head
+    def initialize h={}
+      @head = h
     end
     def headline
-      a = [%[#{@head[:level]}]]
+      a = [%[#{Array.new(@head[:level].to_i, '*').join('')}]]
       
       if @head.has_key? :state
         a << %[#{@head[:state].upcase}]
       end
-      if @head.has_key? :state
+      if @head.has_key? :priority
         a << %[[#{@head[:priority]}]]
       end
       
       a << %[#{@head[:text]}]
       
-      if @tag.length > 0
+      if @head[:tags].length > 0
         a << %[#{Array.new(8, " ").join("")}]
-        a << %[:#{@tag.join(":")}:]
+        a << %[:#{@head[:tags].join(":")}:]
       end
       return a.join(" ")
     end
     def org
       a = [headline]
 
-      if @doc.has_key?(:timestamps)
-        @doc[:timestamps].each {|e| a << a }
+      if @head.has_key?(:timestamps)
+        @head[:timestamps].each {|e| a << a }
         a << %[\n]
       end
 
       [:settings, :clock].each { |x|
-        if @doc.has_key?(x)
+        if @head.has_key?(x)
           a << ":#{x.upcase}:"
-          @doc[:settings].each { |e| a << ":#{e[0]}: #{e[1]}" }
+          @head[x].each { |e| a << ":#{e[0]}: #{e[1]}" }
           a << ":END:"
           a << %[\n]
         end
       }
         
-      if @doc.has_key?(:ul)
-        @doc[:ul].each {|e| a << "  - #{e}"}
+      if @head.has_key?(:ul)
+        @head[:ul].each {|e| a << "  - #{e}"}
         a << %[\n]
       end
 
-      if @doc.has_key?(:ol)
-        @doc[:ol].each_with_index {|e,i| a << "  #{i}. #{e}"}
+      if @head.has_key?(:ol)
+        @head[:ol].each_with_index {|e,i| a << "  #{i}. #{e}"}
         a << %[\n]
       end
 
-      if @doc.has_key?(:text)
-        @doc[:text].each {|e| a << e }
+      if @head.has_key?(:body)
+        @head[:body].each {|e| a << e }
       end
+      
       return a.join("\n")
     end
-  end
-  
-  def self.heading
-    HEADING
-  end
-  
-  def self.[] k
-    { head: HEAD[k], org: ORG[k] }
-  end
-
-  def self.[]= k, v
-    ORG[k].call(HEAD[k], v)
-  end
-
-  def self.read k
-    File.read("org/#{k}.org")
   end
 end
 

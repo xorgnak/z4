@@ -32,13 +32,13 @@ Gem::Specification.new do |spec|
   # Uncomment to register a new dependency of your gem
   spec.add_dependency "sinatra"
   spec.add_dependency "discordrb"
-  spec.add_dependency "dropbox_api"
   spec.add_dependency "json"
-  spec.add_dependency "gdbm"
+  spec.add_dependency "dbm"
   spec.add_dependency "paho-mqtt"
   spec.add_dependency "browser"
   spec.add_dependency "rotp"
   spec.add_dependency "openssl"
+  spec.add_dependency "rb-inotify"
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 end

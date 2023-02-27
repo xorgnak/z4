@@ -38,7 +38,7 @@ module Z4Db
     def initialize db, skel={}
       @skel = skel
       @table = db
-      @db = GDBM.new("db/#{db}.db")
+      @db = DBM.new("db/#{db}.db", 0666, DBM::WRCREAT)
     end
     # update entry
     def update k, h={}

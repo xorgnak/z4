@@ -7,20 +7,15 @@
   end
 end
 
-
-
-
-
-
-
 require 'browser'
 require 'discordrb'
 require 'sinatra/base'
-require 'gdbm'
+require 'dbm'
 require 'json'
 require 'paho-mqtt'
 require 'rotp'
 require 'openssl'
+require 'rb-inotify'
 
 require_relative "z4/version"
 require_relative "z4/utils"
