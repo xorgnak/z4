@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# install redis-stack-server Appimage
+
+Z4_PKGS='ctorrent wget screen ruby-full build-essential nginx mosquitto emacs-nox libffi-dev libssl-dev libreadline-dev aptitude sudo dhcpcd git'
+Z4_GEMS='pry gemoji faraday textmood serialport discordrb paho-mqtt erb json sinatra date hugging-face wikipedia-client eqn digest redi_search redis-objects connection_pool'
+
+Z4_XORG='xinit xorg xterm awesome beep audacity autoradio pitivi kdenlive obs kicad'
+Z4_VNC='tigervnc-*'
+
+# update system
+sudo apt update
+
+# upgrade system
+sudo apt upgrade -y
+
+
+if [[ "$1" == "-x" ]]; then
+    if [[ "$2" == "--vnc" ]]; then
+	sudo apt install $Z4_PKGS $Z4_XORG $Z4_VNC -y
+    else
+	sudo apt install $Z4_PKGS $Z4_XORG -y
+    fi
+else
+    sudo apt install $Z4_PKGS -y
+fi
+
+# install rvm ruby
+gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+\curl -sSL https://get.rvm.io | bash -s stable --ruby
+echo "source $HOME/.rvm/scripts/rvm" >> ~/.bashrc
+
+# install required gems
+sudo gem install $Z4_GEMS;
+
+###
+### FINALIZE
+###
+
+# Create local screenrc.
+cat <<EOF>~/.screenrc
+shell -/bin/bash
+caption always "[ %H ] %w"
+defscrollback 1024
+startup_message off
+hardstatus on
+hardstatus alwayslastline
+screen -t '#' 0 emacs -nw --funcall erc --visit ~/index.org
+screen -t '>' 1 /bin/bash
+select 1
+EOF
+
+# install nomad launcher
+sudo su -c "echo '(screen -Dr || screen)' > /usr/bin/nomad";
+sudo chmod 007 /usr/bin/nomad
+
+###
+### DONE!
+###
+
+
+exit 0;
