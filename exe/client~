@@ -1,6 +1,0 @@
-#!/usr/bin/bash
-
-# load the enviroment.
-source env.sh
-# start the shell.
-ruby bin/console $*
