@@ -1,15 +1,16 @@
-#!/usr/bin/env ruby
-# frozen_string_literal: true
+######################
+######################
+###                ###
+### THE Z4 CONSOLE ###
+###                ###
+######################
+######################
 
-require "bundler/setup"
-require "z4"
+# load interactive layer.
+require 'pry'
 
-# You can add fixtures and/or initialization code here to make experimenting
-# with your gem easier. You can also use a different console, if you like.
+# load z4 library.
+require_relative '../lib/z4.rb'
 
-# (If you use this, don't forget to add pry to your Gemfile!)
-# require "pry"
-# Pry.start
-
-require "irb"
-IRB.start(__FILE__)
+# begin interactive session.
+Pry.start

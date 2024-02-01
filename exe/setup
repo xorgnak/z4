@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# install redis
+R='https://packages.redis.io/redis-stack/redis-stack-server-7.2.0-v8-x86_64.AppImage?_gl=1*1yf7ija*_ga*MTgwMjg4NzcwMi4xNzA2MzUzNDAy*_ga_8BKGRQKRPV*MTcwNjc0NTM0OC4yLjEuMTcwNjc0NTM2NS40My4wLjA.*_gcl_au*MTc5OTE3ODE1OS4xNzA2MzUzNDAx'
+L='https://huggingface.co/Bojun-Feng/TinyLlama-1.1B-Chat-v1.0-llamafile/blob/main/tinyllama-1.1b-chat-v1.0.Q2_K.llamafile'
+
+Z4_PKGS='ctorrent wget screen ruby-full build-essential nginx mosquitto emacs-nox libffi-dev libssl-dev libreadline-dev aptitude dhcpcd git'
+Z4_GEMS='pry gemoji faraday textmood serialport discordrb paho-mqtt erb json sinatra date hugging-face wikipedia-client eqn digest redi_search redis-objects connection_pool rackup'
+
+Z4_XORG='xinit xorg xterm awesome beep audacity autoradio pitivi kdenlive obs kicad'
+Z4_VNC='tigervnc-*'
+
+# update system
+sudo apt update
+
+# upgrade system
+sudo apt upgrade -y
+
+
+if [[ "$1" == "-x" ]]; then
+    if [[ "$2" == "--vnc" ]]; then
+	sudo apt install $Z4_PKGS $Z4_XORG $Z4_VNC -y
+    else
+	sudo apt install $Z4_PKGS $Z4_XORG -y
+    fi
+else
+    sudo apt install $Z4_PKGS -y
+fi
+
+# install rvm ruby
+gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+\curl -sSL https://get.rvm.io | bash -s stable --ruby
+echo "source $HOME/.rvm/scripts/rvm" >> ~/.bashrc
+
+# install required gems
+sudo gem install $Z4_GEMS;
+
+# install redis
+wget -O redis $R
+chmod +x redis
+sudo mv redis /usr/bin/redis
+
+# install llamafile
+wget -O llama $L
+chmod +x llama
+sudo mv llama /usr/bin/llama
+
+###
+### FINALIZE
+###
+
+# Create local screenrc.
+cat <<EOF>~/.screenrc
+shell -/bin/bash
+caption always "[ %H ] %w"
+defscrollback 1024
+startup_message off
+hardstatus on
+hardstatus alwayslastline
+screen -t '#' 0 emacs -nw --funcall erc --visit ~/index.org
+screen -t '>' 1 /bin/bash
+select 1
+EOF
+
+# install nomad launcher
+sudo su -c "echo '(screen -Dr || screen)' > /usr/bin/nomad";
+sudo chmod 007 /usr/bin/nomad
+
+###
+### DONE!
+###
+
+
+exit 0;

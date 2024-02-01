@@ -1,8 +1,26 @@
-<!-- background image -->
-<img class='bg' src='<%= @app[:img] %>'>
+<style>
+a { text-decoration: none; color: white; border: thin outset grey; padding: 1%; }
+</style>
 
-<!-- app content -->
-<div id='body'><%= @app[:body] %></div>
+<%= erb :img %>
 
-<!-- app contactor -->
-<a href='<%= @app[:contact] %>'><%= @app[:button] %></a>
+<%= erb :heading %>
+
+<% if ENV.has_key?('EMBED') %>
+<div id='body' style='width: 100%; text-align: center;'>
+<%= ENV['EMBED'] %>
+</div>
+<% end %>
+
+
+<% if params.has_key?(:user) && params.has_key?(:chan) %>
+<%= erb :gps %>
+<% else %>
+<div style='width: 100%; text-align: center; position: fixed; bottom: 15%;'>
+<h1 style='margin: 0; width: 100%; text-align: center;'><textarea name='public' style='width: 90%;'><%= Z4.random %></textarea></h1>
+<h1 style='margin: 0 0 -10% 0; width: 100%; text-align: right;'><button style='top: -10%; border: thick outset orange; border-radius: 500px; padding: 0 2% 0 2%;'>?</button></h1>
+</div>
+<p style='width: 100%; text-align: center; margin: 0; position: fixed; bottom: 0;'>
+<span style='background-color: black; color: white;'>A Free Range Brand. &copy;2024</span>
+</p>
+<% end %>

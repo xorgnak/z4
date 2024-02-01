@@ -1,0 +1,12 @@
+<% if params.has_key?(:user) %>
+<% @user = Z4.make(params[:user],:user) %>
+<div class='gps' style='width: 100%; text-align: center; position: fixed; bottom: 0; background-color: black; color: white;'>
+<div id='items' style='width: 100%; text-align: center;'>
+</div>
+<p style='width: 100%; text-align: center; border: thin inset grey; margin: 0;'>
+<span><%= @user.stat[:xp].to_i %>xp</span>
+<span id='grid'>finding grid...</span>
+<span><span class='material-icons'>toll</span><%= @user.stat[:gp].to_f %></span>
+</p>
+</div>
+<% end %>

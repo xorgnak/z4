@@ -1,7 +1,0 @@
-<p>plan</p>
-
-<%= erb :content %>
-
-<%= erb :visit %>
-
-<%= erb :promo %>
