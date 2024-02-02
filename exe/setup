@@ -1,5 +1,23 @@
 #!/bin/bash
 
+##
+#
+# The Z4 System
+#
+# - A simple wrapper around a local vector database and llamafile
+#
+# 1. install system utilities
+# 1.1 install gui?
+# 1.2 install remote gui?
+# 2. install rvm stable ruby for discord bot and web app.
+# 3. install redis-stack noSQL database with vector extensions.
+# 4. install llamafile.
+# 5. install certbot.
+# 6. install nginx proxy.
+# 7. install nomad ide.
+#
+##
+
 # install redis
 R='https://packages.redis.io/redis-stack/redis-stack-server-7.2.0-v8-x86_64.AppImage?_gl=1*1yf7ija*_ga*MTgwMjg4NzcwMi4xNzA2MzUzNDAy*_ga_8BKGRQKRPV*MTcwNjc0NTM0OC4yLjEuMTcwNjc0NTM2NS40My4wLjA.*_gcl_au*MTc5OTE3ODE1OS4xNzA2MzUzNDAx'
 L='https://huggingface.co/Bojun-Feng/TinyLlama-1.1B-Chat-v1.0-llamafile/resolve/main/tinyllama-1.1b-chat-v1.0.Q2_K.llamafile?download=true'
@@ -9,6 +27,8 @@ Z4_GEMS='pry gemoji faraday textmood serialport discordrb paho-mqtt erb json sin
 
 Z4_XORG='xinit xorg xterm awesome beep audacity autoradio pitivi kdenlive obs kicad'
 Z4_VNC='tigervnc-*'
+
+if [[ "$1" != '--bare' ]]; then
 
 # update system
 sudo apt update
@@ -20,11 +40,14 @@ if [[ "$1" == "-x" ]]; then
     shift
     if [[ "$1" == "--vnc" ]]; then
 	shift
+	echo "+----------------------+ z4 - vnc +-------------------+"
 	sudo apt install $Z4_PKGS $Z4_XORG $Z4_VNC -y
     else
+	echo "+----------------------+ z4 - gui +-------------------+"
 	sudo apt install $Z4_PKGS $Z4_XORG -y
     fi
 else
+    echo "+----------------------+ z4 - cli +-------------------+"
     sudo apt install $Z4_PKGS -y
 fi
 
@@ -36,8 +59,6 @@ echo "source $HOME/.rvm/scripts/rvm" >> ~/.bashrc
 # install required gems
 sudo gem install $Z4_GEMS;
 
-if [[ "$1" != '--bare' ]]; then
-
 # install redis
 wget -O redis $R
 chmod +x redis
@@ -48,10 +69,7 @@ wget -O llama $L
 chmod +x llama
 sudo mv llama /usr/bin/llama
 
-###
-### Hosting Utils
-###
-
+# install certbot
 sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
 
@@ -61,18 +79,33 @@ d+="-d $e";
 end
 
 if [[ "$d" != "" ]]; then
-sudo certbot --nginx $d
-./exe/nginx $*
-sudo service nginx restart
+    # generate ssl certificate
+    sudo certbot --nginx $d
+    # configure nginx for https/ssl access.
+    ./exe/proxy $*
+    sudo service nginx restart
 else
-./exe/nginx
+    # configure nginx for local port 80 access.
+    ./exe/proxy
 fi
 
+# end of full setup
 fi
 
-###
-### FINALIZE
-###
+echo "+----------------------+ z4 +-------------------------+"
+
+##
+#
+# The nomad ide
+#
+# - A command line driven ide for cloud, web, and iot.
+#
+# 1. create user ~/.screenrc.
+# 2. create nomad executable.
+# 3. create ~/.nomad script.
+# 4. install.
+#
+##
 
 # Create local screenrc.
 cat <<EOF>~/.screenrc
@@ -83,7 +116,7 @@ startup_message off
 hardstatus on
 hardstatus alwayslastline
 screen -t '#' 0 emacs -nw --funcall erc --visit ~/index.org
-screen -t '>' 1 ./home/$USER/z4/exe/client
+screen -t '>' 1 /bin/bash
 select 1
 EOF
 
@@ -91,9 +124,36 @@ EOF
 sudo su -c "echo '(screen -Dr || screen)' > /usr/bin/nomad";
 sudo chmod 007 /usr/bin/nomad
 
-###
-### DONE!
-###
+# construct bash shell layer
+cat << EOF > ~/.nomad
+# simplify lan scanning
+function lan() {
+    IP_REGEXP="(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
+    IPs=\$(sudo arp-scan --localnet | grep -E -o \$IP_REGEXP)
+    sudo nmap -O -F -v \$IPs
+}
+# load ruby rvm
+export PATH="\$PATH:\$HOME/.rvm/bin"
+source ~/.rvm/scripts/rvm
+source /home/erik/.rvm/scripts/rvm
+# simplify push process.
+function commit() {
+ git add .
+ git commit -m "$*"
+ git push
+}
+# pipx path
+export PATH="\$PATH:/home/erik/.local/bin"
+# git aware prompt. (pretty)
+export PS1='\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;33m\]\$(__git_ps1)\[\033[00m\]\$ ';
+echo "##### LOADED WITH NOMADIC CAPABILITIES #####"
+EOF
 
+# add source to bashrc
+if ! $(grep 'source ~/.nomad' ~/.bashrc > /dev/null); then
+    echo 'source ~/.nomad' >> ~/.bashrc
+fi
+
+echo "+----------------------+ nomad +----------------------+"
 
 exit 0;
