@@ -4,7 +4,11 @@
 #items { width: 100%; }
 </style>
 
-<div id='items'></div>
+<div id='items'>
+<% Z4.query.terms.members.to_a.each do |e| %>
+<p>#<%= e %>! <%= @user.search(e) %></p>
+<% end %
+</div>
 
 <div id='item'>
 <datalist id="inputs">
