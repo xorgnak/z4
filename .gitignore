@@ -12,3 +12,4 @@ github.sh
 /tmp/
 /org/
 broker.log
+dump.rdb
