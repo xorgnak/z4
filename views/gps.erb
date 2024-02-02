@@ -4,12 +4,16 @@
 <div id='items' style='width: 100%; text-align: center;'>
 </div>
 <p style='width: 100%; text-align: center; border: thin inset grey; margin: 0;'>
-<span><%= @user.stat[:xp].to_i %>xp</span>
-<button id='grid'>finding grid...</button>
-<span><span class='material-icons'>toll</span><%= @user.stat[:gp].to_f %></span>
+<button id='xp'><%= @user.stat[:xp].to_i %></button>
+<span>xp</span>
+<button id='qr'>finding grid...</button>
+<span class='material-icons'>toll</span>
+<button id='gp'><%= @user.stat[:gp].to_f %></button>
 </p>
 </div>
 <script>
-$(document).on('click','#grid', function(ev) { ev.preventDefault(); window.location = "/qr?user=<%= params[:user] %>&chan=<%= params[:chan] %>" });
+$(document).on('click','#xp', function(ev) { ev.preventDefault(); window.location = "/xp?user=<%= params[:user] %>&chan=<%= params[:chan] %>" });
+$(document).on('click','#gp', function(ev) { ev.preventDefault(); window.location = "/gp?user=<%= params[:user] %>&chan=<%= params[:chan] %>" });
+$(document).on('click','#qr', function(ev) { ev.preventDefault(); window.location = "/qr?user=<%= params[:user] %>&chan=<%= params[:chan] %>" });
 </script>
 <% end %>
