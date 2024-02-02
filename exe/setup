@@ -142,7 +142,8 @@ function commit() {
  shift
  t=\$(cat ~/github.sh)
  p=\$(pwd)
- git remote set-url origin https://\$u:\$t@github.com/\$u/\$p.git;
+ source github.sh
+ git remote set-url origin https://\$user:\$token@github.com/\$user/\$repo.git;
  git add .
  git commit -m "$*"
  git push
