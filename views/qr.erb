@@ -1,0 +1,20 @@
+<style>
+#container { width: 100%; text-align: center; background-color: black; margin: 5% 0 0 0; }
+#qrcode { width: 100%; background-color: white; padding: 5% 0 5% 0; }
+#tag { width: 100%; text-align: center; }
+</style>
+
+<%= erb :heading %>
+
+<div id='container'>
+<div id='qrcode'></div>
+</div>
+
+<h1 id='tag'><span><%= Z4.make(params[:user], :user).attr[:name] %></span></h1>
+<h3 id='tag'><span><%= Z4.make(params[:chan], :chan).attr[:name] %></span></h3>
+
+<%= erb :gps %>
+
+<script>
+$("#qrcode").qrcode('https://<%= request.host %>/u?user=<%= params[:user] %>&chan=<%= params[:chan] %>&epoch=<%= Time.now.utc.to_i %>');
+</script>

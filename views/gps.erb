@@ -5,8 +5,11 @@
 </div>
 <p style='width: 100%; text-align: center; border: thin inset grey; margin: 0;'>
 <span><%= @user.stat[:xp].to_i %>xp</span>
-<span id='grid'>finding grid...</span>
+<button id='grid'>finding grid...</button>
 <span><span class='material-icons'>toll</span><%= @user.stat[:gp].to_f %></span>
 </p>
 </div>
+<script>
+$(document).on('click','#grid', function(ev) { ev.preventDefault(); window.location = "/qr?user=<%= params[:user] %>&chan=<%= params[:chan] %>" });
+</script>
 <% end %>

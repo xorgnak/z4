@@ -1,6 +1,6 @@
-<% @user = Z4[:user, params[:user]] %>
-<% @chan = Z4[:chan, params[:chan]] %>
-<% Z4BC.transaction amount: 1, to: params[:user], bank: params[:chan], for: "scan at #{Time.now.utc.to_s}" %>
+<% @user = Z4.make(params[:user], :user) %>
+<% @chan = Z4.make(params[:chan], :chan) %>
+<% Z4.xfer amt: 1, to: params[:user], memo: "scan at #{Time.now.utc.to_s}" %>
 
 <style>
 #bg { z-index: -10; position: fixed; width: 100vw; height: 100vh; }
@@ -20,34 +20,34 @@ a { text-decoration: none; }
 </style>
 
 
-<img id='bg' src='<%= @user[:img] || @chan[:img] %>'>
+<img id='bg' src='<%= @user.attr[:img] || @chan.attr[:img] || ENV['IMG'] %>'>
 
 <div id='head'>
 <h1 id='top'>
 <span id='nav'>
 <% { discord: 'support_agent', phone: 'ring_volume', store: 'local_grocery_store', social: 'follow_the_signs', tips: 'savings' }.each_pair do |key,icon|  %>
-<% if "#{@user[key]}".length > 0 %>
-<a class='material-icons btn' id='<%= key %>' href='<%= @user[key] %>'><%= icon %></a>
+<% if "#{@user.attr[key]}".length > 0 %>
+<a class='material-icons btn' id='<%= key %>' href='<%= @user.attr[key] %>'><%= icon %></a>
 <% end %>
 <% end %>
 </span>
-<span id='name'><%= @user[:name] %></span>
+<span id='name'><%= @user.attr[:name] %></span>
 </h1>
-<h2 style='margin: 0;'>serving <%= @user[:city] %> since <%= @user[:since] %>.</h2>
+<h2 style='margin: 0;'>serving <%= @user.attr[:city] %> since <%= @user.attr[:since] %>.</h2>
 </div>
 
 
 <div id='foot'>
-<% if "#{@user[:embed]}".length > 0 %>
-<%= Embed.new(@user[:embed]).result(params) %>
+<% if "#{@user.attr[:embed]}".length > 0 %>
+<%= Embed.new(@user.attr[:embed]).result(params) %>
 <% end %>
 
 <div id='work'>
-<% if "#{@user[:job]}".length > 0 %>
-<h2 style='margin: 0;'><span id='job'><%= @user[:job] %></span></h2>
+<% if "#{@user.attr[:job]}".length > 0 %>
+<h2 style='margin: 0;'><span id='job'><%= @user.attr[:job] %></span></h2>
 <% end %>
-<% if "#{@user[:union]}".length > 0 %>
-<h2 style='margin: 0;'><span id='union'><%= @user[:union] %></span></h2>
+<% if "#{@user.attr[:union]}".length > 0 %>
+<h2 style='margin: 0;'><span id='union'><%= @user.attr[:union] %></span></h2>
 <% end %>
 </div>
 </div>
