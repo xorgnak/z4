@@ -7,3 +7,5 @@
 #####################
 # load z4 library.
 require_relative '../lib/z4.rb'
+
+server!

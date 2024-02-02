@@ -17,10 +17,21 @@ a { text-decoration: none; color: white; border: thin outset grey; padding: 1%; 
 <%= erb :gps %>
 <% else %>
 <div style='width: 100%; text-align: center; position: fixed; bottom: 15%;'>
-<h1 style='margin: 0; width: 100%; text-align: center;'><textarea name='public' style='width: 90%;'><%= Z4.random %></textarea></h1>
-<h1 style='margin: 0 0 -10% 0; width: 100%; text-align: right;'><button style='top: -10%; border: thick outset orange; border-radius: 500px; padding: 0 2% 0 2%;'>?</button></h1>
+<datalist id='items'>
+<% Z4.query.terms.members.to_a.each do |e| %>
+<option value='<%= e %>'></option>
+<% end %>
+</datalist>
+
+
+<h1 style='width: 100%; text-align: center;'>
+<input type='text' list='items' id='query' placeholder='What would you like to do tonight?' style='width: 80%;'>
+<button id='send'>?</button>
+</h1>
 </div>
+
 <p style='width: 100%; text-align: center; margin: 0; position: fixed; bottom: 0;'>
 <span style='background-color: black; color: white;'>A Free Range Brand. &copy;2024</span>
 </p>
+
 <% end %>

@@ -31,6 +31,25 @@ REDISEARCH.create
 module Z4
 
   ###
+  ### QUERY POOL
+  ###
+
+  class Pool
+    include Redis::Objects
+
+    set :terms
+    
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+  end
+  @@QUERY = Pool.new(:pool)  
+  def self.query
+    @@QUERY
+  end
+
+  ###
   ### TEXT ANALYSIS
   ###
   def self.analyze t
@@ -154,11 +173,13 @@ module Z4
       w.shift
       @chan.index id: m[1], text: %[#{m[1]}: #{w.join(" ")} per #{@user.attr[:name]} at #{Time.now.utc.strftime("%F %T")}]
       Z4.index id: m[1], text: %[#{m[1]}: #{w.join(" ")}]
+      Z4.query.terms << m[1]
       r << %[#{m[1]} HEARD.]
     elsif m = /^#(.+)\?$/.match(c)
       w.shift
       puts %[handle ?: #{m[1]}]
       @chan.search(m[1]).each { |x| r << x }
+      Z4.search(m[1]).each { |x| r << x }
     end
     
     puts %[handle R: #{r.length}]
@@ -638,16 +659,31 @@ class APP < Sinatra::Base
     if params.has_key?(:lat) && params.has_key?(:lon)
       h[:grid] = Z4.to_grid(params[:lat],params[:long])
     end
+    if params.has_key?(:query)
+      o = []
+      Z4.search(m[1]).each { |x| o << %[<p><span>#{x}</span></p>] }
+      h[:items] = o.join("")
+    end
     ################################## WORK
     return JSON.generate(h)
   }
   
 end
 
+# initialize z4 databases
 Z4.init!
 
+# load local config
 load 'z4.rb'
 
-APPPROC = Process.detach( fork { APP.start! } )
-BOTPROC = Process.detach( fork { BOT.run } )
+# start app and bot.
+def server!
+@app = Process.detach( fork { APP.start! } )
+@bot = Process.detach( fork { BOT.run } )
+end
 
+# interact with data and monitor
+def client!
+  
+  puts %[#####--- WELCOME! ---######]
+end

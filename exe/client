@@ -1,7 +1,5 @@
 #!/usr/bin/bash
 
-./exe/services
-
 # load the enviroment.
 source env.sh
 # start the shell.
