@@ -123,26 +123,8 @@ module Z4
 
   ###                                                                                                                                                                                                                            
   ### LLM                                                                                                                                                                                                                        
-  ###                                                                                                                                                                                                                             
-
-  @@HF = HuggingFace::InferenceApi.new(api_token: ENV['HUGGING_FACE_API_TOKEN'])
-
-  def self.embedding *i
-    @@HF.embedding(input: i)
-  end
-
-  def self.condense *i
-    a = []
-    [i].flatten.each { |ee| @@HF.summarization(input: ee).each { |e| a << e["summary_text"].strip } }
-    return a
-  end
-
-  def self.expand *i
-    a = []
-    [i].flatten.each { |ee| @@HF.text_generation(input: ee).each { |e| a << e["generated_text"].strip } }
-    return a
-  end
-
+  ###
+  
   # process input.
   def self.handle h={}
     w = h[:input].split(" ")
@@ -151,7 +133,7 @@ module Z4
 
     cmd = false
     
-    puts %[handle h: #{h}]
+#    puts %[handle h: #{h}]
 
     r = []
     
@@ -161,9 +143,9 @@ module Z4
     @@CANNED.each_pair { |k,v|
       #puts %[handle @@CANNED: #{k} #{v}]
       if @matchdata = Regexp.new(k).match(h[:input].strip);
-        puts %[handle @matchdata: #{@matchdata}]
+#        puts %[handle @matchdata: #{@matchdata}]
         r << ERB.new(v).result(binding);
-        puts %[handle r: #{r}]
+#        puts %[handle r: #{r}]
       end
     }
     
@@ -177,32 +159,26 @@ module Z4
       r << %[#{m[1]} HEARD.]
     elsif m = /^#(.+)\?$/.match(c)
       w.shift
-      puts %[handle ?: #{m[1]}]
+#      puts %[handle ?: #{m[1]}]
       @chan.search(m[1]).each { |x| r << x }
       Z4.search(m[1]).each { |x| r << x }
     end
     
-    puts %[handle R: #{r.length}]
+#    puts %[handle R: #{r.length}]
     #if r.length == 0
     if cmd == false && w.length > 0
       hh = { batch: 256, ext: 0.1 }.merge(h)
-      puts %[handle hh: #{hh}]
+#      puts %[handle hh: #{hh}]
       p = %[#{hh[:info]}\n#{hh[:task]}\nUser: #{w.join(" ")}\nBot: ]
-      puts %[handle p: #{p}]
+#      puts %[handle p: #{p}]
       a = %[-b #{hh[:batch]} --rope-scaling yarn --yarn-ext-factor #{hh[:ext]}]
-      puts %[handle a: #{a}]
+#      puts %[handle a: #{a}]
       `llama #{a} -p "#{p}" 2> /dev/null`.gsub(p,"").strip.split("\n").each { |e| puts %[handle e: #{e}]; r << e }
     end
     #end
   
     puts %[handle return #{r}]
     return r
-  end
-  
-  # llama prompt info getter/setter
-  @@PERSONALITY = {}
-  def self.personality k, v
-    @@PERSONALITY[k] = v
   end
   
   # llama predefined response getter/setter
@@ -517,7 +493,7 @@ BOT.message() do |e|
       ###
       @act = true
       @cmd = m[1]
-      puts %[CMD: #{@cmd}]
+#      puts %[CMD: #{@cmd}]
       @words.shift
       @text = @words.join(" ")
       if @priv.include?('agent') || @priv.include?('operator')
@@ -532,7 +508,7 @@ BOT.message() do |e|
       ###
       @act = true
       @cmd = m[1]
-      puts %[cmd: #{@cmd}]
+#      puts %[cmd: #{@cmd}]
       @words.shift
       @text = @words.join(" ")
       if @cmd == "#"
@@ -600,7 +576,10 @@ BOT.message() do |e|
     end
     @h[:info] = @context.join(" ")
     if @act == false
-      Z4.handle(@h).each { |x| puts %[handle x: #{x}]; o << x.strip.gsub(@context.join(" "),'') }
+      Z4.handle(@h).each { |x|
+#        puts %[handle x: #{x}];
+        o << x.strip.gsub(@context.join(" "),'')
+      }
     end
   else
     if @act == false
@@ -610,7 +589,10 @@ BOT.message() do |e|
       @h[:batch] = @chan.attr[:batch].to_i
       @h[:ext] = @chan.attr[:ext].to_i
       @hh = { batch: 256, ext: 0.1 }.merge(@h)
-      Z4.handle(@hh).each { |x| puts %[handle x: #{x}]; o << x.strip.gsub(@context.join(" "), '') }
+      Z4.handle(@hh).each { |x|
+#        puts %[handle x: #{x}];
+        o << x.strip.gsub(@context.join(" "), '')
+      }
     else
       e.respond %[OK.]
     end
@@ -622,7 +604,7 @@ BOT.message() do |e|
   end
   
   a = []
-  puts %[BOT o: #{o}]
+#  puts %[BOT o: #{o}]
   o.each { |x| [x.split("\n")].flatten.uniq.each { |xx| if %[#{xx}].length > 0; e.respond(xx); end }}
 end
 # fork and background
@@ -634,7 +616,8 @@ class APP < Sinatra::Base
     set :public_folder, 'public/'
     set :views, 'views/'
   end
-  on_start { puts "[z4app] OK." }
+  
+  on_start { puts "[z4] running." }
   
   def die!
     Process.kill('TERM', Process.pid)
