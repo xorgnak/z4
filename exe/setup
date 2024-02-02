@@ -156,6 +156,11 @@ if ! $(grep 'source ~/.nomad' ~/.bashrc > /dev/null); then
     echo 'source ~/.nomad' >> ~/.bashrc
 fi
 
+# add z4 to crontab
+echo '@reboot $(cd ~/z4 && ./exe/server)' > mc
+crontab mc
+rm mc
+
 echo "+----------------------+ nomad +----------------------+"
 
 exit 0;
