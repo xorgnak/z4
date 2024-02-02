@@ -138,10 +138,6 @@ source ~/.rvm/scripts/rvm
 source /home/erik/.rvm/scripts/rvm
 # simplify push process.
 function commit() {
- u=\$1;
- shift
- t=\$(cat ~/github.sh)
- p=\$(pwd)
  source github.sh
  git remote set-url origin https://\$user:\$token@github.com/\$user/\$repo.git;
  git add .

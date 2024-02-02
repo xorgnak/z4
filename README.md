@@ -19,9 +19,7 @@ cd ~ && git clone https://github.com/xorgnak/z4 && cd z4 && ./exe/setup
 ```
 1. Use `./exe/server` to begin the z4 server in headless mode.
 1. Use `./exe/client` to begin the z4 server in interactive mode.
-1. The local z4 server is running at "http://localhost:4567"
-  - Use `./exe/nginx` to setup port 80 proxy access.
-  - Use `./exe/tor` to setup .onion proxy access.
+1. The local z4 server is running at [localhost:4567](http://localhost:4567)
 
 
 
