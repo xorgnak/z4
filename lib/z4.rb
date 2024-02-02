@@ -519,12 +519,12 @@ BOT.message() do |e|
         ### CHANID
         ###
         @chan.attr.to_h.each_pair { |k,v| o << %[#{k}: #{v}] }
-        if @chan.attr[:affiliate] != nil
-          o << %[https://#{@chan.attr[:affiliate]}/?user=#{@user.id}&chan=#{@chan.id}]
-        end
       else
         @user.attr[@cmd.to_sym] = @text
         e.user.pm %[USEROP #{@cmd} #{@text}]
+        if @dm == false && @chan.attr[:affiliate] != nil
+          e.user.pm %[https://#{@chan.attr[:affiliate]}/?user=#{@user.id}&chan=#{@chan.id}]
+        end
       end
     elsif @words[0] == "#"
       ###
