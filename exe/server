@@ -1,8 +1,10 @@
 #!/usr/bin/bash
 
-./exe/services
+redis &
 
 # load the enviroment.
 source env.sh
 # start the shell.
 ruby bin/headless $*
+
+exit 0
