@@ -684,10 +684,8 @@ class APP < Sinatra::Base
           end
         }
       else
-        Z4.search(params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
-        a << %[<ol>]
-        Z4.query[params[:query]].items.members(with_scores: true).to_h.each_pair { |k,v| a << %[#{v}: #{k}] }
-        a << %[</ol>]
+        Z4.search(params[:query]).each { |e| a << %[<p class='i' style='font-size: smaller;'>#{e}</p>] }
+        Z4.query[params[:query]].items.members(with_scores: true).to_h.each_pair { |k,v| a << %[<p class='i'>#{v}: #{k}</p>] }
       end
       h[:items] = a.flatten.join('')
     end
