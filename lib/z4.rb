@@ -42,8 +42,21 @@ module Z4
     def initialize k
       @id = k
     end
+    def [] k
+      self.terms[%[#{@id}-#{k}]]
+    end
     def id; @id; end
   end
+  
+  class Item
+    include Redis::Objects
+    sorted_set :items
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+  end
+  
   @@QUERY = Pool.new(:pool)  
   def self.query
     @@QUERY
@@ -158,6 +171,8 @@ module Z4
       s = %[#{m[1]}: #{w.join(" ")} per #{@user.attr[:nick]} at #{Time.now.utc.strftime("%F %T")}] 
 
       Z4.query.terms.incr(m[1])
+
+      Z4.query[m[1]].items.incr(w.join(" "))
       
       @chan.index id: i, text: s
       Z4.index id: i, text: s
@@ -166,6 +181,7 @@ module Z4
       @user.stat.incr(:gp)
       @chan.stat.incr(:xp)
       @chan.stat.incr(:gp)
+
       
       r << %[#{m[1]} HEARD.]
 
@@ -669,6 +685,9 @@ class APP < Sinatra::Base
         }
       else
         Z4.search(params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
+        a << %[<ol>]
+        Z4.query[params[:query]].items.members(with_scores: true).to_h.each_pair { |k,v| a << %[#{v}: #{k}] }
+        a << %[</ol>]
       end
       h[:items] = a.flatten.join('')
     end
