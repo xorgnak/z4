@@ -43,7 +43,7 @@ module Z4
       @id = k
     end
     def [] k
-      self.terms[%[#{@id}-#{k}]]
+      Item.new(%[#{@id}-#{k}])
     end
     def id; @id; end
   end
