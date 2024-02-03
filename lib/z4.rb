@@ -187,6 +187,10 @@ module Z4
     @@CANNED[k] = v
   end
 
+  def self.predefines
+    @@CANNED
+  end
+  
   # random prompts for stock frontend.
   @@RAND = []
   def self.random *k
@@ -645,7 +649,7 @@ class APP < Sinatra::Base
     end
 
     if params.has_key?(:query)
-      @@CANNED.each_pair { |k,v|                                                                                                                                                                              
+      Z4.predefines.each_pair { |k,v|                                                                                                                                                                              
         if @matchdata = Regexp.new(k).match(h[:input].strip);
           a << ERB.new(v).result(binding);
         end
