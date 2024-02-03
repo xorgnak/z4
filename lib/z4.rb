@@ -676,7 +676,7 @@ class APP < Sinatra::Base
       h[:grid] = Z4.to_grid(params[:lat],params[:long])
     end
 
-    if params.has_key?(:query)
+[5~    if params.has_key?(:query)
       if params[:query].split(" ").length > 1
         Z4.predefines.each_pair { |k,v|                                                                                                                                                                 
           if @matchdata = Regexp.new(k).match(params[:query].strip);
