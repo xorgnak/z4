@@ -101,6 +101,11 @@ $(document).on('click', '#send', function(ev) {
     push();
 });
 
+$(document).on('change', '#change', function(ev) {
+    state['query'] = $(this).val();
+    push();
+});
+  
 <% if params.has_key?(:user) && params.has_key?(:chan) %>
     
 var watchID;

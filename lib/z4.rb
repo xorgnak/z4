@@ -42,8 +42,15 @@ module Z4
     def initialize k
       @id = k
     end
+    def length
+      self.terms.members.length
+    end
     def [] k
       Item.new(%[#{@id}-#{k}])
+    end
+    def each &b
+      h = self.terms.members(with_scores: true).to_h.sort_by { |k,v| -v }
+      h.to_h.each_pair { |k,v| b.call(k,v,Item.new(%[#{@id}-#{k}])) }
     end
     def id; @id; end
   end
@@ -53,6 +60,13 @@ module Z4
     sorted_set :items
     def initialize k
       @id = k
+    end
+    def length
+      self.items.members.length
+    end    
+    def each &b
+      h = self.items.members(with_scores: true).to_h.sort_by { |k,v| -v }
+      h.to_h.each_pair { |k,v| b.call(k,v) }
     end
     def id; @id; end
   end
@@ -104,6 +118,7 @@ module Z4
     if s
       x = Wikipedia.find(k.to_s)
       s.page['extract'].split("\n").each { |e|                                                                                                                                                                                                     
+
         if !/^=+/.match(e)                                                                                                                                                                                                       
           a << %[#{e}]
         end
@@ -444,6 +459,14 @@ module Z4
   def self.flushdb
     Z4.redis.flushdb
   end
+
+  def self.lvl n
+    %[#{n.to_i}].length - 1
+  end
+  def self.heart
+    [ 'volunteer_activism', 'favorite_border', 'favorite', 'loyalty', 'diversity_2', 'diversity_1', 'monitor_heart' ]
+  end
+  
 end
 
 Dir['lib/z4/*'].each { |e| if !/^.*~$/.match(e); puts %[loading #{e}]; load(e); end }
@@ -653,8 +676,12 @@ class APP < Sinatra::Base
           end
         }
       else
-        #Z4.search(params[:query]).each { |e| a << %[<p class='i' style='font-size: smaller;'>#{e}</p>] }
-        Z4.query[params[:query]].items.members(with_scores: true).to_h.each_pair { |k,v| a << %[<p class='i'>#{v}: #{k}</p>] }
+        
+        #Z4.search(params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
+        
+        hx = Z4.query[params[:query]].items.members(with_scores: true).to_h.sort_by { |k,v| -v }
+        hx.to_h.each_pair { |k,v| a << %[<p class='c'><span class='material-icons' style='font-size: x-small; color: red;'>#{Z4.heart[Z4.lvl(v)]}</span>#{k}</p>] }
+        
       end
       h[:items] = a.flatten.join('')
     end

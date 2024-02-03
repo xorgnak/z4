@@ -1,6 +1,13 @@
 <style>
 #items { width: 100%; text-align: left; background-color: black; color: white; font-size: large; height: 50%; overflow-y: scroll; border-top: thin solid white; border-bottom: thin solid white; }
 a { text-decoration: none; color: white; border: thin outset grey; padding: 1%; }
+p { margin: 0; }
+#change { font-size: xx-large; }
+.h { }
+.c { width: 100%; text-align: center; }
+.i { width: 100%; text-align: left; font-size: xx-small; margin: 0; color: grey; }
+.k { }
+.v { padding: 0 2% 0 2%; }
 </style>
 
 <%= erb :img %>
@@ -18,15 +25,20 @@ a { text-decoration: none; color: white; border: thin outset grey; padding: 1%; 
 <%= erb :gps %>
 <% else %>
 <div style='width: 100%; text-align: center; position: fixed; bottom: 15%;'>
-<datalist id='queries'>
-<% Z4.query.terms.members.to_a.each do |e| %>
-<option value='<%= e %>'></option>
-<% end %>
-</datalist>
-<div id='items'></div>
+<div id='items'>
+
+<p><span class='material-icons' style='color: green;'>book</span>We offer a collection of attractions and products based upon the personal preference of <em>real</em> local insiders for your review.</p>
+<p><span class='material-icons' style='color: gold;'>send</span>If you need more information, you should ask the person who showed you this.</p>
+<p><span class='material-icons' style='color: red;'>favorite</span>Share and Enjoy.</p>
+
+</div>
 <h1 style='width: 100%; text-align: center;'>
-<input type='text' list='queries' id='query' placeholder='<%= Z4.query.terms.members.to_a.sample %>' style='width: 80%; font-size: x-large;'>
-<button id='send' class='material-icons'>send</button>
+<select id='change'>
+<% Z4.query.terms.members.to_a.each do |e| %>
+<option value='<%= e %>'><%= e %></option>
+<% end %>
+<option value='info' selected disabled>category</option>
+</select>
 </h1>
 </div>
 

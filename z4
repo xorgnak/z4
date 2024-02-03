@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ "$1" == "--kill" ]]; then
+  sudo pkill ruby && sudo pkill redis
+elif [[ "$1" == "--background" ]]; then
+  ./exe/server
+else
+  ./exe/server && ./exe/client
+fi
