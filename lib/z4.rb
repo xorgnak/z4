@@ -456,30 +456,10 @@ Dir['lib/z4/*'].each { |e| if !/^.*~$/.match(e); puts %[loading #{e}]; load(e); 
 BOT = Discordrb::Commands::CommandBot.new token: ENV['Z4_DISCORD_TOKEN'], prefix: '#'
 
 BOT.message() do |e|
-  t_start, o, @cmd, @act = Time.now.to_f, [], nil, false
+  t_start, o, a, @cmd, @act, @ok = Time.now.to_f, [], [], nil, false, true
   
   @user = Z4.make(%[#{e.user.id}], :user)
   @chan = Z4.make(%[#{e.channel.id}], :chan)
-
-  if @user.attr[:stats] == true
-    [:xp, :gp, :lvl].each { |x| o << %[STAT #{x} #{@user.stat[x].to_f}] }
-  end
-  
-  if @user.attr[:item] != nil
-    @item = Z4.make @user.attr[:item], :item
-  end
-  
-  if @chan.attr[:object] != nil
-    @object = Z4.make @chan.attr[:object], :object
-  end
-
-  if @user.attr[:place] != nil
-    @place = Z4.make @user.attr[:place], :place
-  end
-
-  if @chan.attr[:topic] != nil
-    @topic = Z4.make @chan.attr[:topic], :item
-  end
   
   @text = e.message.text
   @words = []
@@ -491,29 +471,22 @@ BOT.message() do |e|
   else
     @dm = false
   end
-  if @user.attr[:DEBUG] == true
-    o << %[dm: #{@dm}]
-  end
-
+  
   @priv = []; e.user.roles.each { |x| @priv << x.name }
-  if @user.attr[:DEBUG] == true
-    o << %[priv: #{@priv}]
-  end
   
   @roles = []; e.message.role_mentions.each { |x| @roles << x.name }
-  if @user.attr[:DEBUG] == true
-    o << %[roles: #{@roles}]
-  end
 
   @users = []; e.message.mentions.each { |x| @users << Z4.make(%[#{x.id}], :user) }
-  if @user.attr[:DEBUG] == true
-    o << %[users: #{@users}]
-  end
   
   @attachments = []; e.message.attachments.each { |x|
     @attachments << x.url
   }
+
   if @user.attr[:DEBUG] == true
+    o << %[dm: #{@dm}]
+    o << %[users: #{@users}]
+    o << %[priv: #{@priv}]
+    o << %[roles: #{@roles}]
     o << %[attachments: #{@attachments}]
   end
 
@@ -530,9 +503,9 @@ BOT.message() do |e|
       @text = @words.join(" ")
       if @priv.include?('agent') || @priv.include?('operator')
         @chan.attr[@cmd.to_sym] = @text
-        o << %[CHANOP #{@cmd} #{@text}]
+        a << %[CHANOP #{@cmd} #{@text}]
       else 
-        o << %[## Must be an agent or operator to do that.]
+        a << %[## Must be an agent or operator to do that.]
       end
     elsif m = /#(.+)/.match(@words[0])
       ###
@@ -544,22 +517,21 @@ BOT.message() do |e|
       @words.shift
       @text = @words.join(" ")
       if @cmd == "#"
-        ###
-        ### CHANID
-        ###
-        @chan.attr.to_h.each_pair { |k,v| o << %[#{k}: #{v}] }
+        a << %[channel info.]
       else
         @user.attr[@cmd.to_sym] = @text
-        e.user.pm %[Set #{@cmd} to #{@text}]
+        a << %[Set #{@cmd} to #{@text}]
       end
     elsif @words[0] == "#"
       ###
       ### USERID
       ###
       @act = true
-      @user.attr.to_h.each_pair { |k,v| e.user.pm %[#{k}: #{v}] }
+      [:xp, :gp, :lvl].each { |x| a << %[#{x}: #{@user.stat[x].to_f}] }
+      @chan.attr.to_h.each_pair { |k,v| a << %[###{k} #{v}] }
+      @user.attr.to_h.each_pair { |k,v| a << %[##{k} #{v}] }
       if @chan.attr[:affiliate] != nil
-        e.user.pm %[https://#{@chan.attr[:affiliate]}/?user=#{@user.id}&chan=#{@chan.id}]
+        a << %[https://#{@chan.attr[:affiliate]}/?user=#{@user.id}&chan=#{@chan.id}]
       end
     end
   end
@@ -567,77 +539,74 @@ BOT.message() do |e|
   # handle attribute requirements
   Z4.require.each_pair do |k,v|
     if @user.attr[k] == nil
-      e.user.pm %[REQUIRED: #{v}]
+      @ok = false
+      a << %[REQUIRED: #{v}]
     end
   end
 
 
-  @h = { input: @text, user: @user.id, chan: @chan.id }
+  @h = { input: @text, user: @user.id, chan: @chan.id, users: @users, roles: @roles, priv: @priv, attachments: @attachments }
 
   
-  if @cmd == nil && @text.length > 0
-    @context = [ %[Communication in the #{@chan.attr[:name]} channel is for #{@chan.attr[:purpose]}.] ]
-
-    #@context << %[The time is #{Time.now.utc} and User's local offset from utc is #{Time.now.utc_offset}.]
-    
-    @context << %[User's name is #{@user.attr[:name]} and is #{@user.attr[:age]} years old.]
-
-    @context << %[User has lived in #{@user.attr[:city]} since #{@user.attr[:since]}.]
-
-    if @user.attr[:union] != nil
-      @context << %[User's is a #{@user.attr[:job]}.]
-    end
-
-    if @user.attr[:union] != nil
-     @context << %[And User is a member of the #{@user.attr[:union]} union.]
-    end
-    
-    if @dm == false  
-      # channel privledges.
-      if @priv.length > 0
-        if @priv.length > 1
-          @context << %[User has the roles of #{@priv.join(" and ")}.]
-        else
-          @context << %[User has the role of #{@priv[0]}.]
+  if @ok == true
+    if @cmd == nil && @text.length > 0
+      @context = [ %[Communication in the #{@chan.attr[:name]} channel is for #{@chan.attr[:purpose]}.] ]    
+      @context << %[User's name is #{@user.attr[:name]} and is #{@user.attr[:age]} years old.]
+      @context << %[User has lived in #{@user.attr[:city]} since #{@user.attr[:since]}.]
+      
+      if @user.attr[:job] != nil
+        @context << %[User's is a #{@user.attr[:job]}.]
+      end
+      
+      if @user.attr[:union] != nil
+        @context << %[And User is a member of the #{@user.attr[:union]} union.]
+      end
+      
+      if @dm == false  
+        # channel privledges.
+        if @priv.length > 0
+          if @priv.length > 1
+            @context << %[User has the roles of #{@priv.join(" and ")}.]
+          else
+            @context << %[User has the role of #{@priv[0]}.]
+          end
+        end
+        # channel deep organization.
+        if @chan.attr[:task] != nil
+          @h[:task] = @chan.attr[:task]
         end
       end
-      # channel deep organization.
-      if @chan.attr[:task] != nil
-        @h[:task] = @chan.attr[:task]
-      end
-    end
-    @h[:info] = @context.join(" ")
-    if @act == false
-      Z4.handle(@h).each { |x|
-#        puts %[handle x: #{x}];
-        o << x.strip.gsub(@context.join(" "),'')
-      }
-    end
-  else
-    if @act == false
-      e.respond(%[Let me think...])
       @h[:info] = @context.join(" ")
-      @h[:task] = @chan.attr[:task] || %[Respond to User.  Be helpful.]
-      @h[:batch] = @chan.attr[:batch].to_i
-      @h[:ext] = @chan.attr[:ext].to_i
-      @hh = { batch: 256, ext: 0.1 }.merge(@h)
-      Z4.handle(@hh).each { |x|
-#        puts %[handle x: #{x}];
-        o << x.strip.gsub(@context.join(" "), '')
-      }
+      if @act == false
+        Z4.handle(@h).each { |x| o << x.strip.gsub(@context.join(" "),'') }
+      end
     else
-      e.respond %[OK.]
+      if @act == false
+        e.respond(%[Let me think...])
+        @h[:info] = @context.join(" ")
+        @h[:task] = @chan.attr[:task] || %[Respond to User.  Be helpful.]
+        @h[:batch] = @chan.attr[:batch].to_i
+        @h[:ext] = @chan.attr[:ext].to_i
+        @hh = { batch: 256, ext: 0.1 }.merge(@h)
+        Z4.handle(@hh).each { |x| o << x.strip.gsub(@context.join(" "), '') }
+      else
+        e.respond %[OK.]
+      end
     end
   end
   
   t_took = Time.now.to_f - t_start
   if @user.attr[:DEBUG] == true
     o << %[took: #{t_took}\nused: #{@context.length}\ntask: #{@task}\ninfo: #{@info}]
+    o << %[dm: #{@dm}]
+    o << %[users: #{@users}]
+    o << %[priv: #{@priv}]
+    o << %[roles: #{@roles}]
+    o << %[attachments: #{@attachments}]
   end
   
-  a = []
-#  puts %[BOT o: #{o}]
   o.each { |x| [x.split("\n")].flatten.uniq.each { |xx| if %[#{xx}].length > 0; e.respond(xx); end }}
+  a.each { |x| [x.split("\n")].flatten.uniq.each { |xx| if %[#{xx}].length > 0; e.user.pm(xx); end }}
 end
 # fork and background
 
