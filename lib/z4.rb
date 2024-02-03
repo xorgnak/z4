@@ -652,20 +652,20 @@ class APP < Sinatra::Base
       if params[:query].split(" ").length > 1
         Z4.predefines.each_pair { |k,v|                                                                                                                                                                 
           if @matchdata = Regexp.new(k).match(params[:query].strip);
-            a << ERB.new(v).result(binding);
+            a << %[<p class='i'>#{ERB.new(v).result(binding)}</p>];
           end
         }
       else
-        a << Z4.search(params[:query])
+        Z4.search(params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
       end
+      h[:items] = a.flatten.join('')
     end
     
     if params.has_key?(:input)
       hhh = { batch: 256, ext: 0.1, info: 'Respond like User is a child.', task: 'Be helpful.', input: params[:input] }
-      Z4.handle(hhh).each { |x| a << x.strip.gsub(con, '') }      
+      Z4.handle(hhh).each { |x| a << %[<p class='i'>#{x.strip.gsub(con, '')}</p>] }
+      h[:output]= a.flatten.join('')
     end
-
-    h[:items] = a.flatten
     
     ################################## WORK
     return JSON.generate(h)
