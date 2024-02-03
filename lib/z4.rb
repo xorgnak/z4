@@ -649,12 +649,15 @@ class APP < Sinatra::Base
     end
 
     if params.has_key?(:query)
-      Z4.predefines.each_pair { |k,v|                                                                                                                                                                              
-        if @matchdata = Regexp.new(k).match(params[:query].strip);
-          a << ERB.new(v).result(binding);
-        end
-      }
-      a << Z4.search(params[:query])
+      if params[:query].split(" ").length > 1
+        Z4.predefines.each_pair { |k,v|                                                                                                                                                                 
+          if @matchdata = Regexp.new(k).match(params[:query].strip);
+            a << ERB.new(v).result(binding);
+          end
+        }
+      else
+        a << Z4.search(params[:query])
+      end
     end
     
     if params.has_key?(:input)
