@@ -37,7 +37,7 @@ module Z4
   class Pool
     include Redis::Objects
 
-    set :terms
+    sorted_set :terms
     
     def initialize k
       @id = k
@@ -228,7 +228,7 @@ module Z4
   end
 
   def self.index h={}
-    Z4.query.terms << h[:id]
+    Z4.query.terms.incr h[:id]
     REDISEARCH.add(RediSearch::Document.for_object(REDISEARCH, O.new(h)))
   end
   def self.search i, &b
@@ -265,7 +265,7 @@ module Z4
     def id; @id; end
     def base; @base; end
     def index h={}
-      Z4.query.terms << h[:id]
+      Z4.query.terms.incr h[:id]
       @redisearch.add(RediSearch::Document.for_object(@redisearch, O.new(h)))
     end
     def search i, &b
@@ -358,7 +358,7 @@ module Z4
       @id
     end
     def index h={}
-      Z4.query.terms << h[:id]
+      Z4.query.terms.incr h[:id]
       @redisearch.add(RediSearch::Document.for_object(@redisearch, O.new(h)))
     end
     def search i, &b
