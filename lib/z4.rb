@@ -645,9 +645,14 @@ class APP < Sinatra::Base
     end
 
     if params.has_key?(:query)
+      @@CANNED.each_pair { |k,v|                                                                                                                                                                              
+        if @matchdata = Regexp.new(k).match(h[:input].strip);
+          a << ERB.new(v).result(binding);
+        end
+      }
       a << Z4.search(params[:query])
     end
-
+    
     if params.has_key?(:input)
       hhh = { batch: 256, ext: 0.1, info: 'Respond like User is a child.', task: 'Be helpful.', input: params[:input] }
       Z4.handle(hhh).each { |x| a << x.strip.gsub(con, '') }      
@@ -657,8 +662,7 @@ class APP < Sinatra::Base
     
     ################################## WORK
     return JSON.generate(h)
-  }
-  
+  }  
 end
 
 # initialize z4 databases
