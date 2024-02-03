@@ -14,14 +14,14 @@ self.addEventListener('activate', event => {
 	return self.clients.matchAll({type: 'window'});
     }).then(clients => {
 	return clients.map(client => {
-	  //  if ('navigate' in client) {
-	//	return client.navigate('/nav?user=<%= params[:user] %>&chan=<%= params[:chan] %>');
-	   // }
+	    if ('navigate' in client) {
+	    	return client.navigate('/nav?user=<%= params[:user] %>&chan=<%= params[:chan] %>');
+	    }
 	});
     }));
 });
 
-notify({ greeting: 'Hello' })
+notify({ greeting: 'Running.' })
 
 async function notify(data) {
     for (let client of (await self.clients.matchAll())) {

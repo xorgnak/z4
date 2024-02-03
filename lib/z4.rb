@@ -639,14 +639,22 @@ class APP < Sinatra::Base
   post('/') {
     content_type = 'application/json'
     h = {}
+    a = []
     if params.has_key?(:lat) && params.has_key?(:lon)
       h[:grid] = Z4.to_grid(params[:lat],params[:long])
     end
+
     if params.has_key?(:query)
-      o = []
-      Z4.search(m[1]).each { |x| o << %[<p><span>#{x}</span></p>] }
-      h[:items] = o.join("")
+      a << Z4.search(params[:query])
     end
+
+    if params.has_key?(:input)
+      hhh = { batch: 256, ext: 0.1, info: 'Respond like User is a child.', task: 'Be helpful.', input: params[:input] }
+      Z4.handle(hhh).each { |x| a << x.strip.gsub(con, '') }      
+    end
+
+    h[:items] = a.flatten
+    
     ################################## WORK
     return JSON.generate(h)
   }

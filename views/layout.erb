@@ -87,13 +87,17 @@ function display() {
 }
 
 function push() {
+    console.log('state', state);
     $.post('/', state, function(data){ state = JSON.parse(data); display(); });
+    console.log('state', state);
 }
 
 $(document).on('click', '#send', function(ev) {
     ev.preventDefault();
     state['input'] = $('#input').val();
+    $('#input').val('');
     state['query'] = $('#query').val();
+    $('#query').val('');
     push();
 });
 
