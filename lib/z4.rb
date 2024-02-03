@@ -650,7 +650,7 @@ class APP < Sinatra::Base
 
     if params.has_key?(:query)
       Z4.predefines.each_pair { |k,v|                                                                                                                                                                              
-        if @matchdata = Regexp.new(k).match(h[:input].strip);
+        if @matchdata = Regexp.new(k).match(params[:query].strip);
           a << ERB.new(v).result(binding);
         end
       }
