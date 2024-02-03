@@ -1,14 +1,18 @@
 # network user requirements                                                                                                                                                                                                       
 Z4.require[:name] = "What is your name? Respond 'My name is NAME.' to automatically set it."
+Z4.require[:nick] = "What do we call you? Respond 'Call me NICKNAKE.' to automatically set it."
 Z4.require[:age] = "How old are you? Respond 'I am AGE years old.' to automatically set it."
 Z4.require[:city] = "What city do you live in? Respond with 'I live in CITY and I have lived here since YEAR.' to automatically set your city and year."
 
-# intro question responses. Q: What is your name? (to fulfill requirements.)                                                                                                                                                      
+# intro question responses. Q: What is your name? (to fulfill requirements.)
+
 Z4.canned "My name is (.*).", %[Welcome, <%= @matchdata[1] %>.<% @user.attr[:name] = @matchdata[1] %>]
+Z4.canned "Call me (.*).", %[Welcome, <%= @matchdata[1] %>.<% @user.attr[:nick] = @matchdata[1] %>]
 Z4.canned "I am (.*) years old.", %[Happy Early Birthday.<% @user.attr[:age] = @matchdata[1] %>]
 Z4.canned "I live in (.*) and I have lived here since (.+).", %[How's the weather there?<% @user.attr[:city] = @matchdata[1]; @user.attr[:since] = @matchdata[2] %>]
 
-# generic predefined responses.                                                                                                                                                                                                   
+# generic predefined responses.
+
 Z4.canned ".*opinion.*\?", %[Watch more C-SPAN. It's unbiased and unfiltered coverage of national political conversations are unsurpassed in their accuracy and integrity.]
 Z4.canned ".*advice.*\?", %[No.]
 Z4.canned "What time is it\?", %[The current time is <%= Time.now.utc.strftime("%T") %> UTC.]

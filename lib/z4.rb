@@ -143,9 +143,9 @@ module Z4
     @@CANNED.each_pair { |k,v|
       #puts %[handle @@CANNED: #{k} #{v}]
       if @matchdata = Regexp.new(k).match(h[:input].strip);
-#        puts %[handle @matchdata: #{@matchdata}]
+        #        puts %[handle @matchdata: #{@matchdata}]
         r << ERB.new(v).result(binding);
-#        puts %[handle r: #{r}]
+        #        puts %[handle r: #{r}]
       end
     }
     
@@ -153,29 +153,42 @@ module Z4
     if m = /^#(.+)!$/.match(c)
       cmd = true
       w.shift
-      @chan.index id: m[1], text: %[#{m[1]}: #{w.join(" ")} per #{@user.attr[:name]} at #{Time.now.utc.strftime("%F %T")}]
-      Z4.index id: m[1], text: %[#{m[1]}: #{w.join(" ")}]
+
+      i = %[#{@chan.attr[:name].gsub(" ","_")}-#{@user.attr[:nick].gsub(" ","_")}-#{m[1]}]
+      s = %[#{m[1]}: #{w.join(" ")} per #{@user.attr[:nick]} at #{Time.now.utc.strftime("%F %T")}] 
+
+      Z4.query.terms.incr(m[1])
+      
+      @chan.index id: i, text: s
+      Z4.index id: i, text: s
+
+      @user.stat.incr(:xp)
+      @user.stat.incr(:gp)
+      @chan.stat.incr(:xp)
+      @chan.stat.incr(:gp)
+      
       r << %[#{m[1]} HEARD.]
+
     elsif m = /^#(.+)\?$/.match(c)
       w.shift
-#      puts %[handle ?: #{m[1]}]
+      
       @chan.search(m[1]).each { |x| r << x }
       Z4.search(m[1]).each { |x| r << x }
     end
     
-#    puts %[handle R: #{r.length}]
-    #if r.length == 0
-    if cmd == false && w.length > 0
-      hh = { batch: 256, ext: 0.1 }.merge(h)
-#      puts %[handle hh: #{hh}]
-      p = %[#{hh[:info]}\n#{hh[:task]}\nUser: #{w.join(" ")}\nBot: ]
-#      puts %[handle p: #{p}]
-      a = %[-b #{hh[:batch]} --rope-scaling yarn --yarn-ext-factor #{hh[:ext]}]
-#      puts %[handle a: #{a}]
-      `llama #{a} -p "#{p}" 2> /dev/null`.gsub(p,"").strip.split("\n").each { |e| puts %[handle e: #{e}]; r << e }
+    #    puts %[handle R: #{r.length}]
+    if r.length == 0
+      if cmd == false && w.length > 0
+        hh = { batch: 256, ext: 0.1 }.merge(h)
+        #      puts %[handle hh: #{hh}]
+        p = %[#{hh[:info]}\n#{hh[:task]}\nUser: #{w.join(" ")}\nBot: ]
+        #      puts %[handle p: #{p}]
+        a = %[-b #{hh[:batch]} --rope-scaling yarn --yarn-ext-factor #{hh[:ext]}]
+        #      puts %[handle a: #{a}]
+        `llama #{a} -p "#{p}" 2> /dev/null`.gsub(p,"").strip.split("\n").each { |e| puts %[handle e: #{e}]; r << e }
+      end
     end
-    #end
-  
+    
     puts %[handle return #{r}]
     return r
   end
@@ -228,7 +241,6 @@ module Z4
   end
 
   def self.index h={}
-    Z4.query.terms.incr h[:id]
     REDISEARCH.add(RediSearch::Document.for_object(REDISEARCH, O.new(h)))
   end
   def self.search i, &b
@@ -265,7 +277,6 @@ module Z4
     def id; @id; end
     def base; @base; end
     def index h={}
-      Z4.query.terms.incr h[:id]
       @redisearch.add(RediSearch::Document.for_object(@redisearch, O.new(h)))
     end
     def search i, &b
@@ -358,7 +369,6 @@ module Z4
       @id
     end
     def index h={}
-      Z4.query.terms.incr h[:id]
       @redisearch.add(RediSearch::Document.for_object(@redisearch, O.new(h)))
     end
     def search i, &b
