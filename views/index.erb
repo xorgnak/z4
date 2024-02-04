@@ -1,5 +1,5 @@
 <style>
-#items { width: 100%; text-align: left; background-color: black; color: white; font-size: large; height: 50%; overflow-y: scroll; border-top: thin solid white; border-bottom: thin solid white; }
+#items { width: 100%; text-align: left; background-color: black; color: white; font-size: large; border-top: thin solid white; border-bottom: thin solid white; }
 a { text-decoration: none; color: white; border: thin outset grey; padding: 1%; }
 p { }
 #change { font-size: xx-large; }
@@ -27,12 +27,14 @@ p { }
 <% if params.has_key?(:user) && params.has_key?(:chan) %>
 <%= erb :gps %>
 <% else %>
-<div style='width: 100%; text-align: center; position: fixed; bottom: 10%; '>
+<div style='width: 100%; text-align: center; position: fixed; bottom: 10%;'>
+<div style='width: 100%; text-align: center; max-height: 50%; overflow-y: scroll;'>
 <div id='items'>
 <p><span class='material-icons' style='color: blue;'>backpack</span>We offer a collection of attractions and products based upon the personal preference of <em>real</em> local insiders for your review.</p>
 <p><span class='material-icons' style='color: gold;'>psychology_alt</span>If you need more information, you should ask the person who showed you this.</p>
 <p><span class='material-icons' style='color: green;'>co_present</span>Feel free to join the <a id='discord' href='<%= ENV['discord'] %>'>discord</a> and become a character yourself.</p>
 <p><span class='material-icons' style='color: red;'>favorite</span>Share and Enjoy.</p>
+</div>
 </div>
 
 <%= erb :query %>
