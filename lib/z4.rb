@@ -798,7 +798,7 @@ class APP < Sinatra::Base
           end
         }
       else
-        if params.has_key? :epoch
+        if op == true
           if params.has_key? :user
             Z4.cortex(params[:user], params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
           end
