@@ -117,8 +117,7 @@ module Z4
     s = Wikipedia.find(k.to_s)
     if s
       x = Wikipedia.find(k.to_s)
-      s.page['extract'].split("\n").each { |e|                                                                                                                                                                                                     
-
+      s.page['extract'].split("\n").each { |e|                                                                                                                                                                           
         if !/^=+/.match(e)                                                                                                                                                                                                       
           a << %[#{e}]
         end
@@ -274,6 +273,7 @@ module Z4
   def self.index h={}
     REDISEARCH.add(RediSearch::Document.for_object(REDISEARCH, O.new(h)))
   end
+
   def self.search i, &b
     o = []
     REDISEARCH.search(i, fuzziness: 2).each { |e|
@@ -286,7 +286,21 @@ module Z4
     }
     return o
   end
+  
+  def self.cortex u, i, &b
+    o = []
+    REDISEARCH.search(u).and(i, fuzziness: 2).each { |e|
+      #puts %[search e: #{e.methods}]
+      if block_given?
+        o << b.call(e)
+      else
+        o << e.text
+      end
+    }
+    return o
+  end
 
+  
   # generic container class
   @@XX = Hash.new { |h,k| h[k] = XX.new(k) }
   class XX
@@ -337,8 +351,10 @@ module Z4
     include Redis::Objects
     # universally unique id
     value :uuid
-    # location
-    value :grid
+    # locations while active
+    sorted_set :grid
+    # qr scans
+    sorted_set :epoch
     # id of parent object or nil
     value :parent
     # node: number of children to be viable
@@ -466,7 +482,71 @@ module Z4
   def self.heart
     [ 'volunteer_activism', 'favorite_border', 'favorite', 'loyalty', 'diversity_2', 'diversity_1', 'monitor_heart' ]
   end
+
+  class PATH
+    include Redis::Objects
+
+    hash_key :a
+    hash_key :b
+    
+    def initialize
+      @id = :path
+    end
+
+    def random
+      a = []
+      10.times { if rand(2) == 0; a << rand(16).to_s(16).upcase; else a << rand(16).to_s(16); end }
+      return a.join("")
+    end
+
+    def make k, p
+      self.a[k] = p
+      self.b[p] = k
+    end
+
+    def make! p
+      if !path? p
+        k = random
+        while key?(k) do
+          k = random
+        end
+        make k, p 
+      end
+      return path p
+    end
+    
+    def path? k
+      if self.b[k] != nil
+        return true
+      else
+        return false
+      end
+    end
+
+    def path k
+      self.b[k]
+    end
+
+    def key? k
+      if self.a[k] != nil
+        return true
+      else
+        return false
+      end
+    end
+
+    def key k
+      self.a[k]
+    end
+    
+    def id; @id; end
+  end
   
+  @@PATH = PATH.new
+  
+  def self.path
+    @@PATH
+  end
 end
 
 Dir['lib/z4/*'].each { |e| if !/^.*~$/.match(e); puts %[loading #{e}]; load(e); end }
@@ -646,6 +726,10 @@ class APP < Sinatra::Base
   def die!
     Process.kill('TERM', Process.pid)
   end
+
+  before do
+    puts %[#{request.fullpath} #{request.user_agent} #{params}]
+  end
   
   # handle dumb shit                                                                                                                                                                                                            
   ['robots.txt', 'favicon.ico'].each { |e| get("/#{e}") { }}
@@ -664,11 +748,49 @@ class APP < Sinatra::Base
     content_type = 'application/json'
     h = {}
     a = []
+    op = false
+
     if params.has_key?(:lat) && params.has_key?(:lon)
-      h[:grid] = Z4.to_grid(params[:lat],params[:long])
+      [:lat, :lon].each { |e| h[e] = params[e] }
+      h[:grid] = Z4.to_grid(params[:lat],params[:log])
+    end
+    
+    if params.has_key?(:user)
+      u = Z4.make(params[:user], :user);
+      u.stat.incr(:xp)
+      u.stat.incr(:gp)
+      if h.has_key? :grid
+        u.grid.incr(h[:grid])
+        u.attr[:lat] = params[:lat]
+        u.attr[:lon] = params[:lon]
+        u.attr[:grid] = h[:grid]
+      end
+      if params.has_key? :epoch
+        u.epoch.incr(params[:epoch])
+      end
+      h[:user] = params[:user]
+      [:xp, :gp, :lvl].each { |e| h[e] = u.stat[e] }
+      [ :name, :nick, :age, :city, :since, :job, :union ].each { |e| h[e] = u.attr[e] }
+      op = true
     end
 
+    if params.has_key?(:chan)
+      c = Z4.make(params[:chan], :chan);
+      c.stat.incr(:xp)
+      c.stat.incr(:gp)
+      if h.has_key? :grid
+        c.grid.incr(h[:grid])
+      end
+      if params.has_key? :epoch
+        c.epoch.incr(params[:epoch])
+      end      
+      h[:chan] = params[:chan]
+      [ :affiliate, :item ].each { |e| h[e] = c.attr[e] }
+      op = true
+    end
+ 
     if params.has_key?(:query)
+      h[:query] = params[:query]
       if params[:query].split(" ").length > 1
         Z4.predefines.each_pair { |k,v|                                                                                                                                                                 
           if @matchdata = Regexp.new(k).match(params[:query].strip);
@@ -676,17 +798,27 @@ class APP < Sinatra::Base
           end
         }
       else
-        
-        #Z4.search(params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
+        if op == true
+          Z4.search(params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
+        end
+
+        if params.has_key? :user
+          Z4.cortex(params[:user], params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
+        end
+
+        if params.has_key? :chan
+          Z4.cortex(params[:chan], params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
+        end
         
         hx = Z4.query[params[:query]].items.members(with_scores: true).to_h.sort_by { |k,v| -v }
-        hx.to_h.each_pair { |k,v| a << %[<p class='c'><span class='material-icons' style='font-size: x-small; color: red;'>#{Z4.heart[Z4.lvl(v)]}</span>#{k}</p>] }
+        hx.to_h.each_pair { |k,v| a << %[<p class='c'><span class='material-icons' style='color: red;'>#{Z4.heart[Z4.lvl(v)]}</span><a href='https://meet.jit.si/#{Z4.path.make!(k)}'>#{k}</a></p>] }
         
       end
       h[:items] = a.flatten.join('')
     end
     
     if params.has_key?(:input)
+      h[:input] = params[:input]
       hhh = { batch: 256, ext: 0.1, info: 'Respond like User is a child.', task: 'Be helpful.', input: params[:input] }
       Z4.handle(hhh).each { |x| a << %[<p class='i'>#{x.strip.gsub(con, '')}</p>] }
       h[:output]= a.flatten.join('')

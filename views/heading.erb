@@ -1,13 +1,11 @@
-<h1 id='heading' style='width: 100%; text-align: center; position: fixed; top: 0; margin: 0;'>
-<% if ENV.has_key?('MENU') %>
-<a class='material-icons' href='/menu'>menu</a>
+<h1 id='heading' style='width: 100%; text-align: left; position: fixed; top: 0; margin: 0;'>
+<% if ENV.has_key?('DISCORD') %>
+<a class='material-icons' href='<%= ENV['DISCORD']  %>' style='float: right; vertical-align: middle;'>support_agent</a>
 <% end %>
-<span style='width: 70%; display: inline-block;'>
+
+<span style='display: inline-block; background-color: black; border-right: thin solid white; border-bottom: thin solid white;'>
 <% if ENV.has_key?('HEADING') %>
 <%= ENV['HEADING'] %>
 <% end %>
 </span>
-<% if ENV.has_key?('DISCORD') %>
-<a class='material-icons' href='<%= ENV['DISCORD']  %>'>support_agent</a>
-<% end %>
 </h1>

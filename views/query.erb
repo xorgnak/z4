@@ -1,0 +1,8 @@
+<h1 style='width: 100%; text-align: center;'>
+<select id='change'>
+<% Z4.query.terms.members.to_a.each do |e| %>
+<option value='<%= e %>'><%= e %></option>
+<% end %>
+<option value='info' selected disabled>category</option>
+</select>
+</h1>
