@@ -798,11 +798,8 @@ class APP < Sinatra::Base
           end
         }
       else
-        if params.has_key?(:chan)
-          Z4.cortex(params[:chan]).each { |e| a << %[<p class='i'>#{e}</p>] }
-        end        
-        if params.has_key?(:chan)
-          Z4.cortex(params[:chan]).each { |e| a << %[<p class='i'>#{e}</p>] }
+        if params.has_key?(:user)
+          Z4.cortex(Z4.make(params[:user],:user).attr[:nick]).each { |e| a << %[<p class='i'>#{e}</p>] }
         end
         Z4.search(params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
         hx = Z4.query[params[:query]].items.members(with_scores: true).to_h.sort_by { |k,v| -v }
