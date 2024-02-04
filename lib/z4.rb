@@ -289,7 +289,7 @@ module Z4
   
   def self.cortex u, i, &b
     o = []
-    REDISEARCH.search(u).and(i, fuzziness: 2).each { |e|
+    REDISEARCH.search(i, fuzziness: 1).and(u, fuzziness: 1).each { |e|
       #puts %[search e: #{e.methods}]
       if block_given?
         o << b.call(e)
