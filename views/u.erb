@@ -38,17 +38,9 @@ a { text-decoration: none; }
 
 
 <div id='foot'>
-<div id='items'>
-
 <% if "#{@user.attr[:embed]}".length > 0 %>
 <%= Embed.new(@user.attr[:embed]).result(params) %>
 <% end %>
-
-</div>
-
-
-<%= erb :query %>
-
 <div id='work'>
 <% if "#{@user.attr[:job]}".length > 0 %>
 <h2 style='margin: 0;'><span id='job'><%= @user.attr[:job] %></span></h2>
