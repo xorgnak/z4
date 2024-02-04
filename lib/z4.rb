@@ -804,7 +804,7 @@ class APP < Sinatra::Base
         if params.has_key?(:chan)
           Z4.cortex(params[:chan]).each { |e| a << %[<p class='i'>#{e}</p>] }
         end
-        Z4.search(params[:chan]).each { |e| a << %[<p class='i'>#{e}</p>] }
+        Z4.search(params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
         hx = Z4.query[params[:query]].items.members(with_scores: true).to_h.sort_by { |k,v| -v }
         hx.to_h.each_pair { |k,v| a << %[<p class='c'><span class='material-icons' style='color: red;'>#{Z4.heart[Z4.lvl(v)]}</span><a href='https://meet.jit.si/#{Z4.path.make!(k)}'>#{k}</a></p>] }
       end
