@@ -287,9 +287,9 @@ module Z4
     return o
   end
   
-  def self.cortex u, i, &b
+  def self.cortex u, &b
     o = []
-    REDISEARCH.search(i, fuzziness: 1).and(u, fuzziness: 1).each { |e|
+    REDISEARCH.search(u).each { |e|
       #puts %[search e: #{e.methods}]
       if block_given?
         o << b.call(e)
@@ -798,8 +798,13 @@ class APP < Sinatra::Base
           end
         }
       else
-        Z4.cortex(params[:user], params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
-        Z4.cortex(params[:chan], params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
+        if params.has_key?(:chan)
+          Z4.cortex(params[:chan]).each { |e| a << %[<p class='i'>#{e}</p>] }
+        end        
+        if params.has_key?(:chan)
+          Z4.cortex(params[:chan]).each { |e| a << %[<p class='i'>#{e}</p>] }
+        end
+        Z4.search(params[:chan]).each { |e| a << %[<p class='i'>#{e}</p>] }
         hx = Z4.query[params[:query]].items.members(with_scores: true).to_h.sort_by { |k,v| -v }
         hx.to_h.each_pair { |k,v| a << %[<p class='c'><span class='material-icons' style='color: red;'>#{Z4.heart[Z4.lvl(v)]}</span><a href='https://meet.jit.si/#{Z4.path.make!(k)}'>#{k}</a></p>] }
       end
