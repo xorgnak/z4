@@ -635,7 +635,7 @@ module Z4
   class Short
     include Redis::Objects
     
-    value :valid, :expireat => lambda { Time.now.utc.to_i + 30 }
+    value :valid, :expireat => lambda { Time.now.utc.to_i + ((60 * 60) * 24) }
     
     def initialize k
       @id = k
@@ -836,9 +836,11 @@ BOT.message() do |e|
   
   # handle attribute requirements
   Z4.require.each_pair do |k,v|
-    if @user.attr[k] == nil
-      @ok = false
-      a << %[REQUIRED: #{v}]
+    if @ok == true
+      if @user.attr[k] == nil
+        @ok = false
+        a << %[REQUIRED: #{v}]
+      end
     end
   end
 
