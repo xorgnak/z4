@@ -857,7 +857,7 @@ BOT.message() do |e|
   end
 
 
-  @h = { input: @text, user: @user.id, chan: @chan.id, users: @users, roles: @roles, priv: @priv, attachments: @attachments }
+  @h = { input: @text, user: %[#{e.user.id}], chan: %[#{e.channel.id}], users: @users, roles: @roles, priv: @priv, attachments: @attachments }
 
   
   if @ok == true
