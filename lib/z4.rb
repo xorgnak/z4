@@ -832,12 +832,10 @@ BOT.message() do |e|
   
   # handle attribute requirements
   Z4.require.each_pair do |k,v|
-    if @ok == true
-      if @user.attr[k] == nil
+      if @ok == true && @user.attr[k] == nil
         @ok = false
         a << %[REQUIRED: #{v}]
       end
-    end
   end
 
 
@@ -845,7 +843,7 @@ BOT.message() do |e|
   
   if @ok == true
     if @cmd == nil && @text.length > 0
-      @context = [ %[Communication in the #{@chan.attr[:name]} channel is for #{@chan.attr[:purpose]}.] ]    
+      @context = [ %[The #{@chan.attr[:name]} channel is is affiliated with #{@chan.attr[:affiliate]} and is for #{@chan.attr[:purpose]}.] ]    
       @context << %[User's name is #{@user.attr[:name]} and is #{@user.attr[:age]} years old.]
       @context << %[User has lived in #{@user.attr[:city]} since #{@user.attr[:since]}.]
       
