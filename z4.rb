@@ -32,8 +32,28 @@ Z4.canned "Examples:", [
             %[Command: #keys! on the table.\nDoes: Instruct the bot to remember where you put your keys.],
             %[Command: #keys? Where?\nDoes: Get reminded where you put your keys.],
           ].join("\n")
+Z4.canned "Datapoints:", [
+            %[#name: Your name.],
+            %[#nick: What we call you.],
+            %[#age: How old you are.],
+            %[#city: Where you live.],
+            %[#since: When you moved there.],
+            %[#job: What you do for a living.],
+            %[#union: The union you are a member of.],
+            %[#phone: A quick dial/sms link.],
+            %[#social: Your social media link.],
+            %[#store: Your web store.],
+            %[#tips: Your social tipping link.],
+            %[#embed: Embedded content.],
+            %[##name: The channel name.],
+            %[##affiliate: The channel affiliate domain.],
+            %[##purpose: The channel purpose.]
+          ].join("\n")
 Z4.canned "Help:", [
-            %[This is the help file.]
+            %[Commands: How to use the '#' command.],
+            %[Examples: Example command usage.],
+            %[Datapoints: available fields.],
+            %[More help is always available by tagging the @help role in a question.]
           ].join("\n")
 
 Z4.random %[Where can I get a good manhattan?]
