@@ -43,6 +43,7 @@ Z4.canned "Datapoints:", [
             %[#social: Your social media link.],
             %[#store: Your web store.],
             %[#tips: Your social tipping link.],
+            %[#img: Your background image.],
             %[#embed: Embedded content.],
             %[##name: The channel name.],
             %[##affiliate: The channel affiliate domain.],
