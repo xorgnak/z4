@@ -190,15 +190,21 @@ module Z4
       if mm.length > 1
         Z4.query.terms.incr(mm[0])
         Z4.query[mm[0]].items.incr(w.join(" "))
+        puts %[handle: #{h[:user]}]
         Z4.tag[mm[0]].tag(h[:user])
-        h[:users].each { |e| Z4.tag[mm[0]].win(e) }
+        h[:users].each { |e|
+          puts %[handle e: #{e}]
+          Z4.tag[mm[0]].win(e) }
       end
 
       # specific tag
       Z4.query.terms.incr(m[1])
       Z4.query[m[1]].items.incr(w.join(" "))
       Z4.tag[m[1]].tag(h[:user])
-      h[:users].each { |e| Z4.tag[m[1]].win(e) }
+      puts %[tag: #{h[:user]}]
+      h[:users].each { |e|
+        puts %[tag e: #{e}]
+        Z4.tag[m[1]].win(e) }
       
       @chan.index id: i, text: s
       Z4.index id: i, text: s
@@ -780,7 +786,9 @@ BOT.message() do |e|
   
   @roles = []; e.message.role_mentions.each { |x| @roles << x.name }
 
-  @users = []; e.message.mentions.each { |x| @users << %[#{x.id}] }
+  @users = []; e.message.mentions.each { |x|
+    puts %[users: #{x.id}]
+    @users << %[#{x.id}] }
   
   @attachments = []; e.message.attachments.each { |x|
     @attachments << x.url
