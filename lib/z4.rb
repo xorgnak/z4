@@ -778,7 +778,7 @@ BOT.message() do |e|
     o << %[attachments: #{@attachments}]
   end
 
-  @@CANNED.each_pair { |k,v|                                                                                                                                                                                         
+  Z4.predefines.each_pair { |k,v|                                                                                                                                                                                         
     if @matchdata = Regexp.new(k).match(@text);                                                                                                                                                                         
       r << ERB.new(v).result(binding);                                                                                                                                                                                 
     end
