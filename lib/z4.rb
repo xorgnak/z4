@@ -184,10 +184,19 @@ module Z4
       i = %[#{@chan.attr[:name].gsub(" ","_")}-#{@user.attr[:nick].gsub(" ","_")}-#{m[1]}]
       s = %[#{m[1]}: #{w.join(" ")} per #{@user.attr[:nick]} at #{Time.now.utc.strftime("%F %T")}] 
 
+      mm = m[1].split("-")
+
+      # base tag
+      if mm.length > 1
+        Z4.query.terms.incr(mm[0])
+        Z4.query[mm[0]].items.incr(w.join(" "))
+        Z4.tag[mm[0]].tag %[#{@user.id}]
+        h[:users].each { |e| Z4.tag[mm[0]].win(%[#{e}]) }
+      end
+
+      # specific tag
       Z4.query.terms.incr(m[1])
-
       Z4.query[m[1]].items.incr(w.join(" "))
-
       Z4.tag[m[1]].tag %[#{@user.id}]
       h[:users].each { |e| Z4.tag[m[1]].win(%[#{e}]) }
       
