@@ -181,10 +181,9 @@ module Z4
       cmd = true
       w.shift
 
-      i = %[#{@chan.attr[:name].gsub(" ","_")}-#{@user.attr[:nick].gsub(" ","_")}-#{m[1]}]
-      s = %[#{m[1]}: #{w.join(" ")} per #{@user.attr[:nick]} at #{Time.now.utc.strftime("%F %T")}] 
-
       [m[1].split("-")].flatten.each do |et|
+        i = %[#{@chan.attr[:name].gsub(" ","_")}-#{@user.attr[:nick].gsub(" ","_")}-#{et}]
+        s = %[#{e}: #{w.join(" ")} per #{@user.attr[:nick]} at #{Time.now.utc.strftime("%F %T")}]        
         puts %[handle tag: #{et}]
         Z4.query.terms.incr(et)
         Z4.query[et].items.incr(w.join(" "))
@@ -194,22 +193,19 @@ module Z4
           puts %[handle win: #{ee}]
           Z4.tag[et].win(ee)
         }
+        @chan.index id: i, text: s
+        Z4.index id: i, text: s        
       end
       
-      @chan.index id: i, text: s
-      Z4.index id: i, text: s
-
       @user.stat.incr(:xp)
       @user.stat.incr(:gp)
       @chan.stat.incr(:xp)
       @chan.stat.incr(:gp)
 
-      
       r << %[#{m[1]} HEARD.]
 
     elsif m = /^#(.+)\?$/.match(c)
       w.shift
-      
       @chan.search(m[1]).each { |x| r << x }
       Z4.search(m[1]).each { |x| r << x }
     end
