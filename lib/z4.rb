@@ -184,27 +184,17 @@ module Z4
       i = %[#{@chan.attr[:name].gsub(" ","_")}-#{@user.attr[:nick].gsub(" ","_")}-#{m[1]}]
       s = %[#{m[1]}: #{w.join(" ")} per #{@user.attr[:nick]} at #{Time.now.utc.strftime("%F %T")}] 
 
-      mm = m[1].split("-")
-
-      # base tag
-      if mm.length > 1
-        Z4.query.terms.incr(mm[0])
-        Z4.query[mm[0]].items.incr(w.join(" "))
-        puts %[handle: #{h[:user]}]
-        Z4.tag[mm[0]].tag(h[:user])
-        h[:users].each { |e|
-          puts %[handle e: #{e}]
-          Z4.tag[mm[0]].win(e) }
+      [m[1].split("-")].flatten.each do |et|
+        puts %[handle tag: #{et}]
+        Z4.query.terms.incr(et)
+        Z4.query[et].items.incr(w.join(" "))
+        Z4.tag[et].tag(h[:user])
+        puts %[handle tag: #{h[:user]}]
+        h[:users].each { |ee|
+          puts %[handle win: #{ee}]
+          Z4.tag[et].win(ee)
+        }
       end
-
-      # specific tag
-      Z4.query.terms.incr(m[1])
-      Z4.query[m[1]].items.incr(w.join(" "))
-      Z4.tag[m[1]].tag(h[:user])
-      puts %[tag: #{h[:user]}]
-      h[:users].each { |e|
-        puts %[tag e: #{e}]
-        Z4.tag[m[1]].win(e) }
       
       @chan.index id: i, text: s
       Z4.index id: i, text: s
