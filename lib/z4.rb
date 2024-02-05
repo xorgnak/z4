@@ -825,7 +825,7 @@ BOT.message() do |e|
       @chan.attr.to_h.each_pair { |k,v| a << %[###{k} #{v}] }
       @user.attr.to_h.each_pair { |k,v| a << %[##{k} #{v}] }
       if @chan.attr[:affiliate] != nil
-        a << %[https://#{@chan.attr[:affiliate]}/qr?user=#{@user.id}&chan=#{@chan.id}&epoch=#{Time.now.utc.o_i}]
+        a << %[https://#{@chan.attr[:affiliate]}/qr?user=#{@user.id}&chan=#{@chan.id}&epoch=#{Time.now.utc.to_i}]
       end
     end
   end
