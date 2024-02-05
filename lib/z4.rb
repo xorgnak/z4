@@ -167,16 +167,6 @@ module Z4
     @user = Z4.make h[:user], :user
     @chan = Z4.make h[:chan], :chan
     
-    @@CANNED.each_pair { |k,v|
-      #puts %[handle @@CANNED: #{k} #{v}]
-      if @matchdata = Regexp.new(k).match(h[:input].strip);
-        #        puts %[handle @matchdata: #{@matchdata}]
-        r << ERB.new(v).result(binding);
-        #        puts %[handle r: #{r}]
-      end
-    }
-    
-    
     if m = /^#(.+)!$/.match(c)
       cmd = true
       w.shift
@@ -788,6 +778,12 @@ BOT.message() do |e|
     o << %[attachments: #{@attachments}]
   end
 
+  @@CANNED.each_pair { |k,v|                                                                                                                                                                                         
+    if @matchdata = Regexp.new(k).match(@text);                                                                                                                                                                         
+      r << ERB.new(v).result(binding);                                                                                                                                                                                 
+    end
+  }
+  
   if !/^.+\?$/.match(@words[0]) && !/^.+!$/.match(@words[0])
     # first pass handling
     if m = /##(.+)/.match(@words[0])
@@ -846,7 +842,6 @@ BOT.message() do |e|
 
 
   @h = { input: @text, user: %[#{e.user.id}], chan: %[#{e.channel.id}], users: @users, roles: @roles, priv: @priv, attachments: @attachments }
-
   
   if @ok == true
     if @cmd == nil && @text.length > 0
