@@ -183,7 +183,7 @@ module Z4
 
       [m[1].split("-")].flatten.each do |et|
         i = %[#{@chan.attr[:name].gsub(" ","_")}-#{@user.attr[:nick].gsub(" ","_")}-#{et}]
-        s = %[#{e}: #{w.join(" ")} per #{@user.attr[:nick]} at #{Time.now.utc.strftime("%F %T")}]        
+        s = %[#{et}: #{w.join(" ")} per #{@user.attr[:nick]} at #{Time.now.utc.strftime("%F %T")}]        
         puts %[handle tag: #{et}]
         Z4.query.terms.incr(et)
         Z4.query[et].items.incr(w.join(" "))
