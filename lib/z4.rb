@@ -779,7 +779,8 @@ BOT.message() do |e|
   end
 
   Z4.predefines.each_pair { |k,v|                                                                                                                                                                                         
-    if @matchdata = Regexp.new(k).match(@text);                                                                                                                                                                         
+    if @matchdata = Regexp.new(k).match(@text);
+      @ok = false
       o << ERB.new(v).result(binding);                                                                                                                                                                                 
     end
   }
