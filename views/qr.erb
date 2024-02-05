@@ -1,4 +1,4 @@
-<%= erb :partial_heading %>
+<%= erb :partial_head %>
 
 <div id='container'>
 <h1 class='tag'><span><%= Z4.make(params[:user], :user).attr[:name] %></span></h1>
@@ -6,8 +6,6 @@
 <div id='qrcode'></div>
 </div>
 
-<%= erb :partial_gps %>
-
 <script>
-$("#qrcode").qrcode('https://<%= request.host %>/u?user=<%= params[:user] %>&chan=<%= params[:chan] %>&epoch=<%= Time.now.utc.to_i %>');
+$("#qrcode").qrcode('https://<%= request.host %>/u?user=<%= params[:user] %>&chan=<%= params[:chan] %>&epoch=<%= params[:epoch] %>');
 </script>

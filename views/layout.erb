@@ -20,9 +20,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <% if params.has_key?(:user) && params.has_key?(:chan) %>
-<% @user = Z4.make(params[:user], :user) %>
-<% @chan = Z4.make(params[:chan], :chan) %>
 <link rel="manifest" href="/manifest.webmanifest?user=<%= params[:user] %>&chan=<%= params[:chan] %>&route=<%= request.path.gsub('/','') %>" />
+<% else %>
+<link rel="manifest" href="/manifest.webmanifest?route=<%= request.path.gsub('/','') %>" />
 <% end %>
 
 <style>
@@ -119,10 +119,8 @@ p { }
 
 var params = <%= JSON.generate(params) %>;
 
-var state = { user: params.user, chan: params.chan, grid: '????????' };
-
 function setupIds(length) {
-    let result = '';
+    let result = '<%= request.path.gsub("/",'') %>-<%= Time.now.utc.to_i %>-';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     let counter = 0;
@@ -133,7 +131,9 @@ function setupIds(length) {
     return result;
 }
 
-const id = setupIds(8);
+const id = setupIds(4);
+
+var state = { id: id, user: params.user, chan: params.chan, grid: '????????' };
 
 function display() {
     $('#grid').text(state['grid'])
@@ -143,7 +143,6 @@ function display() {
 }
 
 function push() {
-    console.log('state', state);
     $.post('/', state, function(data){ state = JSON.parse(data); display(); });
     console.log('state', state);
 }
@@ -161,55 +160,13 @@ $(document).on('change', '#change', function(ev) {
     state['query'] = $(this).val();
     push();
 });
-  
-<% if params.has_key?(:user) && params.has_key?(:chan) %>
-    
-var watchID;
 
-if (!navigator.geolocation) {
-    $('#grid').append('----------');
-    $('#qr').attr('disabled', true);
-    $('#go').attr('disabled', true);
-} else {
-    function gps_success(p) {
-	state['lat'] = p.coords.latitude;
-	state['lon'] = p.coords.longitude;
-	$('#qr').attr('disabled', false);
-	$('#go').attr('disabled', false);
-	push();
-    }
-    function gps_error() {
-	state['grid'] = 'XXXXXXXXXX';
-	$('#qr').attr('disabled', true);
-        $('#go').attr('disabled', true);
-    }
-    const gps_options = { enableHighAccuracy: true, maximumAge: 15000, timeout: 30000 };
-    watchID = navigator.geolocation.watchPosition(gps_success, gps_error, gps_options);
-}
+$(document).on('click', '#install', function(ev) {
+<%= erb :js_partial_serviceworker %>
+});
 
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js?user=<%= params[:user] %>&chan=<%= params[:chan] %>');
-    Notification.requestPermission().then((result) => {
-	if (result === "granted") {
-	    actions = []
-	    navigator.serviceWorker.ready.then((registration) => {
-		registration.showNotification("<%= request.host %> running.", {
-		    body: "Click to see what's out there.",
-		    icon: "../images/touch/chrome-touch-icon-192x192.png",
-		    vibrate: [200, 100, 200, 100, 200, 100, 200],
-		    tag: "<%= request.host %>",
-		    timestamp: Date.now(),
-		    actions
-		});
-	    });
-	}
-    });
-    
-    navigator.serviceWorker.addEventListener('message', event => {
-	console.log(event.data)
-    })
-}
-  <% end %>
+<%= erb :js_partial_gps %>
+
 </script>
     
 </head>

@@ -1,0 +1,22 @@
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js?user=<%= params[:user] %>&chan=<%= params[:chan] %>');
+    Notification.requestPermission().then((result) => {
+        if (result === "granted") {
+            actions = []
+            navigator.serviceWorker.ready.then((registration) => {
+                registration.showNotification("<%= request.host %> running.", {
+                    body: "Click to see what's out there.",
+                    icon: "../images/touch/chrome-touch-icon-192x192.png",
+                    vibrate: [200, 100, 200, 100, 200, 100, 200],
+                    tag: "<%= request.host %>",
+                    timestamp: Date.now(),
+                    actions
+                });
+            });
+        }
+    });
+
+    navigator.serviceWorker.addEventListener('message', event => {
+        console.log(event.data)
+    })
+}

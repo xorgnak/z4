@@ -3,17 +3,10 @@
 <%= erb :partial_heading %>
 
 <% if ENV.has_key?('EMBED') %>
-<div id='body' style='width: 100%; text-align: center;'>
-<%= ENV['EMBED'] %>
+<div id='body' style='width: 100%; text-align: center; background-color: black;'>
+<p stylw='width: 100%; text-align: center;'><%= ENV['EMBED'] %></p>
 </div>
 <% end %>
-
-
-<% if params.has_key?(:user) && params.has_key?(:chan) %>
-
-<%= erb :partial_gps %>
-
-<% else %>
 
 <div style='width: 100%; text-align: center; position: fixed; bottom: 10%;'>
 <div style='width: 100%; text-align: center; max-height: 50vh; overflow-y: scroll; background-color: black;'>
@@ -27,5 +20,3 @@
 <%= erb :partial_trampstamp %>
 
 </div>
-
-<% end %>
