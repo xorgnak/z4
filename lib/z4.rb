@@ -160,7 +160,7 @@ module Z4
 
     cmd = false
     
-#    puts %[handle h: #{h}]
+    puts %[handle h: #{h}]
 
     r = []
     
@@ -187,6 +187,9 @@ module Z4
       Z4.query.terms.incr(m[1])
 
       Z4.query[m[1]].items.incr(w.join(" "))
+
+      Z4.tag[m[1]].tag %[#{@user.id}]
+      h[:users].each { |e| Z4.tag[m[1]].win(e) }
       
       @chan.index id: i, text: s
       Z4.index id: i, text: s
@@ -415,6 +418,22 @@ module Z4
     def id;
       @id
     end
+
+
+
+
+    
+    def tokens
+      Z4.token[@id]
+    end
+    def tag
+      
+    end
+
+
+
+
+
     def index h={}
       @redisearch.add(RediSearch::Document.for_object(@redisearch, O.new(h)))
     end
@@ -483,6 +502,22 @@ module Z4
     [ 'volunteer_activism', 'favorite_border', 'favorite', 'loyalty', 'diversity_2', 'diversity_1', 'monitor_heart' ]
   end
 
+  ###
+  ### EMOJI
+  ###
+
+  @@GEMOJI = Hash.new { |h,k| x = Emoji.find_by_alias(k.to_s); if x != nil; h[k] = x; end }
+  def self.emoji
+    @@GEMOJI
+  end
+  def self.emojis
+    @@GEMOJI.keys
+  end
+  
+  ###
+  ### URL SHORTENING
+  ###
+  
   class PATH
     include Redis::Objects
 
@@ -546,6 +581,163 @@ module Z4
   
   def self.path
     @@PATH
+  end
+
+  ###
+  ### TOKENS
+  ###
+  @@BAG = Hash.new { |h,k| h[k] = Bag.new(k) }
+  @@TOKEN = Hash.new { |h,k| h[k] = Token.new(k) }
+  class Bag
+    include Redis::Objects
+    set :token
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+    def tokens
+      h = {}
+      self.token.members.each do |e|
+        h[e] = {};
+        [:short, :long].each do |ee|
+          if tkn(e)[ee].valid?;
+            h[e][ee] = true;
+          else
+            h[e][ee] = false;
+          end
+        end
+        if h[e][:short] == false && h[e][:long] == false;
+          self.token.delete(e);
+        end
+      end
+      return h
+    end
+    # user token
+    def [] k
+      self.token << k
+      return tkn(k)
+    end
+    # token object
+    def tkn k
+      return { short: Short.new(%[#{@id}-#{k}-short]), long: Long.new(%[#{@id}-#{k}-long]) }
+    end
+  end
+  # list of tokens
+  def self.bag
+    @@BAG
+  end
+  # lists of tokens
+  def self.bags
+    @@BAG.keys
+  end
+  
+  class Short
+    include Redis::Objects
+    
+    value :valid, :expireat => lambda { Time.now.utc.to_i + 30 }
+    
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+    def valid!
+      self.valid.value = Time.now.utc.to_i
+    end
+    # valid until or false
+    def valid?
+      if self.valid.value != nil
+        return self.valid.value.to_i
+      else
+        return false
+      end
+    end
+  end
+
+  class Long
+    include Redis::Objects
+
+    value :valid, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 7) } 
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+    def valid!
+      self.valid.value = Time.now.utc.to_i
+    end
+    # valid until or false
+    def valid?
+      if self.valid.value != nil
+        return self.valid.value.to_i
+      else
+        return false
+      end
+    end
+  end
+  
+  # Z4.token[X] => bag of obj's tokens
+  # Z4.token[X][tag] => obj token
+  # Z4.token[X][tag].valid! => validate obj token
+  # Z4.token[X].each { |e| ... } => each obj valid token
+  def self.token
+    @@BAG
+  end
+
+  ###
+  ### TAG LEADERS
+  ###
+  
+  @@TAG = Hash.new { |h,k| h[k] = Tag.new(k) }
+  
+  class T
+    include Redis::Objects
+    sorted_set :tag
+    sorted_set :won
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+    def to_h
+      h = {}
+      self.tag.members(with_scores: true).to_h.each_pair { |t,n| h[t] = { tagged: n.to_i, won: self.won[t].to_i } }
+      return h
+    end
+  end
+  class Tag
+    include Redis::Objects
+    sorted_set :tagged
+    sorted_set :won
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+    def [] k
+      player(k)
+    end
+    def tag x
+      t = Z4.token[x][@id]
+      [:short, :long].each { |e| t[e].valid! }      
+      self.tagged.incr(x); player(x).tag.incr(@id)
+    end
+    def win x
+      tag(x)
+      self.won.incr(x);
+      player(x).won.incr(@id)
+    end
+    def player x
+      T.new(%[#{@id}-#{x}])
+    end
+    def to_h
+      h = {}
+      self.tagged.members(with_scores: true).to_a.each { |u, t| h[u] = { tagged: t.to_i, won: self.won[u].to_i }  }
+      return h
+    end
+  end
+  
+  # Z4.tag[tag].tag! u => add tag to player, validate token
+  # Z4.tag[tag].win u => incr won for player within tag, validate token
+  # Z4.tag[tag][X] => validate token return player
+  def self.tag
+    @@TAG
   end
 end
 
@@ -803,7 +995,14 @@ class APP < Sinatra::Base
         #else
           #Z4.search(params[:query]).each { |e| a << %[<p class='i'>#{e}</p>] }
           hx = Z4.query[params[:query]].items.members(with_scores: true).to_h.sort_by { |k,v| -v }
-          hx.to_h.each_pair { |k,v| a << %[<p class='c'><span class='material-icons' style='color: red;'>#{Z4.heart[Z4.lvl(v)]}</span><a href='https://meet.jit.si/#{Z4.path.make!(k)}'>#{k}</a></p>] }
+          hx.to_h.each_pair { |k,v| a << %[<p class='c'><span class='material-icons' style='color: red;'>#{Z4.heart[Z4.lvl(v)]}</span><span class='box'>#{k}</span></p>] }
+          Z4.tag[params[:query]].to_h.each_pair { |k,v|
+            aa = [
+              %[<span><span class='material-icons'>emoji_events</span><span>#{v[:won]}</span></span>],
+              %[<span><span class='material-icons'>stars</span><span>#{v[:tagged]}</span></span>]
+            ].join("")
+            a << %[<p class='c'><span style='padding: 0 5% 0 0;'>#{Z4.make(k,:user).attr[:nick]}</span><span>#{aa}</span></p>]
+          }
         #end
       end
       h[:items] = a.flatten.join('')

@@ -1,10 +1,4 @@
-<style>
-#container { width: 100%; text-align: center; background-color: black; margin: 15% 0 0 0; }
-#qrcode { width: 100%; background-color: white; padding: 5% 0 5% 0; }
-.tag { width: 100%; text-align: center; background-color: white; color: black; }
-</style>
-
-<%= erb :heading %>
+<%= erb :partial_heading %>
 
 <div id='container'>
 <h1 class='tag'><span><%= Z4.make(params[:user], :user).attr[:name] %></span></h1>
@@ -12,9 +6,8 @@
 <div id='qrcode'></div>
 </div>
 
-<%= erb :gps %>
+<%= erb :partial_gps %>
 
 <script>
-//$(document).on('click','#go', function(ev) { ev.preventDefault(); window.location = "https://meet.jit.si/" + state['grid']; });
 $("#qrcode").qrcode('https://<%= request.host %>/u?user=<%= params[:user] %>&chan=<%= params[:chan] %>&epoch=<%= Time.now.utc.to_i %>');
 </script>

@@ -2,51 +2,43 @@
 <% @chan = Z4.make(params[:chan], :chan) %>
 <% Z4.xfer amt: 1, to: params[:user], memo: "scan at #{Time.now.utc.to_s}" %>
 
-<style>
-#bg { z-index: -10; position: fixed; width: 100vw; height: 100vh; }
-a { text-decoration: none; }
-.btn { padding: 25%; margin: 20% 0 20% 0; border-radius: 5000px; font-size: 100%; background-color: black; }
-#head { width: 100%; margin: 0; }
-#top { margin: 0; font-size: xx-large; }
-#nav { float: right; text-align: right; vertical-align: middle; width: min-content; margin: 0 5% 0 0; z-index: 1; }
-#phone { color: green; }
-#store { color: gold; }
-#social { color: red; }
-#tips { color: pink; }
-#foot { position: fixed; bottom: 0; width: 100%; text-align: center; background-color: black; }
-#work {}
-#job { padding: 1% 2% 1% 2%; }
-#union { padding: 1% 2% 1% 2%; }
-</style>
-
-
 <img id='bg' src='<%= @user.attr[:img] || @chan.attr[:img] || ENV['IMG'] %>'>
 
 <div id='head'>
 <h1 id='top'>
 <span id='nav'>
-<% { discord: 'support_agent', phone: 'ring_volume', store: 'local_grocery_store', social: 'follow_the_signs', tips: 'savings' }.each_pair do |key,icon|  %>
+<% { phone: 'ring_volume', store: 'local_grocery_store', social: 'follow_the_signs', tips: 'savings' }.each_pair do |key,icon|  %>
 <% if "#{@user.attr[key]}".length > 0 %>
-<a class='material-icons btn' id='<%= key %>' href='<%= @user.attr[key] %>'><%= icon %></a>
+<a class='material-icons btn box' id='<%= key %>' href='<%= @user.attr[key] %>'><%= icon %></a>
 <% end %>
 <% end %>
 </span>
-<span id='name'><%= @user.attr[:name] %></span>
+<span id='name' class='box'><%= @user.attr[:name] %></span>
 </h1>
-<h2 style='margin: 0;'>serving <%= @user.attr[:city] %> since <%= @user.attr[:since] %>.</h2>
+<h2><span id='work' class='box'>serving <%= @user.attr[:city] %> since <%= @user.attr[:since] %>.</span></h2>
 </div>
 
 
 <div id='foot'>
+<h2>
+<% Z4.token[params[:user]].tokens.each_pair do |k, h| %>
+<% if h[:short] == true %>
+<span class='box'><span class='material-icons' style='color: gold;'>stars</span><span><%= k %></span></span>
+<% else %>
+<span class='box'><span class='material-icons' style='color: gold;'>star</span><span><%= k %></span></span>
+<% end %>
+<% end %>
+</h2>
+
 <% if "#{@user.attr[:embed]}".length > 0 %>
 <%= Embed.new(@user.attr[:embed]).result(params) %>
 <% end %>
 <div id='work'>
 <% if "#{@user.attr[:job]}".length > 0 %>
-<h2 style='margin: 0;'><span id='job'><%= @user.attr[:job] %></span></h2>
+<h2 style='margin: 0;' class='box'><span id='job'><%= @user.attr[:job] %></span></h2>
 <% end %>
 <% if "#{@user.attr[:union]}".length > 0 %>
-<h2 style='margin: 0;'><span id='union'><%= @user.attr[:union] %></span></h2>
+<h2 style='margin: 0;' class='box'><span id='union'><%= @user.attr[:union] %></span></h2>
 <% end %>
 </div>
 </div>

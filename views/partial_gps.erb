@@ -1,20 +1,28 @@
 <% if params.has_key?(:user) %>
 <% @user = Z4.make(params[:user],:user) %>
-<div class='gps' style='width: 100%; text-align: center; position: fixed; bottom: 0; background-color: black; color: white;'>
+<div class='gps box' style='width: 100%; text-align: center; position: fixed; bottom: 0;'>
 <div id='items' style='width: 100%; text-align: center;'>
 </div>
 <p style='width: 100%; text-align: center; border: thin inset grey; margin: 0;'>
 <span id='xp'><%= @user.stat[:xp].to_i %></span>
 <span class='material-icons'>star</span>
+<% if request.path != '/qr' %>
 <button id='qr' class='material-icons' disabled>qr_code</button>
+<% else %>
+<button id='home' class='material-icons' disabled>qr_code_scanner</button>
+<% end %>
 <button id='go' class='material-icons' disabled>co_present</button>
 <span class='material-icons'>toll</span>
-<span id='gp'><%= @user.stat[:gp].to_f %></span>
+<span id='gp'><%= @user.stat[:gp].to_i %></span>
 
 </p>
 </div>
 <script>
+<% if request.path != '/qr' %>
 $(document).on('click','#qr', function(ev) { ev.preventDefault(); window.location = "/qr?user=<%= params[:user] %>&chan=<%= params[:chan] %>" });
+<% else %>
+$(document).on('click','#home', function(ev) { ev.preventDefault(); window.location = "/?user=<%= params[:user] %>&chan=<%= params[:chan] %>" });
+<% end %>
 $(document).on('click','#go', function(ev) { ev.preventDefault(); window.location = "https://meet.jit.si/" + state['grid']; });
 </script>
 <% end %>
