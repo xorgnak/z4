@@ -2,7 +2,7 @@
 
 <div id='container'>
 <h1 class='tag'><span><%= Z4.make(params[:user], :user).attr[:name] %></span></h1>
-<h3 class='tag'><span><%= Z4.make(params[:chan], :chan).attr[:name] %></span></h3>
+<h3 class='tag' style='background-color: <%= Z4.make(params[:chan], :chan).attr[:color] || 'white' %>;'><span><%= Z4.make(params[:chan], :chan).attr[:name] %></span></h3>
 <div id='qrcode'></div>
 </div>
 

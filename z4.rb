@@ -46,6 +46,7 @@ Z4.canned "Datapoints:", [
             %[#img: Your background image.],
             %[#embed: Embedded content.],
             %[##name: The channel name.],
+            %[##color: The channel background color.],
             %[##affiliate: The channel affiliate domain.],
             %[##purpose: The channel purpose.]
           ].join("\n")
