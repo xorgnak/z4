@@ -189,7 +189,7 @@ module Z4
       Z4.query[m[1]].items.incr(w.join(" "))
 
       Z4.tag[m[1]].tag %[#{@user.id}]
-      h[:users].each { |e| Z4.tag[m[1]].win(e) }
+      h[:users].each { |e| Z4.tag[m[1]].win(%[#{e}]) }
       
       @chan.index id: i, text: s
       Z4.index id: i, text: s
@@ -771,7 +771,7 @@ BOT.message() do |e|
   
   @roles = []; e.message.role_mentions.each { |x| @roles << x.name }
 
-  @users = []; e.message.mentions.each { |x| @users << Z4.make(%[#{x.id}], :user) }
+  @users = []; e.message.mentions.each { |x| @users << %[#{x}] }
   
   @attachments = []; e.message.attachments.each { |x|
     @attachments << x.url
