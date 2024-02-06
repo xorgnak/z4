@@ -21,13 +21,7 @@
 
 <div id='foot'>
 <h2>
-<% Z4.token[params[:user]].tokens.each_pair do |k, h| %>
-<% if h[:short] == true %>
-<span class='box'><span class='material-icons' style='color: gold;'>stars</span><span><%= k %></span></span>
-<% else %>
-<span class='box'><span class='material-icons' style='color: gold;'>star</span><span><%= k %></span></span>
-<% end %>
-<% end %>
+<%=  erb :partial_stars %>
 </h2>
 
 <% if "#{@user.attr[:embed]}".length > 0 %>

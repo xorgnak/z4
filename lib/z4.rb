@@ -167,21 +167,41 @@ module Z4
     @user = Z4.make h[:user], :user
     @chan = Z4.make h[:chan], :chan
     
-    if m = /^#(.+)!$/.match(c)
+    if m = /^#(.+[^!])(!+)$/.match(c)
       cmd = true
       w.shift
-
+      puts %[handle m[2]: #{m[2]}]
+      lvl = m[2].length - 1
+      puts %[handle lvl: #{lvl}]
       [m[1].split("-")].flatten.each do |et|
-        i = %[#{@chan.attr[:name].gsub(" ","_")}-#{@user.attr[:nick].gsub(" ","_")}-#{et}]
-        s = %[#{et}: #{w.join(" ")} per #{@user.attr[:nick]} at #{Time.now.utc.strftime("%F %T")}]        
-        puts %[handle tag: #{et}]
-        Z4.query.terms.incr(et)
-        Z4.query[et].items.incr(w.join(" "))
-        Z4.tag[et].tag(h[:user])
+        eet = et.gsub("!","")
+        i = %[#{@chan.attr[:name].gsub(" ","_")}-#{@user.attr[:nick].gsub(" ","_")}-#{eet}]
+        s = %[#{eet}: #{w.join(" ")} per #{@user.attr[:nick]} at #{Time.now.utc.strftime("%F %T")}]        
+        puts %[handle tag: #{eet}]
+        Z4.query.terms.incr(eet)
+        Z4.query[eet].items.incr(w.join(" "))
+        Z4.tag[eet].tag(h[:user])
         puts %[handle tag: #{h[:user]}]
         h[:users].each { |ee|
           puts %[handle win: #{ee}]
-          Z4.tag[et].win(ee)
+          if lvl == 7
+            Z4.tag[eet].nation(ee)
+          elsif lvl == 6
+            Z4.tag[eet].region(ee)
+          elsif lvl == 5
+            Z4.tag[eet].city(ee)
+          elsif lvl == 4
+            Z4.tag[eet].area(ee)
+          elsif lvl == 3
+            Z4.tag[eet].house(ee)
+          elsif lvl == 2
+            Z4.tag[eet].award(ee)
+          elsif lvl == 1
+            Z4.tag[eet].win(ee)
+          else
+            Z4.tag[eet].tag(ee)
+          end
+          Z4.tag[eet].win(ee)
         }
         @chan.index id: i, text: s
         Z4.index id: i, text: s        
@@ -492,7 +512,9 @@ module Z4
   def self.heart
     [ 'volunteer_activism', 'favorite_border', 'favorite', 'loyalty', 'diversity_2', 'diversity_1', 'monitor_heart' ]
   end
-
+  def self.star
+    [ 'star_border', 'star', 'hotel_class', 'auto_awesome', 'military_tech', 'emoji_events', 'tour', 'flag' ]
+  end
   ###
   ### EMOJI
   ###
@@ -590,15 +612,12 @@ module Z4
       h = {}
       self.token.members.each do |e|
         h[e] = {};
-        [:short, :long].each do |ee|
-          if tkn(e)[ee].valid?;
-            h[e][ee] = true;
+        tkn(e).each_pair do |k,v|
+          if v.valid?;
+            h[e][k] = true;
           else
-            h[e][ee] = false;
+            h[e][k] = false;
           end
-        end
-        if h[e][:short] == false && h[e][:long] == false;
-          self.token.delete(e);
         end
       end
       return h
@@ -610,7 +629,17 @@ module Z4
     end
     # token object
     def tkn k
-      return { short: Short.new(%[#{@id}-#{k}-short]), long: Long.new(%[#{@id}-#{k}-long]) }
+      kk = %[#{@id}-#{k}]
+      return {
+        short: Short.new(kk),
+        long: Long.new(kk),
+        day: Day.new(kk),
+        week: Week.new(kk),
+        month: Month.new(kk),
+        season: Season.new(kk),
+        halfyear: HalfYear.new(kk),
+        year: Year.new(kk)
+      }
     end
   end
   # list of tokens
@@ -625,7 +654,7 @@ module Z4
   class Short
     include Redis::Objects
     
-    value :valid, :expireat => lambda { Time.now.utc.to_i + ((60 * 60) * 24) }
+    value :valid, :expireat => lambda { Time.now.utc.to_i + ((60 * 60) * 4) }
     
     def initialize k
       @id = k
@@ -647,7 +676,7 @@ module Z4
   class Long
     include Redis::Objects
 
-    value :valid, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 7) } 
+    value :valid, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 12) } 
     def initialize k
       @id = k
     end
@@ -656,6 +685,134 @@ module Z4
       self.valid.value = Time.now.utc.to_i
     end
     # valid until or false
+    def valid?
+      if self.valid.value != nil
+        return self.valid.value.to_i
+      else
+        return false
+      end
+    end
+  end
+
+  class Day
+    include Redis::Objects
+
+    value :valid, :expireat => lambda { Time.now.utc.to_i + ((60 * 60) * 24) }
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+    def valid!
+      self.valid.value = Time.now.utc.to_i
+    end
+    # valid until or false                                                                                                                                                                                                        
+    def valid?
+      if self.valid.value != nil
+        return self.valid.value.to_i
+      else
+        return false
+      end
+    end
+  end
+
+  class Week
+    include Redis::Objects
+
+    value :valid, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 7) }
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+    def valid!
+      self.valid.value = Time.now.utc.to_i
+    end
+    # valid until or false                                                                                                                                                                                                        
+    def valid?
+      if self.valid.value != nil
+        return self.valid.value.to_i
+      else
+        return false
+      end
+    end
+  end  
+
+  class Month
+    include Redis::Objects
+
+    value :valid, :expireat => lambda { Time.now.utc.to_i + ((((60 * 60) * 24) * 7) * 4) }
+    
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+    def valid!
+      self.valid.value = Time.now.utc.to_i
+    end
+    # valid until or false                                                                                                                                                                                                        
+    def valid?
+      if self.valid.value != nil
+        return self.valid.value.to_i
+      else
+        return false
+      end
+    end
+  end
+
+  class Season
+    include Redis::Objects
+
+    value :valid, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 90) }
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+    def valid!
+      self.valid.value = Time.now.utc.to_i
+    end
+    # valid until or false                                                                                                                                                                                                        
+    def valid?
+      if self.valid.value != nil
+        return self.valid.value.to_i
+      else
+        return false
+      end
+    end
+  end
+
+  class HalfYear
+    include Redis::Objects
+
+    value :valid, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 180) }
+    
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+    def valid!
+      self.valid.value = Time.now.utc.to_i
+    end
+    # valid until or false                                                                                                                                                                                                        
+    def valid?
+      if self.valid.value != nil
+        return self.valid.value.to_i
+      else
+        return false
+      end
+    end
+  end
+  
+  class Year
+    include Redis::Objects
+
+    value :valid, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 365) }
+    def initialize k
+      @id = k
+    end
+    def id; @id; end
+    def valid!
+      self.valid.value = Time.now.utc.to_i
+    end
+    # valid until or false                                                                                                                                                                                                        
     def valid?
       if self.valid.value != nil
         return self.valid.value.to_i
@@ -681,15 +838,32 @@ module Z4
   
   class T
     include Redis::Objects
-    sorted_set :tag
+
+    sorted_set :tagged
     sorted_set :won
+    sorted_set :awards
+    sorted_set :houses
+    sorted_set :areas
+    sorted_set :cities
+    sorted_set :regions
+    sorted_set :nations
+    
     def initialize k
       @id = k
     end
     def id; @id; end
     def to_h
       h = {}
-      self.tag.members(with_scores: true).to_h.each_pair { |t,n| h[t] = { tagged: n.to_i, won: self.won[t].to_i } }
+      self.tag.members(with_scores: true).to_h.each_pair { |t,n| h[t] = {
+                                                             tagged: n.to_i,
+                                                             won: self.won[t].to_i,
+                                                             awards: self.awards[t].to_i,
+                                                             houses: self.houses[t].to_i,
+                                                             areas: self.areas[t].to_i,
+                                                             cities: self.cities[t].to_i,
+                                                             regions: self.regions[t].to_i,
+                                                             nations: self.nations[t].to_i
+                                                           } }
       return h
     end
   end
@@ -697,6 +871,13 @@ module Z4
     include Redis::Objects
     sorted_set :tagged
     sorted_set :won
+    sorted_set :awards
+    sorted_set :houses
+    sorted_set :areas
+    sorted_set :cities
+    sorted_set :regions
+    sorted_set :nations
+    
     def initialize k
       @id = k
     end
@@ -705,21 +886,60 @@ module Z4
       player(k)
     end
     def tag x
-      t = Z4.token[x][@id]
-      [:short, :long].each { |e| t[e].valid! }      
-      self.tagged.incr(x); player(x).tag.incr(@id)
+      Z4.token[x][@id].each_pair { |k,v| v.valid! }
+      #[:short, :long].each { |e| t[e].valid! }      
+      self.tagged.incr(x); player(x).tagged.incr(@id)
     end
     def win x
       tag(x)
       self.won.incr(x);
       player(x).won.incr(@id)
     end
+    def award x
+      tag(x)
+      self.awards.incr(x);
+      player(x).awards.incr(@id)
+    end
+    def house x
+      tag(x)
+      self.houses.incr(x);
+      player(x).houses.incr(@id)
+    end
+    def area x
+      tag(x)
+      self.areas.incr(x);
+      player(x).areas.incr(@id)
+    end
+    def city x
+      tag(x)
+      self.cities.incr(x);
+      player(x).cities.incr(@id)
+    end    
+    def region x
+      tag(x)
+      self.regions.incr(x);
+      player(x).regions.incr(@id)
+    end
+    def nation x
+      tag(x)
+      self.nations.incr(x);
+      player(x).nations.incr(@id)
+    end    
     def player x
       T.new(%[#{@id}-#{x}])
     end
     def to_h
       h = {}
-      self.tagged.members(with_scores: true).to_a.each { |u, t| h[u] = { tagged: t.to_i, won: self.won[u].to_i }  }
+      self.tagged.members(with_scores: true).to_a.each { |u, t| h[u] = {
+                                                           tagged: t.to_i,
+                                                           won: self.won[u].to_i,
+                                                           award: self.awards[u].to_i,
+                                                           house: self.houses[u].to_i,
+                                                           area: self.areas[u].to_i,
+                                                           city: self.cities[u].to_i,
+                                                           region: self.regions[u].to_i,
+                                                           nation: self.nations[u].to_i
+                                                         }  }
       return h
     end
   end
@@ -997,10 +1217,19 @@ class APP < Sinatra::Base
           hx.to_h.each_pair { |k,v| a << %[<p class='c'><span class='material-icons' style='color: red;'>#{Z4.heart[Z4.lvl(v)]}</span><span class='box'>#{k}</span></p>] }
           Z4.tag[params[:query]].to_h.each_pair { |k,v|
             aa = [
-              %[<span><span class='material-icons'>emoji_events</span><span>#{v[:won]}</span></span>],
-              %[<span><span class='material-icons'>stars</span><span>#{v[:tagged]}</span></span>]
+              %[<span><span class='material-icons'>#{Z4.star[7]}</span><span>#{v[:nation]}</span></span>],
+              %[<span><span class='material-icons'>#{Z4.star[6]}</span><span>#{v[:region]}</span></span>],
+              %[<span><span class='material-icons'>#{Z4.star[5]}</span><span>#{v[:city]}</span></span>],
+              %[<span><span class='material-icons'>#{Z4.star[4]}</span><span>#{v[:area]}</span></span>],
+              %[<span><span class='material-icons'>#{Z4.star[3]}</span><span>#{v[:house]}</span></span>],
+              %[<span><span class='material-icons'>#{Z4.star[2]}</span><span>#{v[:award]}</span></span>],
+              %[<span><span class='material-icons'>#{Z4.star[1]}</span><span>#{v[:won]}</span></span>],
+              %[<span><span class='material-icons'>#{Z4.star[0]}</span><span>#{v[:tagged]}</span></span>]
             ].join("")
-            a << %[<p class='c'><span style='padding: 0 5% 0 0;'>#{Z4.make(k,:user).attr[:nick]}</span><span>#{aa}</span></p>]
+            a << %[<div style='width: 100%; text-align: center; border: thin solid grey; border-radius: 20px;'>]
+            a << %[<p class='c'><span>#{aa}</span></p>]
+            a << %[<p class='c'>#{Z4.make(k,:user).attr[:nick]}</span></p>]
+            a << %[</div>]
           }
         #end
       end
