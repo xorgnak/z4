@@ -173,7 +173,7 @@ module Z4
       puts %[handle m[2]: #{m[2]}]
       lvl = m[2].length - 1
       puts %[handle lvl: #{lvl}]
-      [m[1].split("-")].flatten.each do |et|
+      [@chan.attr[:city], @chan.attr[:area], m[1].split("-")].flatten.each do |et|
         eet = et.gsub("!","")
         i = %[#{@chan.attr[:name].gsub(" ","_")}-#{@user.attr[:nick].gsub(" ","_")}-#{eet}]
         s = %[#{eet}: #{w.join(" ")} per #{@user.attr[:nick]} at #{Time.now.utc.strftime("%F %T")}]        
@@ -184,24 +184,23 @@ module Z4
         puts %[handle tag: #{h[:user]}]
         h[:users].each { |ee|
           puts %[handle win: #{ee}]
-          if lvl == 7
+          if lvl == 7 || @chan.attr[:scope].to_i == 7
             Z4.tag[eet].nation(ee)
-          elsif lvl == 6
+          elsif lvl == 6 || @chan.attr[:scope].to_i == 6
             Z4.tag[eet].region(ee)
-          elsif lvl == 5
+          elsif lvl == 5 || @chan.attr[:scope].to_i == 5
             Z4.tag[eet].city(ee)
-          elsif lvl == 4
+          elsif lvl == 4 || @chan.attr[:scope].to_i == 4
             Z4.tag[eet].area(ee)
-          elsif lvl == 3
+          elsif lvl == 3 || @chan.attr[:scope].to_i == 3
             Z4.tag[eet].house(ee)
-          elsif lvl == 2
+          elsif lvl == 2 || @chan.attr[:scope].to_i == 2
             Z4.tag[eet].award(ee)
-          elsif lvl == 1
+          elsif lvl == 1 || @chan.attr[:scope].to_i == 1
             Z4.tag[eet].win(ee)
           else
             Z4.tag[eet].tag(ee)
           end
-          Z4.tag[eet].win(ee)
         }
         @chan.index id: i, text: s
         Z4.index id: i, text: s        
