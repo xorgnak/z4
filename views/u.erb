@@ -1,5 +1,6 @@
-<% @user = Z4.make(params[:user], :user) %>
-<% @chan = Z4.make(params[:chan], :chan) %>
+<% @user = OBJ[:user][params[:user]] %>
+<% @chan = OBJ[:chan][params[:chan]] %>
+
 <% Z4.xfer amt: 1, to: params[:user], memo: "scan at #{Time.now.utc.to_s}" %>
 
 <img id='bg' src='<%= @user.attr[:img] || @chan.attr[:img] || ENV['IMG'] %>'>
@@ -15,17 +16,21 @@
 </span>
 <span id='name' class='box'><%= @user.attr[:name] %></span>
 </h1>
-<h2><span id='work' class='box'>serving <%= @user.attr[:city] %> since <%= @user.attr[:since] %>.</span></h2>
+<h2><span id='work' class='box'>serving <%= @user.attr[:zone] %> since <%= @user.attr[:since] %>.</span></h2>
 </div>
 
-
 <div id='foot'>
-<h2>
-<%=  erb :partial_stars %>
-</h2>
-
+<div style='font-size: larger;'>
+<span class='material-icons' style='color: green; font-size: xx-large; background-color: black; border: thin solid gold; border-radius: 500px;'>gpp_good</span>
+<% @user.bag.each do |e| %>
+<span style='vertical-align: middle; background-color: <%= Z4.color[e.depth] %>; padding: 0 2% 0 2%; border-radius: 500px; border: thin solid white;'><%= e.id %></span>
+<% end %>
+</div>
+<% if "#{@chan.attr[:embed]}".length > 0 %>
+<%= @chan.attr[:embed] %>
+<% end %>
 <% if "#{@user.attr[:embed]}".length > 0 %>
-<%= Embed.new(@user.attr[:embed]).result(params) %>
+<%= @user.attr[:embed] %>
 <% end %>
 <div id='work'>
 <% if "#{@user.attr[:job]}".length > 0 %>

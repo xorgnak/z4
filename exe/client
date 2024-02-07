@@ -1,7 +1,11 @@
 #!/usr/bin/bash
 
+redis &
+
 # load the enviroment.
 source env.sh
 
 # start the shell.
 ruby bin/console $*
+
+exit 0

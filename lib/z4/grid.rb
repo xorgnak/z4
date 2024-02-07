@@ -121,7 +121,7 @@ class Maidenhead
   end
 end
 
-@@GRID_SIZE = 5
+@@GRID_SIZE = 4
 def self.precision= p
   @@GRID_SIZE = p.to_i
 end

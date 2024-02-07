@@ -5,14 +5,9 @@
 ###                ###
 ######################
 ######################
-
 # load interactive layer.
 require 'pry'
-
 # load z4 library.
 require_relative '../lib/z4.rb'
-
-client!
-
 # begin interactive session.
 Pry.start

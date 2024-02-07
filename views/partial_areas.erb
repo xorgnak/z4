@@ -1,14 +1,14 @@
 <h1 style='width: 100%; text-align: center;'>
 <button id='l' class='material-icons' style='font-size: xx-large;'>alternate_email</button>
-<select id='query' style='font-size: xx-large;'>	
-<option value='info' selected disabled>category</option>
-<% QUERY.keys.each do |e| %>	
+<select id='area' style='font-size: xx-large;'>	
+<option value='none' selected disabled>category</option>
+<% WIKI.gps.keys.each do |e| %>	
 <option value='<%= e %>'><%= e %></option>
 <% end %>
 </select>
-<button id='r' class='material-icons' style='font-size: xx-large;'>radar</button>
+<button id='r' class='material-icons' style='font-size: xx-large;'>favorite</button>
 </h1>
 <script>
 $(document).on('click','#l', function(ev){ ev.preventDefault(); window.location = "/board" })
-$(document).on('click','#r', function(ev){ ev.preventDefault(); window.location = "/areas" })
+$(document).on('click','#r', function(ev){ ev.preventDefault(); window.location = "/" })
 </script>

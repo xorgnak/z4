@@ -1,0 +1,14 @@
+<h1 style='width: 100%; text-align: center;'>
+<button id='l' class='material-icons' style='font-size: xx-large;'>radar</button>
+<select id='board' style='font-size: xx-large;'>
+<option value='info' selected disabled>category</option>
+<% QUERY.boards.each do |e| %>
+<option value='<%= e %>'><%= e %></option>
+<% end %>
+</select>
+<button id='r' class='material-icons' style='font-size: xx-large;'>favorite</button>
+</h1>
+<script>
+$(document).on('click','#l', function(ev){ ev.preventDefault(); window.location = "/areas" })
+$(document).on('click','#r', function(ev){ ev.preventDefault(); window.location = "/" })
+</script>
