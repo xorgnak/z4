@@ -34,7 +34,7 @@ module Z4
       @o << %[roles: #{@roles}]
       @o << %[attachments: #{@attachments}]
     end
-    
+   
     if !/^.+\?$/.match(@words[0]) && !/^.+!$/.match(@words[0])
       if m = /##(.+)/.match(@words[0])
         @act = true
