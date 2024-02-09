@@ -16,9 +16,9 @@ cd ~ && git clone https://github.com/xorgnak/z4 && cd z4 && ./exe/vm
 ```
 cd ~ && git clone https://github.com/xorgnak/z4 && cd z4 && ./exe/setup
 ```
-   1. Use `./z4` to begin the client.
+   1. Use `./z4` to begin client in client mode.
       1. Use the `init!` command to start the web server and discord bot.
-   1. Use `./z4 --background` to begin the server.
+   1. Use `./z4 --background` to begin in server mode.
    
 1. The local z4 server is running at [localhost:4567](http://localhost:4567)
 
