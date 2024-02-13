@@ -73,7 +73,7 @@ module Z4
         
         Z4.index id: i, text: s
         
-        r << %[HEARD: #{m[1]}]
+        r << %[HEARD: #{m[1]}\n#{Time.now.utc}\n#{h[:attachments].join("\n")}]
       else
         r << %[Bad collection tag: #{tag}\nAcceptable tags are: #{TAG.safe.join(", ")}]
       end
