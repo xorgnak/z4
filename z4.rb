@@ -166,17 +166,14 @@ Z4.canned "Help:", [
 # TAG.safe tag, type
 # TAG.award tag, award
 
-Z4.tag("local", color: 1, types: ["bar","food","weed","86"], awards: ["best"])
+Z4.tag("local", color: 4, types: ["bar","food","weed","86"], awards: ["best"])
 
-Z4.tag("food", color: 2, types: ["pizza","pasta","sandwich","burger","gyro","fries","eggs","burritos","tacos","vegan","vegetarian","8ball"], awards: ["late","fast"])
+Z4.tag("food", color: 3, types: ["pizza","pasta","sandwich","burger","gyro","fries","eggs","burritos","tacos","vegan","vegetarian","8ball"], awards: ["late","fast"])
 
-Z4.tag("bar",  color: 2, types: ["whiskey","vodka","gin","absenthe","cocktails","wine","beer","pool","darts","food","skiball","hoops","airhockey","thering","door","floor"], awards: ["cool","dance","pub"])
+Z4.tag("bar",  color: 3, types: ["whiskey","vodka","gin","absenthe","cocktails","wine","beer","pool","darts","food","skiball","hoops","airhockey","thering","door","floor"], awards: ["cool","dance","pub"])
 
-Z4.tag("pool", color: 2, types: ["8ball","9ball"], awards: ["bar","area","city"])
+Z4.tag("pool", color: 3, types: ["8ball","9ball"], awards: ["bar","area","city"])
 
 Z4.tag("weed", color: 3, types: ["flower","edible","concentrate"], awards: ["area","city"] )
 
-Z4.tag("86", color: 4, types: ["bar", "town"], awards: ["night", "week", "month", "life"])
-
-
-
+Z4.tag("86", color: 1, types: ["bar", "town"], awards: ["night", "week", "month", "life"])
