@@ -77,9 +77,15 @@ p { }
 
 .box { background-color: rgba(0,0,0,0.5); box-shadow: 0 0 5px black; text-shadow: black 0px -3px; }
 
-#qr { border: thin solid white; border-radius: 50px; padding: 0 1% 0 1%; color: red; background-color: black; }
+#qr { border: thin solid white; border-radius: 50px; padding: 0 1% 0 1%; color: blue; background-color: black; }
 
-#discord { border: thin solid white; border-radius: 50px; padding: 0 1% 0 1%; color: orange; background-color: black; }
+#discord { border: thin solid white; border-radius: 50px; padding: 0 1% 0 1%; color: gold; background-color: black; }
+
+#info { border: thin solid white; border-radius: 50px; padding: 0 1% 0 1%; color: green; background-color: black; }
+
+#areas { border: thin solid white; border-radius: 50px; padding: 0 1% 0 1%; color: red; background-color: black; }
+
+#leaderboard { border: thin solid white; border-radius: 50px; padding: 0 1% 0 1%; color: orange; background-color: black; }
 
 #container { width: 100%; text-align: center; background-color: black; margin: 10% 0 0 0; }
 
@@ -157,6 +163,21 @@ $(document).on('click', '#qr', function(ev) {
     ev.preventDefault();
     window.location = '/qr';
 });
+
+$(document).on('click', '#info', function(ev) {
+    ev.preventDefault();
+    window.location = '/about';
+});
+
+$(document).on('click', '#areas', function(ev) {
+    ev.preventDefault();
+    window.location = '/areas';
+});
+
+$(document).on('click', '#leaderboard', function(ev) {
+    ev.preventDefault();
+    window.location = '/board';
+})
 
 $(document).on('click', '#discord', function(ev) {
     ev.preventDefault();
