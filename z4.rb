@@ -33,19 +33,15 @@ Z4.user[:ready] = [
   %[Respond '#ready ok' to let me know you've read this helpful message.]
 ].join("\n")
 
-
 [
   "Downtown Denver, Colorado",
   "Capitol Hill, Denver, Colorado",
-  "Five_Points,_Denver",
-  "Five_Points,_Denver",
+  "Five_Points,_Denver, Colorado",
   "Golden_Triangle,_Denver,_Colorado",
-  "North_Capitol_Hill,_Denver",
-  "Highland,_Denver",
-  "Denver's_Art_District_on_Santa_Fe"
+  "North_Capitol_Hill,_Denver, Denver, Colorado",
+  "Highland,_Denver, Colorado",
+  "Denver's_Art_District_on_Santa_Fe, Denver, Colorado"
 ].each { |e| WIKI[e] }
-
-
 
 Z4.chan[:name] = "What do you call this channel?\nRespond '##name NAME' to set it."
 
@@ -169,14 +165,18 @@ Z4.canned "Help:", [
 ##
 # TAG.safe tag, type
 # TAG.award tag, award
-Z4.tag("bar",  types: ["whiskey","vodka","gin","absenthe","cocktails","wine","beer","pool","darts","food","skiball","hoops","airhockey","thering","door","floor"], awards: ["best","86","cool","dance","pub"])
 
-Z4.tag("pool", types: ["8ball","9ball"], awards: ["bar","area","city"])
+Z4.tag("local", color: 1, types: ["bar","food","weed","86"], awards: ["best"])
 
-Z4.tag("food", types: ["pizza","pasta","sandwich","burger","gyro","fries","eggs","burritos","tacos","vegan","vegetarian","8ball"], awards: ["best","late","fast"])
+Z4.tag("food", color: 2, types: ["pizza","pasta","sandwich","burger","gyro","fries","eggs","burritos","tacos","vegan","vegetarian","8ball"], awards: ["late","fast"])
 
-Z4.tag("weed", types: ["flower","wax","cavier","rosin","edibles","hashish"], awards: ["area","city"] )
+Z4.tag("bar",  color: 2, types: ["whiskey","vodka","gin","absenthe","cocktails","wine","beer","pool","darts","food","skiball","hoops","airhockey","thering","door","floor"], awards: ["cool","dance","pub"])
 
-Z4.tag("86", types: ["bar", "town"], awards: ["night", "week", "month", "life"])
+Z4.tag("pool", color: 2, types: ["8ball","9ball"], awards: ["bar","area","city"])
 
-Z4.tag("local", types: ["bar","food","door","sandwich","weed"], awards: ["best"])
+Z4.tag("weed", color: 3, types: ["flower","edible","concentrate"], awards: ["area","city"] )
+
+Z4.tag("86", color: 4, types: ["bar", "town"], awards: ["night", "week", "month", "life"])
+
+
+

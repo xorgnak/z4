@@ -41,6 +41,26 @@ module Z4
     end
   end
 
+  @@COLORS = {}
+
+  def self.colors *i
+    if i[0]
+      if i[1]
+        if !@@COLORS.has_key? i[0]
+          @@COLORS[i[0]] = i[1]
+        end
+      else
+        if !@@COLORS.has_key? i[0]
+          return -1
+        else
+          @@COLORS[i[0]]
+        end
+      end
+    else
+      return @@COLORS
+    end
+  end
+  
   
   # the z4 bank.
   

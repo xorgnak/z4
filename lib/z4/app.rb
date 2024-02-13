@@ -46,7 +46,11 @@ module Z4
     if params.has_key?(:query)
       h[:query] = params[:query]
       hx = QUERY[params[:query]].items.members(with_scores: true).to_h.sort_by { |k,v| -v }
-      hx.to_h.each_pair { |k,v| lvl = "#{v.to_i}".length - 1; a << %[<p class='c'><span class='material-icons' style='color: red;'>#{Z4.heart[lvl]}</span><span class='box'>#{k}</span></p>]; }
+      hx.to_h.each_pair { |k,v|
+        lvl = "#{v.to_i}".length - 1;
+        color = Z4.color[Z4.colors(params[:query]).to_i]
+        a << %[<p class='c'><span class='material-icons' style='color: #{color};'>#{Z4.heart[lvl]}</span><span class='box'>#{k}</span></p>];
+      }
       h[:items] = a.flatten.join('')
     end
     
@@ -66,7 +70,11 @@ module Z4
       h[:area] = params[:area]
       w = WIKI.gps[params[:area]]
       aa = [
-        %[<p style='width: 100%; text-align: left; margin: 0; font-size: small;'><span style='float: right; vertical-align: middle; color: gold;'>#{params[:area].gsub("_"," ")}</span><a href='#{w.map.value}' class='material-icons' style='color: red;'>place</a><a href='#{w.url.value}' class='material-icons' style='color: green;'>book</a></p>],
+        %[<p style='width: 100%; text-align: left; margin: 0; font-size: small;'>],
+        %[<span style='float: right; vertical-align: middle; color: gold;'>#{params[:area].gsub("_"," ")}</span>],
+        %[<a href='#{w.map.value}' class='material-icons' style='color: red;'>place</a>],
+        %[<a href='#{w.url.value}' class='material-icons' style='color: green;'>book</a>],
+        %[</p>],
         %[<div style='width: 100%; text-align: center;'>#{w.text.value.gsub(/\n+/," ")}</div>]
       ].join("")
       a << %[<div style='width: 100%; text-align: center;'>#{aa}</div>]

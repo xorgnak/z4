@@ -256,13 +256,25 @@ end
 
 module Z4
   @@T = Hash.new { |h,k| h[k] = { types: TAG.safe(k), awards: TAG.award(k) } }
-  def self.tag t, h={}
-    [h[:types]].flatten.each { |e| TAG.safe t, e }
-    [h[:awards]].flatten.each { |e| TAG.award t, e }
-    @@T[t]
-  end
 
+  def self.tag t, h={}
+    if h.has_key? :color
+      Z4.colors(t, (0 - h[:color]).to_i)
+      [h[:types]].flatten.each { |e|
+        Z4.colors(e, (0 - h[:color]).to_i);
+        TAG.safe(t, e)
+      }
+      [h[:awards]].flatten.each { |e|
+        Z4.colors(e, (0 - h[:color]).to_i);
+        TAG.award(t, e)
+      }
+      @@T[t][:color] = h[:color]
+    end
+    return @@T[t]
+  end
+  
   def self.tags
     @@T
   end
 end
+
