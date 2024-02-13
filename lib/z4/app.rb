@@ -47,7 +47,7 @@ module Z4
       h[:query] = params[:query]
       hx = QUERY[params[:query]].items.members(with_scores: true).to_h.sort_by { |k,v| -v }
       hx.to_h.each_pair { |k,v|
-        if "#{k}".length > 0 && k != "best" && k != 'local' 
+        if "#{k}".length > 0 && k != "best" && k != 'local' && k != 'life' 
           lvl = "#{v.to_i}".length - 1;
           color = Z4.color[Z4.colors(params[:query]).to_i]
           a << %[<p class='c'><span class='material-icons' style='color: #{color};'>#{Z4.heart[lvl]}</span><span class='box'>#{k}</span></p>];
