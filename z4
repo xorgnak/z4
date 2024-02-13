@@ -4,9 +4,17 @@ rm *~ */*~ */*/*~
 rm *# */*# */*/*#
 
 if [[ "$1" == "--kill" ]]; then
-  sudo pkill ruby && sudo pkill redis
-elif [[ "$1" == "--background" ]]; then
-  ./exe/server
+    sudo pkill ruby && sudo pkill redis
+
+elif [[ "$1" == "--setup" ]]; then
+    ./exe/z4
+
+elif [[ "$1" == "--headless" ]]; then
+    redis &
+    ./exe/server
 else
-  ./exe/client
+    redis &
+    ./exe/client
 fi
+
+exit 0;

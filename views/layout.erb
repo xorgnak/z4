@@ -77,6 +77,8 @@ p { }
 
 .box { background-color: rgba(0,0,0,0.5); box-shadow: 0 0 5px black; text-shadow: black 0px -3px; }
 
+#qr { border: thin solid white; border-radius: 50px; padding: 0 1% 0 1%; color: red; background-color: black; }
+
 #discord { border: thin solid white; border-radius: 50px; padding: 0 1% 0 1%; color: orange; background-color: black; }
 
 #container { width: 100%; text-align: center; background-color: black; margin: 10% 0 0 0; }
@@ -113,6 +115,10 @@ p { }
 
 #union { padding: 1% 2% 1% 2%; }
 
+#l { color: red; border-left: thick solid; red; }
+
+#r { color: green; border-right: thick solid green;  }
+
 </style>
 
 <script>
@@ -146,6 +152,11 @@ function push() {
     $.post('/', state, function(data){ state = JSON.parse(data); display(); });
     console.log('state', state);
 }
+
+$(document).on('click', '#qr', function(ev) {
+    ev.preventDefault();
+    window.location = '/qr';
+});
 
 $(document).on('click', '#discord', function(ev) {
     ev.preventDefault();

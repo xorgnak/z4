@@ -1,7 +1,12 @@
 <h3 style='width: 100%; text-align: center; margin: 0 0 2% 0;'><span>How can we help?</span></h3>
-<p class='h'><span class='material-icons'>star</span><span><em>real</em> local places.</span></p>
-<p class='h'><span class='material-icons'>star</span><span><em>real</em> local favorites.</span></p>
-<p class='h'><span class='material-icons'>star</span><span><em>real</em> local opinion.</span></p>
-<p class='h'><span class='material-icons'>star</span><span><em>real</em> insider experience.</span></p>
-<p><span class='material-icons' style='color: gold;'>psychology_alt</span>Actively seeking local Characters. Join the <button id='discord'>discord</button> for more information.</p>
-<p><span class='material-icons' style='color: red;'>favorite</span>Share and Enjoy.</p>
+<h3 style='width: 100%; text-align: center; margin: 0 0 2% 0;'><span>We have</span></h3>
+<h1 style='width: 100%; text-align: center; margin: 0 0 2% 0;'>
+<select id='query' style='width: 50%; text-align: center; font-size: xx-large;'>
+<option value='info' selected disabled>ANSWERS...</option>
+<% QUERY.keys.each do |e| %>
+<option value='<%= e %>'><%= e %></option>
+<% end %>
+</select>
+</h1>
+<p style='width: 100%; text-align: center;'><span class='material-icons' style='color: gold;'>psychology_alt</span>Actively seeking local Characters. Join the <button id='discord'>discord</button> for more information.</p>
+<p style='width: 100%; text-align: center;'><span class='material-icons' style='color: red;'>favorite</span><button id='qr'>Share</button> and Enjoy.</p>

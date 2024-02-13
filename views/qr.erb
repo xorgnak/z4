@@ -1,5 +1,7 @@
 <%= erb :partial_head %>
 
+<% if params.has_key?(:user) && params.has_key?(:chan) %>
+
 <div id='container'>
 <h1 class='tag'><span><%= OBJ[:user][params[:user]].attr[:name] %></span></h1>
 <h3 class='tag' style='background-color: <%= OBJ[:chan][params[:chan]].attr[:color] || 'white' %>;'><span><%= OBJ[:chan][params[:chan]].attr[:name] %></span></h3>
@@ -9,3 +11,15 @@
 <script>
 $("#qrcode").qrcode('https://<%= request.host %>/u?user=<%= params[:user] %>&chan=<%= params[:chan] %>&epoch=<%= params[:epoch] %>');
 </script>
+
+<% else %>
+
+<div id='container'>
+<div id='qrcode'></div>
+</div>
+
+<script>
+$("#qrcode").qrcode('https://<%= request.host %>/');
+</script>
+
+<% end %>

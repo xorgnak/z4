@@ -9,5 +9,7 @@
 require 'pry'
 # load z4 library.
 require_relative '../lib/z4.rb'
+# begin servers.
+init!
 # begin interactive session.
 Pry.start

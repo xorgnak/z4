@@ -1,7 +1,5 @@
 #!/usr/bin/bash
 
-redis &
-
 # load the enviroment.
 source env.sh
 

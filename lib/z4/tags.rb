@@ -244,7 +244,6 @@ module TAG
   end  
 end
 
-
 # TAG.safe "beer"
 # TAG["beer"].tag :obj, 'testobj', 'award'
 # TAG["beer"].tag :obj, 'testobj', 'award', 'result'
@@ -254,3 +253,16 @@ end
 # BAG['testobj'].each {}
 
 # OBJ[:user]['testuser'].bag => BAG['testuser']
+
+module Z4
+  @@T = Hash.new { |h,k| h[k] = { types: TAG.safe(k), awards: TAG.award(k) } }
+  def self.tag t, h={}
+    [h[:types]].flatten.each { |e| TAG.safe t, e }
+    [h[:awards]].flatten.each { |e| TAG.award t, e }
+    @@T[t]
+  end
+
+  def self.tags
+    @@T
+  end
+end

@@ -66,7 +66,7 @@ module Z4
       h[:area] = params[:area]
       w = WIKI.gps[params[:area]]
       aa = [
-        %[<p class='c'><a href='#{w.url.value}' class='material-icons'>book</a>#{params[:area]}<a href='#{w.map.value}' class='material-icons'>place</a></p>],
+        %[<p style='width: 100%; text-align: left; margin: 0; font-size: small;'><span style='float: right; vertical-align: middle; color: gold;'>#{params[:area].gsub("_"," ")}</span><a href='#{w.map.value}' class='material-icons' style='color: red;'>place</a><a href='#{w.url.value}' class='material-icons' style='color: green;'>book</a></p>],
         %[<div style='width: 100%; text-align: center;'>#{w.text.value.gsub(/\n+/," ")}</div>]
       ].join("")
       a << %[<div style='width: 100%; text-align: center;'>#{aa}</div>]
