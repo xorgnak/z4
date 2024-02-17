@@ -1,10 +1,74 @@
-<h3 style='width: 100%; text-align: center; margin: 0 0 2% 0;'><span>How can we help?</span></h3>
-<h3 style='width: 100%; text-align: center; margin: 0 0 2% 0;'><span>We have</span></h3>
-<h1 style='width: 100%; text-align: center; margin: 0 0 2% 0;'>
-<select id='query' style='width: 80%; text-align: center; font-size: xx-large; padding: 0 4% 0 4%; border: thin outset gold; border-radius: 500px; background-color: black; color: gold;'>
-<option value='info' selected disabled>ANSWERS...</option>
+<style>
+@keyframes shadowPulse {
+    0% {
+        box-shadow: 0px -10px 3px indianred;
+	text-shadow: 0px 10px 3px yellow;
+    }   
+
+    10% {
+        box-shadow: 1px -8px 3px y;
+	text-shadow: -1px 8px 3px yellow;
+    }
+
+    20% {
+        box-shadow: 2px -6px 5px orange;
+	text-shadow: -2px 6px 5px yellow;
+    }
+
+    30% {
+        box-shadow: 3px -4px 6px orange;
+	text-shadow: -3px 4px 6px yellow;
+    }
+
+    40% {
+        box-shadow: 4px -2px 7px gold;
+	text-shadow: -4px 2px 7px orange;
+    }
+
+    50% {
+        box-shadow: -5px 0px 10px gold;
+	text-shadow: 5px 0px 10px orange;
+    }
+
+    60% {
+        box-shadow: -4px 2px 7px gold;
+	text-shadow: 4px -2px 7px orange;
+    }
+
+    70% {
+        box-shadow: -3px 4px 6px gold;
+	text-shadow: 3px -4px 6px orange;
+    }
+
+    80% {
+        box-shadow: -2px 6px 5px yellow;
+	text-shadow: 2px -6px 5px orange;
+    }
+    
+    90% {
+        box-shadow: -1px 8px 3px yellow;
+	text-shadow: 1px -8px 3px red;
+    }
+    
+    100% {
+        box-shadow: 0px 10px 3px yellow;
+	text-shadow: 0px -10px 3px indianred;
+    }    
+}
+    
+#query {
+    animation-name: shadowPulse;
+    animation-duration: 0.5s;
+    animation-iteration-count: 10000;
+    animation-timing-function: cubic-bezier(0.1, 0.7, 1, 0.1);
+}
+</style>
+
+<h1 style='width: 100%; text-align: center; margin: 5% 0 5% 0;'>
+<select id='query' style='text-align: center; font-size: xx-large; border: none; background-color: rgba(0,0,0,0); color: rgba(0,0,0,0.5);'>
+<option value='info' selected disabled>CHOICES</option>
 <% QUERY.keys.each do |e| %>
-<% if "#{e}".length > 0 && e != "best" && e != "local" && e != "life" %>
+<% if "#{e}".length > 0 && e != "best" && e != "life" && e != "town" %>
 <option value='<%= e %>'><%= e %></option>
 <% end %>
 <% end %>
@@ -17,3 +81,7 @@
 <button id='info' class='material-icons'>lightbulb</button>
 <button id='discord' class='material-icons'>support_agent</button>
 </p>
+
+<script>
+
+</script>

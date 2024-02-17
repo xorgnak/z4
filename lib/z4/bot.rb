@@ -57,6 +57,15 @@ module Z4
           if @chan.attr[:affiliate] != nil
             @a << %[https://#{@chan.attr[:affiliate]}/qr?user=#{@user.id}&chan=#{@chan.id}&epoch=#{Time.now.utc.to_i}]
           end
+        elsif @cmd == "##WIKI"
+          @act = true
+          @a << WIKI[@text]
+        elsif @cmd == "##INFO"
+          @act = true
+          @a << INFO[@text]
+        elsif @cmd == "##BOOK"
+          @act << true
+          @a << BOOK[@text]
         else
           if @cmd == 'age'
             if @text.to_i <= @chan.attr[:age].to_i

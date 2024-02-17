@@ -22,6 +22,8 @@ require 'gemoji'
 
 require 'git'
 
+require 'ri_cal'
+
 Redis::Objects.redis = ConnectionPool.new(size: 5, timeout: 5) { Redis.new(:host => '127.0.0.1', :port => 6379) }
 
 REDISEARCH = RediSearch::Index.new(:redisearch) { text_field :text }
@@ -62,7 +64,8 @@ class APP < Sinatra::Base
     content_type('application/manifest+json');
     JSON.generate({ name: request.host, shortname: request.host, display: 'standalone', start_url: %[https://#{request.host}/#{params[:route]}?user=#{params[:user]}&chan=#{params[:chan]}] })
   }                                                                                                                                                                      
-  get('/service-worker.js') { content_type('application/javascript'); erb(:service_worker, layout: false) } 
+  get('/service-worker.js') { content_type('application/javascript'); erb(:service_worker, layout: false) }
+  get('/cal/:c') { Z4.calendar(params[:c]) }
   get('/') { erb :index }
   get('/:app') { erb params[:app].to_sym }                                                                                                                                                                                
   post('/') {

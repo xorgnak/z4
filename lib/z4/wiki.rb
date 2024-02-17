@@ -1,3 +1,18 @@
+module INFO
+  @@INFO = Hash.new do |h,k|
+    h[k] = Wikipedia.find(k.to_s).summary.gsub(/\n+/,"\n").split("\n")
+  end
+  def self.[] k
+    @@INFO[k]
+  end
+  def self.keys
+    @@INFO.keys
+  end
+  def self.to_h
+    @@INFO
+  end
+end
+
 module WIKI
   @@GPS = Hash.new { |h,k| h[k] = Gps.new(k) }
   class Gps
@@ -76,5 +91,8 @@ module WIKI
   end
   def self.keys
     @@WIKI.keys
+  end
+  def self.to_h
+    @@WIKI
   end
 end
