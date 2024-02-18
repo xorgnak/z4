@@ -64,6 +64,7 @@
 }
 </style>
 
+<% if Remind.all %>
 <% if Remind.all.length > 0 %>
 <div style='border: thin solid white;'>
 <h3 style='width: 100%; text-align: center; margin: 0;'><span>REMINDERS:</span></h3>
@@ -71,6 +72,7 @@
 <p style='width: 100%; text-align: center; margin: 1% 0 1% 0; font-size: smaller;'>
 <%= e %>
 </p>
+<% end %>
 <% end %>
 </div>
 <div>
