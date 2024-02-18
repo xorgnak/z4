@@ -76,7 +76,7 @@ module WIKI
         xx = s.coordinates
         
         if xx != nil
-          x[:grid] = Z4.to_grid(xx[0], xx[1])
+          x[:grid] = GRID.to_grid(xx[0], xx[1])
           x[:lat] = xx[0]
           x[:lon] = xx[1]
           g = @@GPS[k.to_s]
