@@ -20,7 +20,6 @@ module WIKI
     include Redis::Objects
     value :lat
     value :lon
-    value :grid
     value :categories
     value :url
     value :edit
@@ -81,8 +80,7 @@ module WIKI
           x[:lon] = xx[1]
           g = @@GPS[k.to_s]
           g.lat.value = x[:lat]
-          g.lon,value = x[:lon]
-          g.grid.value = x[:grid]
+          g.lon.value = x[:lon]
           g.map.value = x[:map]
           g.google.value = x[:google]
           g.edit.value = x[:edit]
