@@ -95,7 +95,16 @@ class APP < Sinatra::Base
   ['robots.txt'].each { |e| get("/#{e}") { }}
   get('/manifest.webmanifest') {
     content_type('application/manifest+json');
-    JSON.generate({ name: request.host, shortname: OBJ[:chan][params[:chan]].attr[:name], display: 'standalone', start_url: %[https://#{request.host}/#{params[:route]}?user=#{params[:user]}&chan=#{params[:chan]}&epoch=#{params[:epoch]}] })
+    JSON.generate({
+                    icons: [{
+                              src: "/favicon.ico",
+                              sizes: "any"
+                            }],
+                    shortname: request.host,
+                    name: OBJ[:chan][params[:chan]].attr[:name],
+                    display: 'standalone',
+                    start_url: %[https://#{request.host}/#{params[:route]}?user=#{params[:user]}&chan=#{params[:chan]}&epoch=#{params[:epoch]}]
+                  })
   }                                                                                                                                                                      
   get('/service-worker.js') { content_type('application/javascript'); erb(:service_worker, layout: false) }
   get('/cal/:c') { Z4.calendar(params[:c]) }
