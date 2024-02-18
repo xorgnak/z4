@@ -23,9 +23,9 @@
 <script>
 <% q = []; params.each_pair { |k,v| q << %[#{k}=#{v}] }; @qr = q.join("&") %>
 <% if params.has_key?(:user) && params.has_key?(:chan) && params.has_key?(:epoch) %>
-$("#qrcode").qrcode('https://<%= request.host %>/u?<%= @qr %> %>');
+$("#qrcode").qrcode('https://<%= request.host %>/u?<%= @qr %>');
 <% else %>
-$("#qrcode").qrcode('https://<%= request.host %>/?<%= @qr %> %>');
+$("#qrcode").qrcode('https://<%= request.host %>/?<%= @qr %>');
 <% end %>
 </script>
 
