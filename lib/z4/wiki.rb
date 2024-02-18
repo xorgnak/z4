@@ -37,7 +37,7 @@ module WIKI
       Z4.weather(lat: self.lat.value.to_f, lon: self.lon.value.to_f)
     end
     def grid
-      Z4.to_grid(self.lat.value.to_f, self.lon.value.to_f)
+      GRID.to_grid(self.lat.value.to_f, self.lon.value.to_f)
     end
     def id; @id; end
   end
