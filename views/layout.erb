@@ -19,8 +19,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<% if params.has_key?(:user) && params.has_key?(:chan) %>
-<link rel="manifest" href="/manifest.webmanifest?user=<%= params[:user] %>&chan=<%= params[:chan] %>&route=<%= request.path.gsub('/','') %>" />
+<% if params.has_key?(:user) && params.has_key?(:chan) && params.has_key?(:epoch) %>
+<link rel="manifest" href="/manifest.webmanifest?user=<%= params[:user] %>&chan=<%= params[:chan] %>&route=<%= request.path.gsub('/','') %>&epoch=<%= params[:epoch] %>" />
 <% else %>
 <link rel="manifest" href="/manifest.webmanifest?route=<%= request.path.gsub('/','') %>" />
 <% end %>
