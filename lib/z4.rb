@@ -22,8 +22,6 @@ require 'gemoji'
 
 require 'git'
 
-require 'ri_cal'
-
 require 'astronomy'
 
 require 'fortune'
@@ -33,6 +31,8 @@ require 'active_support'
 require 'maiden'
 
 require 'iww'
+
+require 'remind'
 
 Redis::Objects.redis = ConnectionPool.new(size: 5, timeout: 5) { Redis.new(:host => '127.0.0.1', :port => 6379) }
 
@@ -99,7 +99,7 @@ class APP < Sinatra::Base
   }                                                                                                                                                                      
   get('/service-worker.js') { content_type('application/javascript'); erb(:service_worker, layout: false) }
   get('/cal/:c') { Z4.calendar(params[:c]) }
-  get('/') { erb :index }
+  get('/') { @q = rand(0..2); @z = rand(0..2); erb :index }
   get('/:app') { erb params[:app].to_sym }                                                                                                                                                                                
   post('/') {
     content_type = 'application/json'

@@ -6,25 +6,86 @@ module Z4
     
     if params.has_key?(:lat) && params.has_key?(:lon)
       [:lat, :lon].each { |e| h[e] = params[e] }
-      h[:grid] = Z4.to_grid(params[:lat],params[:log])
+      h[:grid] = GRID.to_grid(params[:lat],params[:log])
     end
     
     if params.has_key?(:user)
       u = OBJ[:user][params[:user]];
       u.stat.incr(:xp)
       u.stat.incr(:gp)   
+
       if h.has_key? :grid
         u.grid.incr(h[:grid])
         u.attr[:lat] = params[:lat]
         u.attr[:lon] = params[:lon]
+        if GRID[u.attr[:grid]] != nil
+          GRID[u.attr[:grid]].delete params[:user]
+        end
         u.attr[:grid] = h[:grid]
+        GRID[u.attr[:grid]] << params[:user]
       end
+
+      if params.has_key? :r
+        u.stat.incr(:xp)
+        u.stat.incr(:gp)
+        u.stat.incr :r
+      end
+
+      if params.has_key? :g
+        u.stat.incr(:xp)
+        u.stat.incr(:gp)
+        u.stat.incr :g
+      end
+
+      if params.has_key? :b
+        u.stat.incr(:xp)
+        u.stat.incr(:gp)
+        u.stat.incr :b
+      end      
+      
+      if params.has_key? :q
+        u.stat.incr(:xp)
+        u.stat.incr(:gp)
+        if params[:z] == 2
+          u.stat.incr :morality
+        elsif params[:z] == 0
+          u.stat.decr :morality
+        end        
+        u.stat.incr :q, params[:q]
+      end
+      
+      if params.has_key? :z
+        u.stat.incr(:xp)
+        u.stat.incr(:gp)
+        if params[:z] == 2
+          u.stat.incr :alignment
+        elsif params[:z] == 0
+          u.stat.decr :alignment
+        end
+        u.stat :z, params[:z]
+      end
+      
+      if u.stat[:z] > 9 && u.stat[:q] > 9
+        u.stat.incr(:xp)
+        u.stat.incr(:gp)
+        u.stat[:z] = 0
+        u.stat[:q] = 0
+        u.stat.incr :x
+      end
+      
+      
       if params.has_key? :epoch
+        u.stat.incr(:xp)
+        u.stat.incr(:gp)
         u.epoch.incr(params[:epoch])
       end
+      
       h[:user] = params[:user]
+
+      u.attr[:aura] = Z4.aura(u.stat[:r].to_i, u.stat[:g].to_i, u.stat[:b].to_i)
+      
       [:xp, :gp, :lvl].each { |e| h[e] = u.stat[e] }
-      [ :name, :nick, :age, :city, :since, :job, :union ].each { |e| h[e] = u.attr[e] }
+      [ :aura, :name, :nick, :age, :city, :since, :job, :union ].each { |e| h[e] = u.attr[e] }
       op = true
     end
     

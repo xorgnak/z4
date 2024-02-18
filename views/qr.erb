@@ -1,25 +1,31 @@
-<%= erb :partial_head %>
-
-<% if params.has_key?(:user) && params.has_key?(:chan) %>
-
-<div id='container'>
-<h1 class='tag'><span><%= OBJ[:user][params[:user]].attr[:name] %></span></h1>
-<h3 class='tag' style='background-color: <%= OBJ[:chan][params[:chan]].attr[:color] || 'white' %>;'><span><%= OBJ[:chan][params[:chan]].attr[:name] %></span></h3>
-<div id='qrcode'></div>
-</div>
-
-<script>
-$("#qrcode").qrcode('https://<%= request.host %>/u?user=<%= params[:user] %>&chan=<%= params[:chan] %>&epoch=<%= params[:epoch] %>');
-</script>
-
+<% if params.has_key?(:r) %>
+<h1 id='heading' style='width: 100%; text-align: center; position: fixed; top: 0; margin: 0; color: red;'>
+<% elsif params.has_key?(:g) %>
+<h1 id='heading' style='width: 100%; text-align: center; position: fixed; top: 0; margin: 0; color: green;'>
+<% elsif params.has_key?(:b) %>
+<h1 id='heading' style='width: 100%; text-align: center; position: fixed; top: 0; margin: 0; color: blue;'>
+<% elsif params.has_key?(:y) %>
+<h1 id='heading' style='width: 100%; text-align: center; position: fixed; top: 0; margin: 0; color: gold;'>
 <% else %>
+<h1 id='heading' style='width: 100%; text-align: center; position: fixed; top: 0; margin: 0;'>
+<% end %>
+<span class='box'><%= request.host %></span>
+</h1>
 
-<div id='container'>
+<div id='container' >
+<% if params.has_key?(:user) && params.has_key?(:chan) && params.has_key?(:epoch) %>
+<h3 class='tag' style='background-color: <%= OBJ[:chan][params[:chan]].attr[:color] || 'white' %>;'><span><%= OBJ[:chan][params[:chan]].attr[:name] %></span></h3>
+<h1 class='tag' style='background-color: <%= OBJ[:user][params[:user]].attr[:aura] || 'white' %>;'><span><%= OBJ[:user][params[:user]].attr[:name] %></span></h1>
+<% end %>
 <div id='qrcode'></div>
 </div>
 
 <script>
-$("#qrcode").qrcode('https://<%= request.host %>/');
+<% q = []; params.each_pair { |k,v| q << %[#{k}=#{v}] }; @qr = q.join("&") %>
+<% if params.has_key?(:user) && params.has_key?(:chan) && params.has_key?(:epoch) %>
+$("#qrcode").qrcode('https://<%= request.host %>/u?<%= @qr %> %>');
+<% else %>
+$("#qrcode").qrcode('https://<%= request.host %>/?<%= @qr %> %>');
+<% end %>
 </script>
 
-<% end %>

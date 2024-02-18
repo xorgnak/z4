@@ -99,7 +99,7 @@ module Z4
           end
           
           if @cmd == 'job'
-            if x = IWW[@text]
+            if x = Iww[@text]
               @a << %[Did you know that there's a #{@text} union?]
               x.each_pair { |k,v| @a << %[The I.W.W. #{k} #{v} Workers.] }
               @a << %[If you're already a union member respond with '#union UNION'.]

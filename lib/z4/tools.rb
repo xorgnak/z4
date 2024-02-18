@@ -1,4 +1,14 @@
 module Z4
+
+  def self.aura r, g, b
+    t = (r + g + b)
+    rr = (255 / (( t / ( r + 1 )) + 1 )).to_s(16)
+    gg = (255 / (( t / ( g + 1 )) + 1 )).to_s(16)
+    bb = (255 / (( t / ( b + 1 )) + 1 )).to_s(16)
+    return %[##{rr}#{gg}#{bb}]
+  end
+
+  
 ###
 
 ### TEXT ANALYSIS

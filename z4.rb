@@ -179,3 +179,17 @@ Z4.tag("pool", color: 3, types: ["8ball","9ball"], awards: ["bar","area","city"]
 Z4.tag("weed", color: 3, types: ["flower","edible","concentrate"], awards: ["area","city"] )
 
 Z4.tag("86", color: 1, types: ["bar", "town"], awards: ["night", "week", "month", "life"])
+
+Remind.init when: "Feb", what: "Happy Black History Month"
+Remind.init when: "Sun", what: "Sunday - Workers' Night"
+Remind.init when: "Mon", what: "Monday - Art Night"
+Remind.init when: "Tues", what: "Tuesday - Denver Night!"
+Remind.init when: "Wed", what: "Wednesday - Luck Night"
+Remind.init when: "Thurs", what: "Thursday - Ladies Night"
+Remind.init when: "Fri", what: "Friday - Guys Night"
+Remind.init when: "Sat", what: "Saturday - Night Out!"
+
+Remind.url %[https://calendar.google.com/calendar/ical/d0660e879aa611e9d7c7c473040bc4c4b4ca46733c1b57957744adeffa07503e%40group.calendar.google.com/public/basic.ics]
+
+Remind.rebuild!
+

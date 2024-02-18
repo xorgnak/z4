@@ -163,7 +163,7 @@ function push() {
 
 $(document).on('click', '#qr', function(ev) {
     ev.preventDefault();
-    window.location = '/qr';
+    window.location = '/qr?q=<%= @q %>&z=<%= @z %>&<%= params[:color] || "r" %>=0';
 });
 
 $(document).on('click', '#info', function(ev) {

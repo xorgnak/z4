@@ -64,23 +64,23 @@
 }
 </style>
 
-<% if Z4.agenda(:reminders).length > 0 %>
+<% if Remind.all.length > 0 %>
 <div style='border: thin solid white;'>
-<% Z4.agenda(:reminders).split("\n\n").each do |e| %>
-<p style='width: 100%; text-align: center; margin: 0; font-size: smaller;'>
+<h3 style='width: 100%; text-align: center; margin: 0;'><span>REMINDERS:</span></h3>
+<% Remind.all.each do |e| %>
+<p style='width: 100%; text-align: center; margin: 1% 0 1% 0; font-size: smaller;'>
 <%= e %>
 </p>
 <% end %>
 </div>
 <div>
 
-<% x = rand(0..2) %>
-<% if x > 1 %>
-<p style='width: 100%; text-align: center; font-size: smaller; border: thin solid white;'>Fortune: <%= Z4.fortune.join(", ") %>.</p>
-<% elsif x > 0 %>
-<p style='width: 100%; text-align: center; font-size: smaller; border: thin solid white;'>Tarot Card: <%= Z4.tarot[:index].hand!.join(", ") %></p>
+<% if @q > 1 %>
+<p style='width: 100%; text-align: center; font-size: smaller; border: thin solid indianred;'>Fortune: <%= Z4.fortune.join(", ") %>.</p>
+<% elsif @q > 0 %>
+<p style='width: 100%; text-align: center; font-size: smaller; border: thin solid darkblue;'>Tarot Card: <%= Z4.tarot[:index].hand!.join(", ") %></p>
 <% else %>
-<p style='width: 100%; text-align: center; font-size: smaller; border: thin solid white;'>Lucky Numbers: <%= Z4.dice(6,100).roll!.join(", ") %></p>
+<p style='width: 100%; text-align: center; font-size: smaller; border: thin solid darkgreen;'>Lucky Numbers: <%= Z4.dice(6,100).roll!.join(", ") %></p>
 <% end %>
 
 </div>
