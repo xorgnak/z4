@@ -101,7 +101,7 @@ class APP < Sinatra::Base
                               sizes: "any"
                             }],
                     shortname: request.host,
-                    name: OBJ[:chan][params[:chan]].attr[:name],
+                    name: params[:route],
                     display: 'standalone',
                     start_url: %[https://#{request.host}/#{params[:route]}?user=#{params[:user]}&chan=#{params[:chan]}&epoch=#{params[:epoch]}]
                   })
