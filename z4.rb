@@ -178,7 +178,7 @@ Z4.tag("pool", color: 3, types: ["8ball","9ball"], awards: ["bar","area","city"]
 
 Z4.tag("weed", color: 3, types: ["flower","edible","concentrate"], awards: ["area","city"] )
 
-Z4.tag("86", color: 1, types: ["bar", "town"], awards: ["night", "week", "month", "life"])
+Z4.tag("flag", color: 1, types: ["bar", "86", "town"], awards: ["night", "week", "month", "life"])
 
 Remind.init when: "Feb", what: "Happy Black History Month"
 Remind.init when: "Sun", what: "Sunday - Workers' Night"
