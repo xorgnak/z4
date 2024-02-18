@@ -14,6 +14,7 @@ module INFO
 end
 
 module WIKI
+  
   @@GPS = Hash.new { |h,k| h[k] = Gps.new(k) }
   class Gps
     include Redis::Objects
@@ -31,6 +32,12 @@ module WIKI
 
     def initialize k
       @id = k
+    end
+    def weather
+      Z4.weather(lat: self.lat.value.to_f, lon: self.lon.value.to_f)
+    end
+    def grid
+      Z4.to_grid(self.lat.value.to_f, self.lon.value.to_f)
     end
     def id; @id; end
   end
@@ -81,6 +88,8 @@ module WIKI
           g.edit.value = x[:edit]
           g.url.value = x[:url]
           g.text.value = x[:text]
+          w = @@WEATHER[k.to_s]
+          
         end
       end
       h[k] = @@GPS[k.to_s]

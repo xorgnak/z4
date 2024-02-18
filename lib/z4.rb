@@ -24,6 +24,16 @@ require 'git'
 
 require 'ri_cal'
 
+require 'astronomy'
+
+require 'fortune'
+
+require 'active_support'
+
+require 'maiden'
+
+require 'iww'
+
 Redis::Objects.redis = ConnectionPool.new(size: 5, timeout: 5) { Redis.new(:host => '127.0.0.1', :port => 6379) }
 
 REDISEARCH = RediSearch::Index.new(:redisearch) { text_field :text }
@@ -40,6 +50,29 @@ module Z4
     REDISEARCH
   end
 end
+
+class H
+  def initialize(url)
+    @url, @headers = url, {}
+  end
+  def headers h={}
+    @headers = h
+  end
+  def get(r, h={})
+    Faraday.new( url: @url, params: h, headers: @headers ).get("/#{r}", h)
+  end
+  def post(r, h={})
+    Faraday.new( url: @url, params: h, headers: @headers ).post("/#{r}", h)
+  end
+end
+
+module Z4
+  @@API = Hash.new { |h,k| h[k] = H.new(k) }
+  def self.api
+    @@API
+  end
+end
+
 
 Dir['lib/z4/*'].each do |e|
     puts %[loading #{e}];

@@ -1,5 +1,7 @@
 Z4.user[:age] = "How old are you?\nRespond '#age AGE' in the channel you were just in to set it."
 
+Z4.user[:sign] = "What's your sign?\nRespond '#sign ZODIAC' in the channel you were just in to set it."
+
 Z4.user[:name] = "What is your name?\nRespond '#name NAME' to automatically set it."
 
 Z4.user[:nick] = "What do we call you?\nRespond '#nick NICKNAME' to set it."
