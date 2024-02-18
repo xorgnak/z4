@@ -110,8 +110,7 @@ module Z4
       hx.to_h.each_pair { |k,v|
         if "#{k}".length > 0 && k != "best" && k != 'local' && k != 'life' 
           lvl = "#{v.to_i}".length - 1;
-          color = Z4.color[Z4.colors(params[:query]).to_i]
-          a << %[<p class='c'><span class='material-icons' style='color: #{color};'>#{Z4.heart[lvl]}</span><span class='box'>#{k}</span></p>];
+          a << %[<p class='c'><span class='material-icons' style='color: red;'>#{Z4.heart[lvl]}</span><span class='box'>#{k}</span></p>];
         end
       }
       h[:items] = a.flatten.join('')
