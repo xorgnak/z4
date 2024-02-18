@@ -85,9 +85,7 @@ module WIKI
           g.google.value = x[:google]
           g.edit.value = x[:edit]
           g.url.value = x[:url]
-          g.text.value = x[:text]
-          w = @@WEATHER[k.to_s]
-          
+          g.text.value = x[:text]          
         end
       end
       h[k] = @@GPS[k.to_s]
