@@ -1,101 +1,3 @@
-﻿The Project Gutenberg eBook of Anarchism and Other Essays
-    
-This ebook is for the use of anyone anywhere in the United States and
-most other parts of the world at no cost and with almost no restrictions
-whatsoever. You may copy it, give it away or re-use it under the terms
-of the Project Gutenberg License included with this ebook or online
-at www.gutenberg.org. If you are not located in the United States,
-you will have to check the laws of the country where you are located
-before using this eBook.
-
-Title: Anarchism and Other Essays
-
-
-Author: Emma Goldman
-
-Contributor: Hippolyte Havel
-
-Release date: April 1, 2000 [eBook #2162]
-                Most recently updated: December 31, 2020
-
-Language: English
-
-Credits: Produced by Eva.  HTML version by Al Haines.
-
-
-*** START OF THE PROJECT GUTENBERG EBOOK ANARCHISM AND OTHER ESSAYS ***
-
-
-
-
-Produced by Eva.  HTML version by Al Haines.
-
-
-
-
-
-
-
-
-ANARCHISM AND OTHER ESSAYS
-
-Emma Goldman
-
-
-
-
-With Biographic Sketch by Hippolyte Havel
-
-
-
-
-CONTENTS
-
-
-Biographic Sketch
-
-Preface
-
-Anarchism: What It Really Stands For
-
-Minorities Versus Majorities
-
-The Psychology of Political Violence
-
-Prisons: A Social Crime and Failure
-
-Patriotism: A Menace to Liberty
-
-Francisco Ferrer and The Modern School
-
-The Hypocrisy of Puritanism
-
-The Traffic in Women
-
-Woman Suffrage
-
-The Tragedy of Woman's Emancipation
-
-Marriage and Love
-
-The Drama: A Powerful Disseminator of Radical Thought
-
-
-
-
-EMMA GOLDMAN
-
-
-
-     Propagandism is not, as some suppose, a "trade," because
-     nobody will follow a "trade" at which you may work with
-     the industry of a slave and die with the reputation of a
-     mendicant.  The motives of any persons to pursue such a
-     profession must be different from those of trade, deeper
-     than pride, and stronger than interest.
-                                       GEORGE JACOB HOLYOAKE.
-
-
 Among the men and women prominent in the public life of America there
 are but few whose names are mentioned as often as that of Emma
 Goldman.  Yet the real Emma Goldman is almost quite unknown.  The
@@ -1131,16 +1033,6 @@ Emma Goldman is the only one which will emancipate the slave from his
 slavery, the tyrant from his tyranny--the spirit which is willing to
 dare and suffer.
 
-HIPPOLYTE HAVEL.
-
-New York, December, 1910.
-
-
-
-
-PREFACE
-
-
 Some twenty-one years ago I heard the first great Anarchist
 speaker--the inimitable John Most.  It seemed to me then, and for
 many years after, that the spoken word hurled forth among the masses
@@ -1249,35 +1141,24 @@ when the latter becomes free to choose his associates for a common
 purpose, can we hope for order and harmony out of this world of chaos
 and inequality.
 
-For the rest, my book must speak for itself.
-
-Emma Goldman
-
-
-
-
-ANARCHISM: WHAT IT REALLY STANDS FOR
-
-
-                           ANARCHY.
-
-          Ever reviled, accursed, ne'er understood,
-            Thou art the grisly terror of our age.
-          "Wreck of all order," cry the multitude,
-            "Art thou, and war and murder's endless rage."
-          O, let them cry. To them that ne'er have striven
-            The truth that lies behind a word to find,
-          To them the word's right meaning was not given.
-            They shall continue blind among the blind.
-          But thou, O word, so clear, so strong, so pure,
-            Thou sayest all which I for goal have taken.
-          I give thee to the future! Thine secure
-            When each at least unto himself shall waken.
-          Comes it in sunshine? In the tempest's thrill?
-            I cannot tell--but it the earth shall see!
-          I am an Anarchist! Wherefore I will
-            Not rule, and also ruled I will not be!
-                                        JOHN HENRY MACKAY.
+ANARCHY
+Ever reviled, accursed, ne'er understood,
+Thou art the grisly terror of our age.
+"Wreck of all order," cry the multitude,
+"Art thou, and war and murder's endless rage."
+O, let them cry. To them that ne'er have striven
+The truth that lies behind a word to find,
+o them the word's right meaning was not given.
+They shall continue blind among the blind.
+But thou, O word, so clear, so strong, so pure,
+Thou sayest all which I for goal have taken.
+I give thee to the future! Thine secure
+When each at least unto himself shall waken.
+Comes it in sunshine? In the tempest's thrill?
+I cannot tell--but it the earth shall see!
+I am an Anarchist! Wherefore I will
+Not rule, and also ruled I will not be!
+JOHN HENRY MACKAY.
 
 
 The history of human growth and development is at the same time the
@@ -1359,10 +1240,10 @@ proposition; but that the brain capacity of the average reader be not
 taxed too much, I also shall begin with a definition, and then
 elaborate on the latter.
 
-     ANARCHISM:--The philosophy of a new social order based on
-       liberty unrestricted by man-made law; the theory that all
-       forms of government rest on violence, and are therefore wrong
-       and harmful, as well as unnecessary.
+ANARCHISM:--The philosophy of a new social order based on liberty
+unrestricted by man-made law; the theory that all forms of government
+rest on violence, and are therefore wrong and harmful, as well as
+unnecessary.
 
 The new social order rests, of course, on the materialistic basis of
 life; but while all Anarchists agree that the main evil today is an
@@ -1819,12 +1700,6 @@ sovereignty of the individual.  It is the theory of social harmony.
 It is the great, surging, living truth that is reconstructing the
 world, and that will usher in the Dawn.
 
-
-
-
-MINORITIES VERSUS MAJORITIES
-
-
 If I were to give a summary of the tendency of our times, I would
 say, Quantity.  The multitude, the mass spirit, dominates everywhere,
 destroying quality.  Our entire life--production, politics, and
@@ -2089,14 +1964,6 @@ In other words, the living, vital truth of social and economic
 well-being will become a reality only through the zeal, courage, the
 non-compromising determination of intelligent minorities, and not
 through the mass.
-
-
-[1] The intellectuals.
-
-
-
-THE PSYCHOLOGY OF POLITICAL VIOLENCE
-
 
 To analyze the psychology of political violence is not only extremely
 difficult, but also very dangerous.  If such acts are treated with
@@ -2381,10 +2248,7 @@ European tyrannies for supremacy of power.
 
 In vain did a lying press repudiate Leon Czolgosz as a foreigner.
 The boy was a product of our own free American soil, that lulled him
-to sleep with,
-
-     My country, 'tis of thee,
-     Sweet land of liberty.
+to sleep with, "My country tis of thee. Great land o Liberty!"
 
 Who can tell how many times this American child had gloried in the
 celebration of the Fourth of July, or of Decoration Day, when he
@@ -2614,9 +2478,6 @@ Carnot would listen to no entreaty; he insisted on more than a pound
 of flesh, he wanted Vaillant's life, and then--the inevitable
 happened: President Carnot was killed.  On the handle of the stiletto
 used by the ATTENTATER was engraved, significantly,
-
-                            VAILLANT!
-
 
 Santa Caserio was an Anarchist.  He could have gotten away, saved
 himself; but he remained, he stood the consequences.
@@ -2905,85 +2766,6 @@ string breaks.  Untuned ears hear nothing but discord.  But those who
 feel the agonized cry understand its harmony; they hear in it the
 fulfillment of the most compelling moment of human nature.
 
-Such is the psychology of political violence.
-
-
-[1] A revolutionist committing an act of political violence.
-
-[2] PARIS AND THE SOCIAL REVOLUTION.
-
-[3] From a pamphlet issued by the Freedom Group of London.
-
-[4] THE FREE HINDUSTAN.
-
-
-
-
-PRISONS: A SOCIAL CRIME AND FAILURE
-
-
-In 1849, Feodor Dostoyevsky wrote on the wall of his prison cell the
-following story of THE PRIEST AND THE DEVIL:
-
-"'Hello, you little fat father!' the devil said to the priest.
-'What made you lie so to those poor, misled people?  What tortures of
-hell did you depict?  Don't you know they are already suffering the
-tortures of hell in their earthly lives?  Don't you know that you and
-the authorities of the State are my representatives on earth?  It is
-you that make them suffer the pains of hell with which you threaten
-them.  Don't you know this?  Well, then, come with me!'
-
-"The devil grabbed the priest by the collar, lifted him high in the
-air, and carried him to a factory, to an iron foundry.  He saw the
-workmen there running and hurrying to and fro, and toiling in the
-scorching heat.  Very soon the thick, heavy air and the heat are too
-much for the priest.  With tears in his eyes, he pleads with the
-devil: 'Let me go! Let me leave this hell!'
-
-"'Oh, my dear friend, I must show you many more places.' The devil
-gets hold of him again and drags him off to a farm.  There he sees
-workmen threshing the grain.  The dust and heat are insufferable.
-The overseer carries a knout, and unmercifully beats anyone who falls
-to the ground overcome by hard toil or hunger.
-
-"Next the priest is taken to the huts where these same workers live
-with their families--dirty, cold, smoky, ill-smelling holes.  The
-devil grins.  He points out the poverty and hardships which are at
-home here.
-
-"'Well, isn't this enough?' he asks.  And it seems as if even he, the
-devil, pities the people.  The pious servant of God can hardly bear
-it.  With uplifted hands he begs: 'Let me go away from here.  Yes,
-yes!  This is hell on earth!'
-
-"'Well, then, you see.  And you still promise them another hell.
-You torment them, torture them to death mentally when they are
-already all but dead physically!  Come on!  I will show you one more
-hell--one more, the very worst.'
-
-"He took him to a prison and showed him a dungeon, with its foul air
-and the many human forms, robbed of all health and energy, lying on
-the floor, covered with vermin that were devouring their poor, naked,
-emaciated bodies.
-
-"'Take off your silken clothes,' said the devil to the priest, 'put
-on your ankles heavy chains such as these unfortunates wear; lie down
-on the cold and filthy floor--and then talk to them about a hell that
-still awaits them!'
-
-"'No, no!' answered the priest, 'I cannot think of anything more
-dreadful than this.  I entreat you, let me go away from here!'
-
-"'Yes, this is hell.  There can be no worse hell than this.  Did you
-not know it?  Did you not know that these men and women whom you are
-frightening with the picture of a hell hereafter--did you not know
-that they are in hell right here, before they die?'"
-
-
-This was written fifty years ago in dark Russia, on the wall of one
-of the most horrible prisons.  Yet who can deny that the same applies
-with equal force to the present time, even to American prisons?
-
 With all our boasted reforms, our great social changes, and our
 far-reaching discoveries, human beings continue to be sent to the
 worst of hells, wherein they are outraged, degraded, and tortured,
@@ -2995,13 +2777,6 @@ widespread contagion.
 
 After eighteen months of horror in an English prison, Oscar Wilde
 gave to the world his great masterpiece, THE BALLAD OF READING GOAL:
-
-          The vilest deeds, like poison weeds,
-            Bloom well in prison air;
-          It is only what is good in Man
-            That wastes and withers there.
-          Pale Anguish keeps the heavy gate,
-            And the Warder is Despair.
 
 Society goes on perpetuating this poisonous air, not realizing that
 out of it can come naught but the most poisonous results.
@@ -3046,8 +2821,6 @@ Why, then, are prisons a social crime and a failure?  To answer this
 vital question it behooves us to seek the nature and cause of crimes,
 the methods employed in coping with them, and the effects these
 methods produce in ridding society of the curse and horror of crimes.
-
-First, as to the NATURE of crime:
 
 Havelock Ellis divides crime into four phases, the political, the
 passional, the insane, and the occasional.  He says that the
@@ -3164,7 +2937,6 @@ pursuit."[5]
 
 Verily, there is greater truth in this philosophy than in all the
 law-and-moral books of society.
-
 
 The economic, political, moral, and physical factors being the
 microbes of crime, how does society meet the situation?
@@ -3393,30 +3165,6 @@ him--it ought at least to leave him that.  I am not very sanguine
 that it will, or that any real change in that direction can take
 place until the conditions that breed both the prisoner and the
 jailer will be forever abolished.
-
-     Out of his mouth a red, red rose!
-     Out of his heart a white!
-     For who can say by what strange way
-     Christ brings his will to light,
-     Since the barren staff the pilgrim bore
-     Bloomed in the great Pope's sight.
-
-
-[1] CRIME AND CRIMINALS.  W. C. Owen.
-
-[2] THE CRIMINAL, Havelock Ellis.
-
-[3] THE CRIMINAL.
-
-[4] THE CRIMINAL.
-
-[5] THE CRIMINAL.
-
-
-
-
-PATRIOTISM: A MENACE TO LIBERTY
-
 
 What is patriotism?  Is it love of one's birthplace, the place of
 childhood's recollections and hopes, dreams and aspirations?  Is it
@@ -3685,8 +3433,6 @@ with pride at the thought that America is becoming the most powerful
 nation on earth, and that it will eventually plant her iron foot on
 the necks of all other nations.
 
-Such is the logic of patriotism.
-
 Considering the evil results that patriotism is fraught with for the
 average man, it is as nothing compared with the insult and injury
 that patriotism heaps upon the soldier himself,--that poor, deluded
@@ -3911,12 +3657,6 @@ barracks than into the factory.  When we have undermined the
 patriotic lie, we shall have cleared the path for that great
 structure wherein all nationalities shall be united into a universal
 brotherhood,--a truly FREE SOCIETY.
-
-
-
-
-FRANCISCO FERRER AND THE MODERN SCHOOL
-
 
 Experience has come to be considered the best school of life.  The
 man or woman who does not learn some vital lesson in that school is
@@ -4280,30 +4020,6 @@ impossible to condemn Ferrer; he is innocent."  But everything is
 possible with the Catholic Church.  Is she not a practiced henchman,
 whose trials of her enemies are the worst mockery of justice?
 
-On October fourth Ferrer sent the following letter to L'HUMANITE:
-
-
-                                     The Prison Cell, Oct. 4, 1909.
-
-     My dear Friends--Notwithstanding most absolute innocence, the
-     prosecutor demands the death penalty, based on denunciations of
-     the police, representing me as the chief of the world's
-     Anarchists, directing the labor syndicates of France, and guilty
-     of conspiracies and insurrections everywhere, and declaring that
-     my voyages to London and Paris were undertaken with no other
-     object.
-
-     With such infamous lies they are trying to kill me.
-
-     The messenger is about to depart and I have not time for more.
-     All the evidence presented to the investigating judge by the
-     police is nothing but a tissue of lies and calumnious
-     insinuations.  But no proofs against me, having done nothing at
-     all.
-
-                                                     FERRER.
-
-
 October thirteenth, 1909, Ferrer's heart, so brave, so staunch, so
 loyal, was stilled.  Poor fools!  The last agonized throb of that
 heart had barely died away when it began to beat a hundredfold in the
@@ -4512,25 +4228,7 @@ courage, nor did he upbraid a phantom for forsaking him.  The
 consciousness that his executioners represented a dying age, and that
 his was the living truth, sustained him in the last heroic moments.
 
-          A dying age and a living truth,
-          The living burying the dead.
-
-
-[1] THE BEEHIVE.
-
-[2] MOTHER EARTH, 1907.
-
-[3] Ibid.
-
-[4] Black crows: The Catholic clergy.
-
-[5] MOTHER EARTH, December, 1909.
-
-
-
-
-THE HYPOCRISY OF PURITANISM
-
+A dying age and a living truth, The living burying the dead.
 
 Speaking of Puritanism in relation to American art, Mr. Gutzen
 Burglum said: "Puritanism has made us self-centered and hypocritical
@@ -4778,15 +4476,6 @@ the entire fabric is doomed.  With Hippolyte Taine, every truly free
 spirit has come to realize that "Puritanism is the death of culture,
 philosophy, humor, and good fellowship; its characteristics are
 dullness, monotony, and gloom."
-
-
-[1] THE PSYCHOLOGY OF SEX.  Havelock Ellis.
-
-
-
-
-THE TRAFFIC IN WOMEN
-
 
 Our reformers have suddenly made a great discovery--the white slave
 traffic.  The papers are full of these "unheard of conditions," and
@@ -5276,27 +4965,6 @@ eradication of prostitution, nothing can accomplish that save a
 complete transvaluation of all accepted values--especially the moral
 ones--coupled with the abolition of industrial slavery.
 
-
-[1] Dr. Sanger, THE HISTORY OF PROSTITUTION.
-
-[2] It is a significant fact that Dr. Sanger's book has been excluded
-from the U. S. mails.  Evidently the authorities are not anxious that
-the public be informed as to the true cause of prostitution.
-
-[3] Havelock Ellis, SEX AND SOCIETY.
-
-[4] Guyot, LA PROSTITUTION.
-
-[5] Banger, CRIMINALITE ET CONDITION ECONOMIQUE.
-
-[6] SEX AND SOCIETY.
-
-
-
-
-WOMAN SUFFRAGE
-
-
 We boast of the age of advancement, of science, and progress.  Is it
 not strange, then, that we still believe in fetich worship?  True,
 our fetiches have different form and substance, yet in their power
@@ -5723,25 +5391,6 @@ will make her a force hitherto unknown in the world, a force for real
 love, for peace, for harmony; a force of divine fire, of life giving;
 a creator of free men and women.
 
-
-[1] EQUAL SUFFRAGE.  Dr. Helen Sumner.
-
-[2] EQUAL SUFFRAGE.
-
-[3] Dr. Helen A. Sumner.
-
-[4] Mr. Shackleton was a labor leader.  It is therefore self-evident
-that he should introduce a bill excluding his own constituents.  The
-English Parliament is full of such Judases.
-
-[5] EQUAL SUFFRAGE.  Dr. Helen A. Sumner.
-
-
-
-
-THE TRAGEDY OF WOMAN'S EMANCIPATION
-
-
 I begin with an admission: Regardless of all political and economic
 theories, treating of the fundamental differences between various
 groups within the human race, regardless of class and race
@@ -6066,12 +5715,6 @@ thing: to give of one's self boundlessly, in order to find one's self
 richer, deeper, better.  That alone can fill the emptiness, and
 transform the tragedy of woman's emancipation into joy, limitless
 joy.
-
-
-
-
-MARRIAGE AND LOVE
-
 
 The popular notion about marriage and love is that they are
 synonymous, that they spring from the same motives, and cover the
@@ -6406,12 +6049,6 @@ fancy, what imagination, what poetic genius can foresee even
 approximately the potentialities of such a force in the life of men
 and women.  If the world is ever to give birth to true companionship
 and oneness, not marriage, but love will be the parent.
-
-
-
-
-THE MODERN DRAMA: A POWERFUL DISSEMINATOR OF RADICAL THOUGHT
-
 
 So long as discontent and unrest make themselves but dumbly felt
 within a limited social class, the powers of reaction may often
@@ -7274,382 +6911,3 @@ and interpreter, affecting as it does both mind and heart, is the
 strongest force in developing social discontent, swelling the
 powerful tide of unrest that sweeps onward and over the dam of
 ignorance, prejudice, and superstition.
-
-
-[1] HONOR.
-
-[2] MAGDA.
-
-[3] BEFORE SUNRISE.
-
-[4] THE WEAVERS.
-
-[5] THE SUNKEN BELL.
-
-[6] YOUTH.
-
-[7] THE AWAKENING OF SPRING.
-
-
-
-
-
-
-
-
-
-End of Project Gutenberg's Anarchism and Other Essays, by Emma Goldman
-
-
-        
-            *** END OF THE PROJECT GUTENBERG EBOOK ANARCHISM AND OTHER ESSAYS ***
-        
-
-    
-
-Updated editions will replace the previous one—the old editions will
-be renamed.
-
-Creating the works from print editions not protected by U.S. copyright
-law means that no one owns a United States copyright in these works,
-so the Foundation (and you!) can copy and distribute it in the United
-States without permission and without paying copyright
-royalties. Special rules, set forth in the General Terms of Use part
-of this license, apply to copying and distributing Project
-Gutenberg™ electronic works to protect the PROJECT GUTENBERG™
-concept and trademark. Project Gutenberg is a registered trademark,
-and may not be used if you charge for an eBook, except by following
-the terms of the trademark license, including paying royalties for use
-of the Project Gutenberg trademark. If you do not charge anything for
-copies of this eBook, complying with the trademark license is very
-easy. You may use this eBook for nearly any purpose such as creation
-of derivative works, reports, performances and research. Project
-Gutenberg eBooks may be modified and printed and given away—you may
-do practically ANYTHING in the United States with eBooks not protected
-by U.S. copyright law. Redistribution is subject to the trademark
-license, especially commercial redistribution.
-
-
-START: FULL LICENSE
-
-THE FULL PROJECT GUTENBERG LICENSE
-
-PLEASE READ THIS BEFORE YOU DISTRIBUTE OR USE THIS WORK
-
-To protect the Project Gutenberg™ mission of promoting the free
-distribution of electronic works, by using or distributing this work
-(or any other work associated in any way with the phrase “Project
-Gutenberg”), you agree to comply with all the terms of the Full
-Project Gutenberg™ License available with this file or online at
-www.gutenberg.org/license.
-
-Section 1. General Terms of Use and Redistributing Project Gutenberg™
-electronic works
-
-1.A. By reading or using any part of this Project Gutenberg™
-electronic work, you indicate that you have read, understand, agree to
-and accept all the terms of this license and intellectual property
-(trademark/copyright) agreement. If you do not agree to abide by all
-the terms of this agreement, you must cease using and return or
-destroy all copies of Project Gutenberg™ electronic works in your
-possession. If you paid a fee for obtaining a copy of or access to a
-Project Gutenberg™ electronic work and you do not agree to be bound
-by the terms of this agreement, you may obtain a refund from the person
-or entity to whom you paid the fee as set forth in paragraph 1.E.8.
-
-1.B. “Project Gutenberg” is a registered trademark. It may only be
-used on or associated in any way with an electronic work by people who
-agree to be bound by the terms of this agreement. There are a few
-things that you can do with most Project Gutenberg™ electronic works
-even without complying with the full terms of this agreement. See
-paragraph 1.C below. There are a lot of things you can do with Project
-Gutenberg™ electronic works if you follow the terms of this
-agreement and help preserve free future access to Project Gutenberg™
-electronic works. See paragraph 1.E below.
-
-1.C. The Project Gutenberg Literary Archive Foundation (“the
-Foundation” or PGLAF), owns a compilation copyright in the collection
-of Project Gutenberg™ electronic works. Nearly all the individual
-works in the collection are in the public domain in the United
-States. If an individual work is unprotected by copyright law in the
-United States and you are located in the United States, we do not
-claim a right to prevent you from copying, distributing, performing,
-displaying or creating derivative works based on the work as long as
-all references to Project Gutenberg are removed. Of course, we hope
-that you will support the Project Gutenberg™ mission of promoting
-free access to electronic works by freely sharing Project Gutenberg™
-works in compliance with the terms of this agreement for keeping the
-Project Gutenberg™ name associated with the work. You can easily
-comply with the terms of this agreement by keeping this work in the
-same format with its attached full Project Gutenberg™ License when
-you share it without charge with others.
-
-1.D. The copyright laws of the place where you are located also govern
-what you can do with this work. Copyright laws in most countries are
-in a constant state of change. If you are outside the United States,
-check the laws of your country in addition to the terms of this
-agreement before downloading, copying, displaying, performing,
-distributing or creating derivative works based on this work or any
-other Project Gutenberg™ work. The Foundation makes no
-representations concerning the copyright status of any work in any
-country other than the United States.
-
-1.E. Unless you have removed all references to Project Gutenberg:
-
-1.E.1. The following sentence, with active links to, or other
-immediate access to, the full Project Gutenberg™ License must appear
-prominently whenever any copy of a Project Gutenberg™ work (any work
-on which the phrase “Project Gutenberg” appears, or with which the
-phrase “Project Gutenberg” is associated) is accessed, displayed,
-performed, viewed, copied or distributed:
-
-    This eBook is for the use of anyone anywhere in the United States and most
-    other parts of the world at no cost and with almost no restrictions
-    whatsoever. You may copy it, give it away or re-use it under the terms
-    of the Project Gutenberg License included with this eBook or online
-    at www.gutenberg.org. If you
-    are not located in the United States, you will have to check the laws
-    of the country where you are located before using this eBook.
-  
-1.E.2. If an individual Project Gutenberg™ electronic work is
-derived from texts not protected by U.S. copyright law (does not
-contain a notice indicating that it is posted with permission of the
-copyright holder), the work can be copied and distributed to anyone in
-the United States without paying any fees or charges. If you are
-redistributing or providing access to a work with the phrase “Project
-Gutenberg” associated with or appearing on the work, you must comply
-either with the requirements of paragraphs 1.E.1 through 1.E.7 or
-obtain permission for the use of the work and the Project Gutenberg™
-trademark as set forth in paragraphs 1.E.8 or 1.E.9.
-
-1.E.3. If an individual Project Gutenberg™ electronic work is posted
-with the permission of the copyright holder, your use and distribution
-must comply with both paragraphs 1.E.1 through 1.E.7 and any
-additional terms imposed by the copyright holder. Additional terms
-will be linked to the Project Gutenberg™ License for all works
-posted with the permission of the copyright holder found at the
-beginning of this work.
-
-1.E.4. Do not unlink or detach or remove the full Project Gutenberg™
-License terms from this work, or any files containing a part of this
-work or any other work associated with Project Gutenberg™.
-
-1.E.5. Do not copy, display, perform, distribute or redistribute this
-electronic work, or any part of this electronic work, without
-prominently displaying the sentence set forth in paragraph 1.E.1 with
-active links or immediate access to the full terms of the Project
-Gutenberg™ License.
-
-1.E.6. You may convert to and distribute this work in any binary,
-compressed, marked up, nonproprietary or proprietary form, including
-any word processing or hypertext form. However, if you provide access
-to or distribute copies of a Project Gutenberg™ work in a format
-other than “Plain Vanilla ASCII” or other format used in the official
-version posted on the official Project Gutenberg™ website
-(www.gutenberg.org), you must, at no additional cost, fee or expense
-to the user, provide a copy, a means of exporting a copy, or a means
-of obtaining a copy upon request, of the work in its original “Plain
-Vanilla ASCII” or other form. Any alternate format must include the
-full Project Gutenberg™ License as specified in paragraph 1.E.1.
-
-1.E.7. Do not charge a fee for access to, viewing, displaying,
-performing, copying or distributing any Project Gutenberg™ works
-unless you comply with paragraph 1.E.8 or 1.E.9.
-
-1.E.8. You may charge a reasonable fee for copies of or providing
-access to or distributing Project Gutenberg™ electronic works
-provided that:
-
-    • You pay a royalty fee of 20% of the gross profits you derive from
-        the use of Project Gutenberg™ works calculated using the method
-        you already use to calculate your applicable taxes. The fee is owed
-        to the owner of the Project Gutenberg™ trademark, but he has
-        agreed to donate royalties under this paragraph to the Project
-        Gutenberg Literary Archive Foundation. Royalty payments must be paid
-        within 60 days following each date on which you prepare (or are
-        legally required to prepare) your periodic tax returns. Royalty
-        payments should be clearly marked as such and sent to the Project
-        Gutenberg Literary Archive Foundation at the address specified in
-        Section 4, “Information about donations to the Project Gutenberg
-        Literary Archive Foundation.”
-    
-    • You provide a full refund of any money paid by a user who notifies
-        you in writing (or by e-mail) within 30 days of receipt that s/he
-        does not agree to the terms of the full Project Gutenberg™
-        License. You must require such a user to return or destroy all
-        copies of the works possessed in a physical medium and discontinue
-        all use of and all access to other copies of Project Gutenberg™
-        works.
-    
-    • You provide, in accordance with paragraph 1.F.3, a full refund of
-        any money paid for a work or a replacement copy, if a defect in the
-        electronic work is discovered and reported to you within 90 days of
-        receipt of the work.
-    
-    • You comply with all other terms of this agreement for free
-        distribution of Project Gutenberg™ works.
-    
-
-1.E.9. If you wish to charge a fee or distribute a Project
-Gutenberg™ electronic work or group of works on different terms than
-are set forth in this agreement, you must obtain permission in writing
-from the Project Gutenberg Literary Archive Foundation, the manager of
-the Project Gutenberg™ trademark. Contact the Foundation as set
-forth in Section 3 below.
-
-1.F.
-
-1.F.1. Project Gutenberg volunteers and employees expend considerable
-effort to identify, do copyright research on, transcribe and proofread
-works not protected by U.S. copyright law in creating the Project
-Gutenberg™ collection. Despite these efforts, Project Gutenberg™
-electronic works, and the medium on which they may be stored, may
-contain “Defects,” such as, but not limited to, incomplete, inaccurate
-or corrupt data, transcription errors, a copyright or other
-intellectual property infringement, a defective or damaged disk or
-other medium, a computer virus, or computer codes that damage or
-cannot be read by your equipment.
-
-1.F.2. LIMITED WARRANTY, DISCLAIMER OF DAMAGES - Except for the “Right
-of Replacement or Refund” described in paragraph 1.F.3, the Project
-Gutenberg Literary Archive Foundation, the owner of the Project
-Gutenberg™ trademark, and any other party distributing a Project
-Gutenberg™ electronic work under this agreement, disclaim all
-liability to you for damages, costs and expenses, including legal
-fees. YOU AGREE THAT YOU HAVE NO REMEDIES FOR NEGLIGENCE, STRICT
-LIABILITY, BREACH OF WARRANTY OR BREACH OF CONTRACT EXCEPT THOSE
-PROVIDED IN PARAGRAPH 1.F.3. YOU AGREE THAT THE FOUNDATION, THE
-TRADEMARK OWNER, AND ANY DISTRIBUTOR UNDER THIS AGREEMENT WILL NOT BE
-LIABLE TO YOU FOR ACTUAL, DIRECT, INDIRECT, CONSEQUENTIAL, PUNITIVE OR
-INCIDENTAL DAMAGES EVEN IF YOU GIVE NOTICE OF THE POSSIBILITY OF SUCH
-DAMAGE.
-
-1.F.3. LIMITED RIGHT OF REPLACEMENT OR REFUND - If you discover a
-defect in this electronic work within 90 days of receiving it, you can
-receive a refund of the money (if any) you paid for it by sending a
-written explanation to the person you received the work from. If you
-received the work on a physical medium, you must return the medium
-with your written explanation. The person or entity that provided you
-with the defective work may elect to provide a replacement copy in
-lieu of a refund. If you received the work electronically, the person
-or entity providing it to you may choose to give you a second
-opportunity to receive the work electronically in lieu of a refund. If
-the second copy is also defective, you may demand a refund in writing
-without further opportunities to fix the problem.
-
-1.F.4. Except for the limited right of replacement or refund set forth
-in paragraph 1.F.3, this work is provided to you ‘AS-IS’, WITH NO
-OTHER WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-LIMITED TO WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PURPOSE.
-
-1.F.5. Some states do not allow disclaimers of certain implied
-warranties or the exclusion or limitation of certain types of
-damages. If any disclaimer or limitation set forth in this agreement
-violates the law of the state applicable to this agreement, the
-agreement shall be interpreted to make the maximum disclaimer or
-limitation permitted by the applicable state law. The invalidity or
-unenforceability of any provision of this agreement shall not void the
-remaining provisions.
-
-1.F.6. INDEMNITY - You agree to indemnify and hold the Foundation, the
-trademark owner, any agent or employee of the Foundation, anyone
-providing copies of Project Gutenberg™ electronic works in
-accordance with this agreement, and any volunteers associated with the
-production, promotion and distribution of Project Gutenberg™
-electronic works, harmless from all liability, costs and expenses,
-including legal fees, that arise directly or indirectly from any of
-the following which you do or cause to occur: (a) distribution of this
-or any Project Gutenberg™ work, (b) alteration, modification, or
-additions or deletions to any Project Gutenberg™ work, and (c) any
-Defect you cause.
-
-Section 2. Information about the Mission of Project Gutenberg™
-
-Project Gutenberg™ is synonymous with the free distribution of
-electronic works in formats readable by the widest variety of
-computers including obsolete, old, middle-aged and new computers. It
-exists because of the efforts of hundreds of volunteers and donations
-from people in all walks of life.
-
-Volunteers and financial support to provide volunteers with the
-assistance they need are critical to reaching Project Gutenberg™’s
-goals and ensuring that the Project Gutenberg™ collection will
-remain freely available for generations to come. In 2001, the Project
-Gutenberg Literary Archive Foundation was created to provide a secure
-and permanent future for Project Gutenberg™ and future
-generations. To learn more about the Project Gutenberg Literary
-Archive Foundation and how your efforts and donations can help, see
-Sections 3 and 4 and the Foundation information page at www.gutenberg.org.
-
-Section 3. Information about the Project Gutenberg Literary Archive Foundation
-
-The Project Gutenberg Literary Archive Foundation is a non-profit
-501(c)(3) educational corporation organized under the laws of the
-state of Mississippi and granted tax exempt status by the Internal
-Revenue Service. The Foundation’s EIN or federal tax identification
-number is 64-6221541. Contributions to the Project Gutenberg Literary
-Archive Foundation are tax deductible to the full extent permitted by
-U.S. federal laws and your state’s laws.
-
-The Foundation’s business office is located at 809 North 1500 West,
-Salt Lake City, UT 84116, (801) 596-1887. Email contact links and up
-to date contact information can be found at the Foundation’s website
-and official page at www.gutenberg.org/contact
-
-Section 4. Information about Donations to the Project Gutenberg
-Literary Archive Foundation
-
-Project Gutenberg™ depends upon and cannot survive without widespread
-public support and donations to carry out its mission of
-increasing the number of public domain and licensed works that can be
-freely distributed in machine-readable form accessible by the widest
-array of equipment including outdated equipment. Many small donations
-($1 to $5,000) are particularly important to maintaining tax exempt
-status with the IRS.
-
-The Foundation is committed to complying with the laws regulating
-charities and charitable donations in all 50 states of the United
-States. Compliance requirements are not uniform and it takes a
-considerable effort, much paperwork and many fees to meet and keep up
-with these requirements. We do not solicit donations in locations
-where we have not received written confirmation of compliance. To SEND
-DONATIONS or determine the status of compliance for any particular state
-visit www.gutenberg.org/donate.
-
-While we cannot and do not solicit contributions from states where we
-have not met the solicitation requirements, we know of no prohibition
-against accepting unsolicited donations from donors in such states who
-approach us with offers to donate.
-
-International donations are gratefully accepted, but we cannot make
-any statements concerning tax treatment of donations received from
-outside the United States. U.S. laws alone swamp our small staff.
-
-Please check the Project Gutenberg web pages for current donation
-methods and addresses. Donations are accepted in a number of other
-ways including checks, online payments and credit card donations. To
-donate, please visit: www.gutenberg.org/donate.
-
-Section 5. General Information About Project Gutenberg™ electronic works
-
-Professor Michael S. Hart was the originator of the Project
-Gutenberg™ concept of a library of electronic works that could be
-freely shared with anyone. For forty years, he produced and
-distributed Project Gutenberg™ eBooks with only a loose network of
-volunteer support.
-
-Project Gutenberg™ eBooks are often created from several printed
-editions, all of which are confirmed as not protected by copyright in
-the U.S. unless a copyright notice is included. Thus, we do not
-necessarily keep eBooks in compliance with any particular paper
-edition.
-
-Most people start at our website which has the main PG search
-facility: www.gutenberg.org.
-
-This website includes information about Project Gutenberg™,
-including how to make donations to the Project Gutenberg Literary
-Archive Foundation, how to help produce our new eBooks, and how to
-subscribe to our email newsletter to hear about new eBooks.
-
-

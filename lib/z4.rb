@@ -1,55 +1,37 @@
+# "sinmple" calculator
 require 'eqn'
-
+# cloud api wraping
 require 'faraday'
-
+# sentiment analysis
 require 'textmood'
-
+# input tokenizing
+require 'tokenizer'
+# token scoring
+require 'rwordnet'
+# wikipedia scraping
 require 'wikipedia-client'
-
+# text interpolation
 require 'erb'
-
-require 'redi_search'
-
-require 'redis-objects'
-
+# web server
 require 'sinatra/base'
-
-require 'connection_pool'
-
+# discord bot
 require 'discordrb'
-
+# emoji stuff
 require 'gemoji'
-
-require 'git'
-
+# filler content (everyone loves space)
 require 'astronomy'
-
+# statistical analysys of events.
 require 'fortune'
-
+# ??? not sure really, but breaks to remove.
 require 'active_support'
-
+# generate maidenhead gridsquares
 require 'maiden'
-
+# finds iww union divisions
 require 'iww'
-
+# handles remind files
 require 'remind'
-
-Redis::Objects.redis = ConnectionPool.new(size: 5, timeout: 5) { Redis.new(:host => '127.0.0.1', :port => 6379) }
-
-REDISEARCH = RediSearch::Index.new(:redisearch) { text_field :text }
-REDISEARCH.create
-
-module Z4  
-  def self.redis
-    Redis::Objects.redis
-  end
-  def self.flushdb
-    Z4.redis.flushdb
-  end
-  def self.redisearch
-    REDISEARCH
-  end
-end
+# local database
+require 'pstore'
 
 class H
   def initialize(url)

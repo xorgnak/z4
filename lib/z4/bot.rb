@@ -1,6 +1,8 @@
 module Z4
   def self.message e
     @o, @a, @e, @t_start, @cmd, @act, @ok, @amt, @legal = [], [], e, Time.now.to_f, nil, false, true, 0, false
+
+    @context = []
     
     @user = OBJ[:user][%[#{@e.user.id}]]
     @chan = OBJ[:chan][%[#{@e.channel.id}]]
@@ -34,128 +36,190 @@ module Z4
       @o << %[roles: #{@roles}]
       @o << %[attachments: #{@attachments}]
     end
-   
-    if !/^.+\?$/.match(@words[0]) && !/^.+!$/.match(@words[0])
-      if m = /##(.+)/.match(@words[0])
-        @act = true
-        @cmd = m[1]
-        @words.shift
-        @text = @words.join(" ")
-        if @priv.include?('agent') || @priv.include?('operator')
-          @chan.attr[@cmd.to_sym] = @text
-          @a << %[CHANOP #{@e.channel.name} #{@cmd} #{@text}]
-        else
-          @a << %[## Must be an agent or operator to do that.]
-        end
-      elsif m = /#(.+)/.match(@words[0])        
-        @act = true
-        @cmd = m[1]
-        @words.shift
-        @text = @words.join(" ")
-        if @cmd == "#"
+    
+
+    if /^#.+/.match(@words[0])
+      puts %[#################]
+      if !/^.+\?$/.match(@words[0]) && !/^.+!$/.match(@words[0])
+        puts %[datapoint]
+        if m = /##(.+)/.match(@words[0])
+          puts %[chan set]
           @act = true
-          if @chan.attr[:affiliate] != nil
-            @a << %[https://#{@chan.attr[:affiliate]}/qr?user=#{@user.id}&chan=#{@chan.id}&epoch=#{Time.now.utc.to_i}]
-          end
-        elsif @cmd == "##WIKI"
-          @act = true
-          @a << WIKI[@text]
-        elsif @cmd == "##INFO"
-          @act = true
-          @a << INFO[@text]
-        elsif @cmd == "##BOOK"
-          @act << true
-          @a << BOOK[@text]
-        else
-          if @cmd == 'age'
-            if @text.to_i <= @chan.attr[:age].to_i
-              @a << %[No. Go home. Stay off of the internet. Get good grades in school.  And don't smoke cigarettes!]
-            else
-              if @user.attr[:age] == nil
-                @user.attr[@cmd.to_sym] = @text
-                @a << %[Happy Birthday. Here's 50gp. You should probably also call your mom.]
-                @user.stat.incr(:xp)
-                @user.stat.incr(:gp,50)
-              else
-                @a << %[I'm sorry. I can't do that You must be at least #{@chan.attr[:age]} years old to use this channel.]
-              end
-            end
+          @cmd = m[1]
+          @words.shift
+          @text = @words.join(" ")
+          if @priv.include?('agent') || @priv.include?('operator')
+            @chan.attr[@cmd.to_sym] = @text
+            @a << %[CHANOP #{@e.channel.name} #{@cmd} #{@text}]
           else
-            if @user.attr[:age] != nil
-              @user.attr[@cmd.to_sym] = @text
-            else
-              @a << %[I'm sorry. I can't do that You must be at least #{@chan.attr[:age]} years old to join this channel.]
-            end
+            @a << %[## Must be an agent or operator to do that.]
           end
-          
-          if @cmd == 'area'
-            @user.attr[:zone] = "#{@user.attr[:area]},#{@chan.attr[:city]},#{@chan.attr[:state]}"
-            WIKI[@user.attr[:zone]];
-            if WIKI.gps.has_key?(@text)
-              @a << %[Your city (#{@user.attr[:zone]}) is a real city!\nHere's 20gp because I know things are expensive there.]
+        elsif m = /#(.+)/.match(@words[0])
+          puts %[user set]
+          @act = true
+          @cmd = m[1]
+          @words.shift
+          @text = @words.join(" ")
+          if @cmd == "#"
+            @act = true
+            if @chan.attr[:affiliate] != nil
+              @a << %[https://#{@chan.attr[:affiliate]}/qr?user=#{@user.id}&chan=#{@chan.id}&epoch=#{Time.now.utc.to_i}]
+            end
+          elsif @cmd == "##WIKI"
+            @act = true
+            @a << WIKI[@text]
+          elsif @cmd == "##INFO"
+            @act = true
+            @a << INFO[@text]
+          elsif @cmd == "##BOOK"
+            @act << true
+            @a << BOOK[@text]
+          else
+            #if @cmd == 'age'
+            #  if @text.to_i <= @chan.attr[:age].to_i
+            #    @a << %[No. Go home. Stay off of the internet. Get good grades in school.  And don't smoke cigarettes!]
+            #  else
+            #    if @user.attr[:age] == nil
+            #      @user.attr[@cmd.to_sym] = @text
+            #      @a << %[Happy Birthday. Here's 50gp. You should probably also call your mom.]
+            #      @user.stat.incr(:xp)
+            #      @user.stat.incr(:gp,50)
+            #    else
+            #      @a << %[I'm sorry. I can't do that You must be at least #{@chan.attr[:age]} years old to use this channel.]
+            #    end
+            #  end
+            #else
+              #if @user.attr[:age] != nil
+                @user.attr[@cmd.to_sym] = @text
+              #else
+                #@a << %[I'm sorry. I can't do that You must be at least #{@chan.attr[:age]} years old to join this channel.]
+              #end
+            #end
+            
+#            if @cmd == 'area'
+#              @user.attr[:zone] = "#{@user.attr[:area]},#{@chan.attr[:city]},#{@chan.attr[:state]}"
+#              WIKI[@user.attr[:zone]];
+#              if WIKI.gps.has_key?(@text)
+#                @a << %[Your city (#{@user.attr[:zone]}) is a real city!\nHere's 20gp because I know things are expensive there.]
+#                @user.stat.incr(:xp)
+#                @user.stat.incr(:gp,20)
+#              end
+#            end
+            
+            if @cmd == 'job'
+              if x = Iww[@text]
+                @a << %[Did you know that there's a #{@text} union?]
+                x.each_pair { |k,v| @a << %[The I.W.W. #{k} #{v} Workers.] }
+                @a << %[If you're already a union member respond with '#union UNION'.]
+                @a << %[If not, you can sign up at https://redcard.iww.org/user/register]
+                @a << %[No pressure but workers are stronger together. :heart:]
+              end
+            end          
+            
+            if @cmd == 'union'
+              @a << %[Union proud! I'll give you 25gp, for membership dues.]
               @user.stat.incr(:xp)
-              @user.stat.incr(:gp,20)
+              @user.stat.incr(:gp,25)
             end
-          end
-          
-          if @cmd == 'job'
-            if x = Iww[@text]
-              @a << %[Did you know that there's a #{@text} union?]
-              x.each_pair { |k,v| @a << %[The I.W.W. #{k} #{v} Workers.] }
-              @a << %[If you're already a union member respond with '#union UNION'.]
-              @a << %[If not, you can sign up at https://redcard.iww.org/user/register]
-              @a << %[No pressure but workers are stronger together. :heart:]
+            
+            if @cmd == 'img'
+              @a << %[Updating one's image is a always important. Here's 5gp. Good job.]
+              @user.stat.incr(:xp)
+              @user.stat.incr(:gp,5)
             end
-          end          
-          
-          if @cmd == 'union'
-            @a << %[Union proud! I'll give you 25gp, for membership dues.]
-            @user.stat.incr(:xp)
-            @user.stat.incr(:gp,25)
+            
+            if @cmd == 'store'
+              @a << %[Designer merchandising enhances brand appeal.]
+              @user.stat.incr(:xp)
+              @user.stat.incr(:gp)
+            end
+            
+            if @cmd == 'social'
+              @a << %[Build your brand through social media credibility.]
+              @user.stat.incr(:xp)
+              @user.stat.incr(:gp)
+            end
+            
+            if @cmd == 'tips'
+              @a << %[Social tipping can be an excellent way to augment your brand's presence.]
+              @user.stat.incr(:xp)
+              @user.stat.incr(:gp)
+            end
+            
+            if @cmd == 'phone'
+              @a << %[Direct contact is always best.]
+              @user.stat.incr(:xp)
+              @user.stat.incr(:gp)
+            end
+            
+            if @cmd == 'embed'
+              @a << %[Embedding content directly is a great way to establish your brand.]
+              @user.stat.incr(:xp)
+              @user.stat.incr(:gp)
+            end
+            
+            @a << %[Set #{@cmd} to #{@text}]
           end
-
-          if @cmd == 'img'
-            @a << %[Updating one's image is a always important. Here's 5gp. Good job.]
-            @user.stat.incr(:xp)
-            @user.stat.incr(:gp,5)
-          end
-
-          if @cmd == 'store'
-            @a << %[Designer merchandising enhances brand appeal.]
-            @user.stat.incr(:xp)
-            @user.stat.incr(:gp)
-          end
-          
-          if @cmd == 'social'
-            @a << %[Build your brand through social media credibility.]
-            @user.stat.incr(:xp)
-            @user.stat.incr(:gp)
-          end
-
-          if @cmd == 'tips'
-            @a << %[Social tipping can be an excellent way to augment your brand's presence.]
-            @user.stat.incr(:xp)
-            @user.stat.incr(:gp)
-          end
-
-          if @cmd == 'phone'
-            @a << %[Direct contact is always best.]
-            @user.stat.incr(:xp)
-            @user.stat.incr(:gp)
-          end
-
-          if @cmd == 'embed'
-            @a << %[Embedding content directly is a great way to establish your brand.]
-            @user.stat.incr(:xp)
-            @user.stat.incr(:gp)
-          end
-
-          @a << %[Set #{@cmd} to #{@text}]
+        elsif @words[0] == "#"
+          @act = true
+          [:xp, :gp, :lvl].each { |x| @a << %[#{x}: #{@user.stat[x].to_f}] }
+          @user.attr.to_h.each_pair { |k,v| @a << %[##{k} #{v}] }
         end
-      elsif @words[0] == "#"
-        @act = true
-        [:xp, :gp, :lvl].each { |x| @a << %[#{x}: #{@user.stat[x].to_f}] }
-        @user.attr.to_h.each_pair { |k,v| @a << %[##{k} #{v}] }
+      else
+        puts %[dataset]
+        if m = /^#(.+)\?$/.match(@words[0])
+          puts "get #{m[1]}"
+          @act = true
+          tag = m[1]
+          @words.shift
+          @text = @words.join(" ")
+          c = []
+
+          
+          
+          @o << c
+          
+        elsif m = /^#(.+)!$/.match(@words[0])
+          puts "set #{m[1]} #{m[2]}"
+          @words.shift
+          @text = @words.join(" ")
+          puts "SET #{@text}"
+          @act = true
+          mx = m[1].split("-")
+          tag = mx[0]
+          mx.shift
+          if TAG.safe.include? tag
+            #TAG[tag].mark(@text, @user.id)
+            QUERY[tag] << @text
+            @o << %[HEARD #{tag} #{mx[0]} #{mx[1]}]
+            @users.each do |ee|
+              if "#{mx[0]}".length > 0
+                if TAG.safe(tag).include?(mx[0])
+                  if "#{mx[1]}".length > 0
+                    if TAG.award(tag).include?(mx[1])
+                      TAG[tag].award(@text, ee, mx[0], mx[1])
+                    else
+                      @o << %[Bad award: #{mx[1]}\nAcceptable awards are: #{TAG.award(tag).join(", ")}]
+                    end
+                  else
+                    TAG[tag].win(@text, ee, mx[0])
+                  end
+                else
+                  @o << %[Bad category: #{mx[0]}\nAcceptable awards are: #{TAG.safe(tag).join(", ")}]
+                end
+              else
+                TAG[tag].mark(@text, ee)
+              end
+              if @amt > 0
+                Z4.xfer from: h[:user], to: ee, amt: @amt, memo: "tag: #{tag}, category: #{mx[0] || 'none'} award: #{mx[1] || 'none'}, note: #{@text}"
+              end
+              TAG[tag].mark(@text, @user.id)
+            end
+            @o << %[TAG: #{m[1]}\nWHEN: #{Time.now.utc}\nWHAT: #{@text}\nPROOF:\n#{@attachments.join("\n")}]
+          else
+            @o << %[Bad tag: #{tag}\nAcceptable tags are: #{TAG.safe.join(", ")}]
+          end    
+        end
       end
     end
 
@@ -167,14 +231,14 @@ module Z4
         end
       end
     end
-    
+
     Z4.user.each_pair do |k,v|
       if @ok == true && @user.attr[k] == nil
         @ok = false
         @o << %[PROFILE REQUIREMENT\n#{v}]
       end
     end
-
+    
     Z4.injection.each { |e|
       if @matchdata = Regexp.new(e).match(@text);
         @text = Z4.injection(e)
@@ -187,50 +251,42 @@ module Z4
         @o << Z4.canned(e)
       end
     }
-    
-    @h = { input: @text, user: %[#{@e.user.id}], chan: %[#{@e.channel.id}], users: @users, roles: @roles, priv: @priv, attachments: @attachments }
+
+    puts %[BOT: cmd: #{@cmd}, ok: #{@ok}, act: #{@act}, dm: #{@dm}, text: #{@text}]
     
     if @ok == true
+      #      @context = [%[#{@user.attr[:name]} is a #{@user.attr[:job]} currently #{@chan.attr[:job]} for #{@chan.attr[:name]}.]]
       if @cmd == nil && @text.length > 0
-        @context = [ %[The #{@chan.attr[:name]} channel is is affiliated with #{@chan.attr[:affiliate]} and is for #{@chan.attr[:purpose]}.] ]
-        @context << %[User's name is #{@user.attr[:name]} and is #{@user.attr[:age]} years old.]
-        @context << %[User has lived in #{@user.attr[:city]} since #{@user.attr[:since]}.]
-        
-        if @user.attr[:job] != nil
-          @context << %[User's is a #{@user.attr[:job]}.]
-        end
-        
-        if @user.attr[:union] != nil
-          @context << %[And User is a member of the #{@user.attr[:union]} union.]
-        end
+        ###
+        ### RUN LLAMA WITH PERSONAL CONTEXT
+        ###
         
         if @dm == false
-          # channel privledges.
-          if @priv.length > 0
-            if @priv.length > 1
-              @context << %[User has the roles of #{@priv.join(" and ")}.]
-            else
-              @context << %[User has the role of #{@priv[0]}.]
-            end
-          end
-          # channel deep organization.
-          if @chan.attr[:task] != nil
-            @h[:task] = @chan.attr[:task]
-          end
+          
         end
-        @h[:info] = @context.join(" ")
-        if @act == false
-          Z4.handle(@h).each { |x| @o << x.strip.gsub(@context.join(" "),'') }
+        if @dm == false && @act == false
+          puts %[BOT - cmd: #{@cmd}, ok: #{@ok}, act: #{@act}, dm: #{@dm}, text: #{@text}]
+          @e.respond(%[Let me think about that...])
+          h = LLAMA[@chan.id] << %[#{@context.join("\n")} #{@text}]
+          h[:context].each_pair { |k,v| @o << %[If #{k} is #{v}.] }
+          @o << %[#{h[:mood]} #{h[:output]}]          
         end
       else
+        if @dm == false
+          
+        end
         if @act == false
-          @e.respond(%[Let me think...])
-          @h[:info] = @context.join(" ")
-          @h[:task] = @chan.attr[:task] || %[Respond to User.  Be helpful.]
-          @h[:batch] = @chan.attr[:batch].to_i
-          @h[:ext] = @chan.attr[:ext].to_i
-          @hh = { batch: 256, ext: 0.1 }.merge(@h)
-          Z4.handle(@hh).each { |x| @o << x.strip.gsub(@context.join(" "), '') }
+          
+          ###
+          ### RUN LLAMA WITH TAG CONTEXT
+          ###
+          puts %[BOT + cmd: #{@cmd}, ok: #{@ok}, act: #{@act}, dm: #{@dm}, text: #{@text}]
+          @e.respond(%[Let me think about that...])
+          
+          h = LLAMA[@chan.id] << %[#{@context.join("\n")} #{@text}]
+          
+          h[:context].each_pair { |k,v| @o << %[If #{k} is #{v}.] }
+          @o << %[#{h[:mood]} #{h[:output]}]
         else
           @e.respond %[OK.]
         end

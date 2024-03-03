@@ -1,22 +1,22 @@
-Z4.user[:age] = "How old are you?\nRespond '#age AGE' in the channel you were just in to set it."
+#Z4.user[:age] = "How old are you?\nRespond '#age AGE' in the channel you were just in to set it."
 
-Z4.user[:sign] = "What's your sign?\nRespond '#sign ZODIAC' in the channel you were just in to set it."
+#Z4.user[:sign] = "What's your sign?\nRespond '#sign ZODIAC' in the channel you were just in to set it."
 
 Z4.user[:name] = "What is your name?\nRespond '#name NAME' to automatically set it."
 
-Z4.user[:nick] = "What do we call you?\nRespond '#nick NICKNAME' to set it."
+#Z4.user[:nick] = "What do we call you?\nRespond '#nick NICKNAME' to set it."
 
 Z4.user[:job] = "What do you do for a living?\nRespond with '#job JOB' to set it."
 
-Z4.chan[:rate] = "What is the standard rate for this job as equal to one gp?\nRespond '#rate RATE' to set it."
+#Z4.chan[:rate] = "What is the standard rate for this job as equal to one gp?\nRespond '#rate RATE' to set it."
 
-Z4.chan[:license] = "Is this job subject to license?\nRespond '#license yes OR no' to set it."
+#Z4.chan[:license] = "Is this job subject to license?\nRespond '#license yes OR no' to set it."
 
-Z4.chan[:insurence] = "Is this job subject to insurence requirements?\nRespond '#insurence yes OR no' to set it."
+#Z4.chan[:insurence] = "Is this job subject to insurence requirements?\nRespond '#insurence yes OR no' to set it."
 
 Z4.user[:since] = "How long have you done that?\nRespond with '#since YEAR' to set it."
 
-Z4.user[:area] = "What part of town do you work in?\nRespond with '#area AREA' to set it."
+Z4.user[:area] = "What city do you work in?\nRespond with '#area AREA' to set it."
 
 Z4.user[:agree] = [
   "User Terms and responsibilities of service.",
@@ -31,7 +31,7 @@ Z4.user[:agree] = [
 ].join("\n")
 
 Z4.user[:ready] = [
-  %[You're all set! Use the '#', '##', and 'Help:' commands to use your profile.],
+  %[You're all set! Use the '##', and 'Help:' commands to use your profile.],
   %[Respond '#ready ok' to let me know you've read this helpful message.]
 ].join("\n")
 
@@ -49,21 +49,21 @@ Z4.chan[:name] = "What do you call this channel?\nRespond '##name NAME' to set i
 
 Z4.chan[:affiliate] = "What domain does this channel represent?\nRespond '##affiliate DOMAIN' to set it."
 
-Z4.chan[:state] = "What state does your channel operate in?\nRespond with '##state STATE' to set it."
+#Z4.chan[:state] = "What state does your channel operate in?\nRespond with '##state STATE' to set it."
 
-Z4.chan[:city] = "What city does your channel operate in?\nRespond with '##city CITY' to set it."
+#Z4.chan[:city] = "What city does your channel operate in?\nRespond with '##city CITY' to set it."
 
-Z4.chan[:job] = "What job is this channel used for?\nRespond '##job JOB' to set it."
+#Z4.chan[:job] = "What job is this channel used for?\nRespond '##job JOB' to set it."
 
-Z4.chan[:rate] = "What is the standard rate for this job as equal to one gp?\nRespond '##rate RATE' to set it."
+#Z4.chan[:rate] = "What is the standard rate for this job as equal to one gp?\nRespond '##rate RATE' to set it."
 
-Z4.chan[:license] = "Is this job subject to license?\nRespond '##license yes OR no' to set it."
+#Z4.chan[:license] = "Is this job subject to license?\nRespond '##license yes OR no' to set it."
 
-Z4.chan[:insurence] = "Is this job subject to insurence requirements?\nRespond '##insurence yes OR no' to set it."
+#Z4.chan[:insurence] = "Is this job subject to insurence requirements?\nRespond '##insurence yes OR no' to set it."
 
 Z4.chan[:color] = "What color represents this channel?\nRespond '##color COLOR' to set it."
 
-Z4.chan[:age] = "How old do you need to be to use this channel?\nRespond '##age AGE' to set it."
+#Z4.chan[:age] = "How old do you need to be to use this channel?\nRespond '##age AGE' to set it."
 
 Z4.chan[:agree] = [   
   "Channel Terms and responsibilities of service.",
@@ -83,7 +83,7 @@ Z4.chan[:ready] = [
   %[- Use the ##color datapoint to distinguish different channels on the server.],
   %[- Allow roughly 10 minutes to onboard a new user.],
   %[- Including an amount followed by 'gp' in a channel will send credits to users.],
-  %[- Build your server recommendation list by tagging referrals in messages.],
+#  %[- Build your server recommendation list by tagging referrals in messages.],
   %[- Invite users to build your team.],
   %[- Onboard new users to build a consistent culture.],
   %[Respond '##ready ok' to let me know you've read this helpful message.]
@@ -113,8 +113,8 @@ Z4.canned "Where is my badge\?",%[User the '##' command from within a channel to
 Z4.canned "Plan a (.*) for (.*)", %[Ok. I will plan a <%= @matchdata[1] %> using <%= @users %> for <%= @matchdata[2] %>.]
 
 Z4.canned "Commands:", [
-            %[Command: Hello, World!\nDoes: Passes "Hello, World!" to the model.],
-            %[Command: #\nDoes: Get personal datapoints.\n],
+#            %[Command: Hello, World!\nDoes: Passes "Hello, World!" to the model.],
+#            %[Command: #\nDoes: Get personal datapoints.\n],
             %[Command: ##\nDoes: Get your badge link.],
             %[Command: #key value\nDoes: Set the personal datapoint "key" to "value".\n],
             %[Command: #tag?\nDoes: Query the "tag" context.],
@@ -131,11 +131,11 @@ Z4.canned "Examples:", [
           ].join("\n")
 
 Z4.canned "Datapoints:", [
-            %[#age: How old you are.],
+#            %[#age: How old you are.],
             %[#name: Your name.],
-            %[#nick: What we call you.],
-            %[#area: The part of town you work in.],
-            %[#zone: The area, city, and state you work in.],
+#            %[#nick: What we call you.],
+            %[#area: The area you work in.],
+#            %[#zone: The area, city, and state you work in.],
             %[#since: When you moved there.],
             %[#job: What you do for a living.],
             %[#union: The union you are a member of.],
@@ -146,12 +146,12 @@ Z4.canned "Datapoints:", [
             %[#img: Your background image.],
             %[#embed: Embedded content.],
             %[##name: The channel name.],
-            %[##age: Minimum age for channel.],
-            %[##state: Channel operating state.],
-            %[##city: Channel operating city.],
+#            %[##age: Minimum age for channel.],
+#            %[##state: Channel operating state.],
+#            %[##city: Channel operating city.],
             %[##color: The channel background color.],
             %[##affiliate: The channel affiliate domain.],
-            %[##purpose: The channel purpose.],
+#            %[##purpose: The channel purpose.],
             %[##embed: Channel embed content.]
           ].join("\n")
 
@@ -168,11 +168,9 @@ Z4.canned "Help:", [
 # TAG.safe tag, type
 # TAG.award tag, award
 
-Z4.tag("local", color: 4, types: ["bar","food","weed","86"], awards: ["best"])
+Z4.tag("food", color: 3, types: ["pizza","pasta","sandwich","burger","gyro","fries","eggs","burritos","tacos","vegan","vegetarian","8ball"], awards: ["late","fast","best"])
 
-Z4.tag("food", color: 3, types: ["pizza","pasta","sandwich","burger","gyro","fries","eggs","burritos","tacos","vegan","vegetarian","8ball"], awards: ["late","fast"])
-
-Z4.tag("bar",  color: 3, types: ["whiskey","vodka","gin","absenthe","cocktails","wine","beer","pool","darts","food","skiball","hoops","airhockey","thering","door","floor"], awards: ["cool","dance","pub"])
+Z4.tag("bar",  color: 3, types: ["whiskey","vodka","gin","absenthe","cocktails","wine","beer","pool","darts","food","skiball","hoops","airhockey","thering","door","floor"], awards: ["cool","dance","pub","best"])
 
 Z4.tag("pool", color: 3, types: ["8ball","9ball"], awards: ["bar","area","city"])
 
@@ -180,10 +178,82 @@ Z4.tag("weed", color: 3, types: ["flower","edible","concentrate"], awards: ["are
 
 Z4.tag("flag", color: 1, types: ["bar", "86", "town"], awards: ["night", "week", "month", "life"])
 
+Remind.init when: "Jan", what: "National Blood Donation Awareness Month"
+Remind.init when: "Jan", what: "Cervical Health Awareness Month"
+Remind.init when: "Jan", what: "Mental Wellness Month"
+Remind.init when: "Jan", what: "Poverty Awareness Month"
+
 Remind.init when: "Feb", what: "Happy Black History Month"
+Remind.init when: "Feb", what: "Heart Health Awareness Month"
+Remind.init when: "14 Feb", what: "Valentine's Day"
+
+Remind.init when: "Mar", what: "Nutrition Awareness Month"
+Remind.init when: "Mar", what: "Colorectal Cancer Awareness Month"
+Remind.init when: "Mar", what: "HIV/AIDS Awareness Month"
+Remind.init when: "17 Mar", what: "St. Patrick's Day"
+
+Remind.init when: "April", what: "Earth Month"
+Remind.init when: "April", what: "Stress Awareness Month"
+Remind.init when: "April", what: "Alcohol Awareness Month"
+Remind.init when: "April", what: "Arab American Heritage Month"
+Remind.init when: "April", what: "Autism Acceptance Month"
+
+Remind.init when: "May", what: "Mental Health Awareness Month"
+Remind.init when: "May", what: "Asian American & Pacific Islander Heritage Month"
+Remind.init when: "May", what: "Jewish American Heritage Month"
+Remind.init when: "May", what: "National Clean Air Month"
+Remind.init when: "May", what: "No Mow May"
+
+Remind.init when: "June", what: "Men's Health Month"
+Remind.init when: "June", what: "Pride Month"
+Remind.init when: "19 June", what: "Juneteenth"
+
+Remind.init when: "4 July", what: "The 4th of July"
+Remind.init when: "July", what: "Disability Pride Month"
+Remind.init when: "July", what: "National Minority Mental Health Awareness Month"
+Remind.init when: "July", what: "French-American Heritage Month"
+Remind.init when: "July", what: "Plastic Free July"
+
+Remind.init when: "August", what: "National Immunization Awareness Month"
+Remind.init when: "August", what: "National Breastfeeding Month"
+Remind.init when: "August", what: "Summer Sun Safety Month"
+
+
+Remind.init when: "September", what: "Hispanic Heritage Month"
+Remind.init when: "September", what: "Blood Cancer Awareness Month"
+Remind.init when: "September", what: "Library Card Sign-up Month"
+Remind.init when: "September", what: "National Suicide Prevention Awareness Month"
+Remind.init when: "September", what: "World Alzheimer's Disease Month"
+
+Remind.init when: "Oct", what: "ADHD Awareness Month"
+Remind.init when: "Oct", what: "Breast Cancer Awareness Month"
+Remind.init when: "Oct", what: "Socktober"
+Remind.init when: "Oct", what: "Cybersecurity Awareness Month"
+Remind.init when: "Oct", what: "LGBTQ+ History Month"
+Remind.init when: "Oct", what: "National Book Month"
+Remind.init when: "31 Oct", what: "Halloween"
+
+Remind.init when: "Nov", what: "Native American Heritage Month"
+Remind.init when: "Nov", what: "Movember"
+Remind.init when: "Nov", what: "Diabetes Awareness Month"
+Remind.init when: "Nov", what: "Epilepsy Awareness Month"
+Remind.init when: "Nov", what: "National Homeless Youth Awareness Month"
+
+Remind.init when: "Dec", what: "Universal Human Rights Month"
+Remind.init when: "Dec", what: "National Drunk and Drugged Driving Prevention Month"
+Remind.init when: "25 Dec", what: "Christmas"
+
+Remind.init when: "May", what: ""
+Remind.init when: "May", what: ""
+Remind.init when: "May", what: ""
+Remind.init when: "May", what: ""
+Remind.init when: "May", what: ""
+Remind.init when: "May", what: ""
+
+
 Remind.init when: "Sun", what: "Sunday - Workers' Night"
 Remind.init when: "Mon", what: "Monday - Art Night"
-Remind.init when: "Tues", what: "Tuesday - Denver Night!"
+Remind.init when: "Tues", what: "Tuesday - Pet Night!"
 Remind.init when: "Wed", what: "Wednesday - Luck Night"
 Remind.init when: "Thurs", what: "Thursday - Ladies Night"
 Remind.init when: "Fri", what: "Friday - Guys Night"

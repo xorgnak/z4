@@ -10,10 +10,8 @@ elif [[ "$1" == "--setup" ]]; then
     ./exe/z4
 
 elif [[ "$1" == "--headless" ]]; then
-    redis &
     ./exe/server
 else
-    redis &
     ./exe/client
 fi
 

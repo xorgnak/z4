@@ -64,11 +64,11 @@
 }
 </style>
 
-<% if Remind.all %>
-<% if Remind.all.length > 0 %>
+<% if Remind.get! %>
+<% if Remind.get!.length > 0 %>
 <div style='border-top: thin solid white; border-bottom: thin solid white;'>
 <h3 style='width: 100%; text-align: center; margin: 0;'><span>REMINDERS:</span></h3>
-<% Remind.all.each do |e| %>
+<% Remind.get!.each do |e| %>
 <p style='width: 100%; text-align: center; margin: 1% 0 1% 0; font-size: smaller;'>
 <%= e %>
 </p>
@@ -95,23 +95,24 @@
 </div>
 <% end %>
 
-
+<!--
 <h1 style='width: 100%; text-align: center; margin: 5% 0 5% 0;'>
+
 <select id='query' style='text-align: center; font-size: xx-large; border: none; background-color: rgba(0,0,0,0); color: rgba(0,0,0,0.5); padding: 0 0 0 20px;'>
 <option value='info' selected disabled>CHOICES</option>
-<% QUERY.keys.each do |e| %>
-<% if "#{e}".length > 0 && e != "best" && e != "life" && e != "town" %>
+<% TAG.keys.each do |e| %>
 <option value='<%= e %>'><%= e %></option>
 <% end %>
-<% end %>
 </select>
+
 </h1>
+-->
 <p style='width: 100%; text-align: center;'>
-<button id='leaderboard' class='material-icons'>leaderboard</button>
-<button id='areas' class='material-icons'>flag</button>
+<!-- <button id='leaderboard' class='material-icons'>leaderboard</button> -->
+<!-- <button id='areas' class='material-icons'>flag</button> -->
 <button id='qr' class='material-icons'>qr_code</button>
 <button id='info' class='material-icons'>lightbulb</button>
-<button id='discord' class='material-icons'>support_agent</button>
+<!-- <button id='discord' class='material-icons'>support_agent</button> -->
 </p>
 
 <script>

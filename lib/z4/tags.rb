@@ -1,225 +1,167 @@
-module QUERY
-  
-  class Pool
-    include Redis::Objects
-    
-    sorted_set :terms
-    
-    def initialize k
-      @id = k
-    end
-    def length
-      self.terms.members.length
-    end
-    def [] k
-      self.terms.incr k
-      Item.new(%[#{@id}-#{k}])
-    end
-    def each &b
-      h = self.terms.members(with_scores: true).to_h.sort_by { |k,v| -v }
-      h.to_h.each_pair { |k,v| b.call(k,v,Item.new(%[#{@id}-#{k}])) }
-    end
-    def id; @id; end
-  end
-
-  class Item
-    include Redis::Objects
-    sorted_set :items
-    def initialize k
-      @id = k
-    end
-    def length
-      self.items.members.length
-    end
-    def each &b
-      h = self.items.members(with_scores: true).to_h.sort_by { |k,v| -v }
-      h.to_h.each_pair { |k,v| b.call(k,v) }
-    end
-    def id; @id; end
-  end
-  
-  @@QUERY = Pool.new(:pool)
-  def self.[] k
-    @@QUERY[k]
-  end
-  def self.keys
-    @@QUERY.terms.members.to_a
-  end
-  def self.boards
-    a = []
-    QUERY.keys.each { |e| if TAG[e].to_h.keys.length > 0; a << e; end }
-    return a
-  end
-end
-
-
 module BAG
   @@BAG = Hash.new { |h,k| h[k] = Bag.new(k) }
   class Bag
-    include Redis::Objects
-    set :bag
-    def initialize k
-      @id = k
+    def initialize i
+      @id = i
+      @x = OBJ[:bag][i]
+      @i = Hash.new { |h,k| h[k]= B.new(k) }
+      @x.data.each { |e| @i[e] }
     end
     def id; @id; end                                                                                                                                                                                                    
     def [] k
-      self.bag << k
-      return B.new(k)
+      @x.data << k
+      @i[k]
     end
-    def keys
-      self.bag.members.to_a
+    def []= k,v
+      @x.data << k
+      @i[k] = v
+    end
+    def data
+      @x.data
     end
     def each &b
-      keys.each { |e| b.call(B.new(e)) }
+      @x.data.each { |e| b.call(@i[e]) }
     end
   end
   def self.[] k
     @@BAG[k]
   end
   def self.keys
-    @@BAGS.keys
+    @@BAG.keys
   end
   
   class B
-    include Redis::Objects
-    
-    value :now, :expireat => lambda { Time.now.utc.to_i + (60 * 60) }
-    value :shift, :expireat => lambda { Time.now.utc.to_i + (60 * 60) }
-    value :night, :expireat => lambda { Time.now.utc.to_i + ((60 * 60) * 12) }
-    value :day, :expireat => lambda { Time.now.utc.to_i + ((60 * 60) * 24) }
-    value :week, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 7) }
-    value :month, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 30) }
-    value :quarter, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 90) }
-    value :halfyear, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 180) }
-    value :year, :expireat => lambda { Time.now.utc.to_i + (((60 * 60) * 24) * 365) }
-    
     def initialize k
       @id = k
-      @n = 0
+      @x = OBJ[:b][k]
     end
     def id; @id; end
-    def tokens
-      { now: self.now, shift: self.shift, night: self.night, day: self.day, week: self.week, month: self.month, quarter: self.quarter, halfyear: self.halfyear, year: self.year }
+    def [] k
+      @x.attr[k]
     end
-    def valid!
-      t = Time.now.utc.to_i
-      tokens.each_pair  do |k,v|
-        if v.value == nil
-          v.value = t
-        end
-      end
-      return t
+    def []= k,v
+      @x.attr[k] = v
+    end
+    def incr k
+      @x.stat.incr(k)
+    end
+    def decr k
+      @x.stat.decr(k)
     end
     def to_h
       h, t = {}, Time.now.utc.to_i
-      @n = 0
-      tokens.each_pair  do |k,v|
-        if v.value != nil 
-          h[k] = v.to_i
-        else
-          @n += 1
-          h[k] = false
-        end
+      @x.attr.keys.each  do |e|
+        h[e] = @x.attr[e]
       end
       return h
-    end
-    def depth
-      @n
-    end
-    def valid?
-      h = to_h
-      if @n < 9
-        return h
-      else
-        return false
-      end
     end
   end
 end
 
+
 module TAG
-  
-  @@TAG = Hash.new { |h,k| h[k] = Tag.new(k) }
-  
-  class T
-    include Redis::Objects
-    
-    sorted_set :tags
-    sorted_set :won
-    sorted_set :awards
-    
+  @@TAG = Hash.new { |h,k| h[k] = T.new(k) }  
+
+  class O
+    attr_reader :obj
     def initialize k
-      @id = %[#{k}]
+      @k = self.class.to_s.downcase.to_sym
+      @id = k
+      @obj = OBJ[@k][k]
+      puts %[#{@k}>#{k}]
     end
+    def klass; @k; end
     def id; @id; end
     def to_h
-      h = {}
-      self.tags.members.to_a.each { |e| h[e] = { alternate_email: self.tags[e].to_i, star: self.won[e].to_i, workspace_premium: self.awards[e].to_i } }
-      return h
-    end
-  end
-  
-  class Tag
-    include Redis::Objects
-    sorted_set :tags
-    sorted_set :won
-    sorted_set :awards
-    def initialize k
-      @t = Hash.new { |h,k| h[k] = T.new(k) }
-      @id = %[#{k}]
-    end
-    def id; @id; end
-    def [] k
-      @t[k]
-    end
-    def validation x
-      BAG[x][@id].valid?
-    end
-    def keys
-      @t.keys
-    end
-    def tag y, x, *a
-      BAG[x][@id].valid!
-      u = OBJ[y][x]
-      u.tags << @id
-      self.tags.incr(x);
-      object(x).tags.incr(@id)
-      u.stat.incr(:xp)
-      if a[0]
-        self.won.incr(x);
-        object(x).won.incr(@id)
-        u.stat.incr(:xp)
-        if a[1]
-          self.awards.incr(x);
-          object(x).awards.incr(@id)
-          u.stat.incr(:xp)
-          u.tag[@id] = a.join(" ")
-        else
-          u.tag[@id] = a[0]
-        end
-      end
-    end
-    def object x
-      @t[x]
-    end
-    def to_h
-      h = {}
-      self.tags.members.to_a.each { |e| h[e] = { alternate_email: self.tags[e].to_i, star: self.won[e].to_i, workspace_premium: self.awards[e].to_i }  }
+      h = { class: @k, name: name, data: [], attr: @obj.attr.to_h, stat: @obj.stat.to_h, meta: @obj.meta.to_h }
+      @obj.data.each { |e| h[:data] << e }
       return h
     end
   end
 
-  @@TAGS = Hash.new { |h,k| h[k] = [] }
+  class Tag < O
+    def name
+      %[Tag.]
+    end
+  end
+  @@T = Hash.new { |h,k| h[k] = Tag.new(k) }
+  def self.tags
+    @@T
+  end
+  
+  class Win < O
+    def name
+      %[Game tag.]
+    end
+  end
+  @@W = Hash.new { |h,k| h[k] = Win.new(k) }
+  def self.wins
+    @@W
+  end
+  
+  class Award < O
+    def name
+      %[Title game tag.]
+    end
+  end
+  @@A = Hash.new { |h,k| h[k] = Award.new(k) }
+  def self.awards
+    @@A
+  end
+  
+  class T
+    def initialize k
+      @id = k
+      @t = Hash.new { |h,k| h[k] = TAG.tags[k] }
+      @w = Hash.new { |h,k| h[k] = TAG.wins[k] }
+      @a = Hash.new { |h,k| h[k] = TAG.awards[k] }
+      @x = OBJ[:t][k]
+      @id = k
+      @x.data.each { |e| @t[e]; @w[e]; @a[e] }
+    end
+    def id; @id; end
+    def [] k
+      object(k)
+    end
+    def keys
+      a = []
+      @x.data.each { |e| a << e }
+      return a
+    end
+    def mark h={}
+      BAG[h[:tag]][@id] = Time.now.utc.to_i
+      object(h[:user]).obj.stat.incr(@id)
+    end
+    def win h={}
+      mark h
+      @w[h[:user]].obj.stat.incr(h[:category])
+    end
+    def award h={}
+      win h
+      @a[h[:user]].obj.stat.incr(h[:award])
+    end    
+    def object x
+      @x.data << x
+      @t[x]
+    end
+    def to_h
+      h = {}
+      @x.data.each { |e| h[e] = { tag: @t[e].to_h, category: @w[e].to_h, award: @a[e].to_h } }
+      return h
+    end
+  end
+
+  @@T = Hash.new { |h,k| h[k] = [] }
   
   def self.safe *t
     if t[0]
       if t[1]
-        @@TAGS[t[0]] << t[1]
+        @@T[t[0]] << t[1]
       else
-        return @@TAGS[t[0]]
+        return @@T[t[0]]
       end
     else
-      return @@TAGS.keys
+      return @@T.keys
     end
   end
 
@@ -236,45 +178,31 @@ module TAG
       return @@AWARDS.keys
     end
   end
-  
+
+  def self.keys
+    @@TAG.keys
+  end
   def self.[] k
-    if @@TAGS.include? k
+    if @@T.keys.include? k
       @@TAG[k]
     end
   end  
 end
 
+module Z4
+  def self.tag t, h={}
+    h[:types].each { |e| TAG.safe(t, e) }
+    h[:awards].each { |e| TAG.award(t, e) }
+    TAG[t]
+  end
+end
+
 # TAG.safe "beer"
-# TAG["beer"].tag :obj, 'testobj', 'award'
-# TAG["beer"].tag :obj, 'testobj', 'award', 'result'
+# TAG["beer"].mark 'testobj', 'award'
+# TAG["beer"].mark 'testobj', 'award', 'result'
 # TAG["beer"].to_h
 # TAG["beer"]['testobj']
 # BAG['testobj'].each { |e| e.depth == level }
 # BAG['testobj'].each {}
 
 # OBJ[:user]['testuser'].bag => BAG['testuser']
-
-module Z4
-  @@T = Hash.new { |h,k| h[k] = { types: TAG.safe(k), awards: TAG.award(k) } }
-
-  def self.tag t, h={}
-    if h.has_key? :color
-      Z4.colors(t, (0 - h[:color]).to_i)
-      [h[:types]].flatten.each { |e|
-        Z4.colors(e, (0 - h[:color]).to_i);
-        TAG.safe(t, e)
-      }
-      [h[:awards]].flatten.each { |e|
-        Z4.colors(e, (0 - h[:color]).to_i);
-        TAG.award(t, e)
-      }
-      @@T[t][:color] = h[:color]
-    end
-    return @@T[t]
-  end
-  
-  def self.tags
-    @@T
-  end
-end
-

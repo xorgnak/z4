@@ -16,28 +16,23 @@
 </span>
 <span id='name' class='box'><%= @user.attr[:name] %></span>
 </h1>
-<h2><span id='work' class='box'>serving <%= @user.attr[:zone] %> since <%= @user.attr[:since] %>.</span></h2>
-</div>
-
-<div id='foot'>
-<div style='font-size: larger;'>
-<span class='material-icons' style='color: green; font-size: xx-large; background-color: black; border: thin solid gold; border-radius: 500px;'>gpp_good</span>
-<% @user.bag.each do |e| %>
-<span style='vertical-align: middle; background-color: <%= Z4.color[e.depth] %>; padding: 0 2% 0 2%; border-radius: 500px; border: thin solid white;'><%= e.id %></span>
-<% end %>
-</div>
-<% if "#{@chan.attr[:embed]}".length > 0 %>
-<%= @chan.attr[:embed] %>
-<% end %>
-<% if "#{@user.attr[:embed]}".length > 0 %>
-<%= @user.attr[:embed] %>
-<% end %>
-<div id='work'>
 <% if "#{@user.attr[:job]}".length > 0 %>
-<h2 style='margin: 0;' class='box'><span id='job'><%= @user.attr[:job] %></span></h2>
+<h2 style='margin: 0; width: fit-content;' class='box'><span id='job'><%= @user.attr[:job] %></span></h2>
 <% end %>
 <% if "#{@user.attr[:union]}".length > 0 %>
-<h2 style='margin: 0;' class='box'><span id='union'><%= @user.attr[:union] %></span></h2>
+<h2 style='margin: 0; width: fit-content;' class='box'><span id='union'><%= @user.attr[:union] %></span></h2>
+<% end %>
+<h2><span class='box'>serving <%= @user.attr[:area] %> since <%= @user.attr[:since] %>.</span></h2>
+<% if "#{@user.attr[:embed]}".length > 0 %>
+<h3 class='box' style='width: fit-content;'>
+<%= @user.attr[:embed] %>
+</h3>
 <% end %>
 </div>
+
+<% if "#{@chan.attr[:embed]}".length > 0 %>
+<div class='box' style='width: 100%; text-align: center; margin: 50% 0 0 0; padding: 1% 0 1% 0;'>
+<h2 style='width: 100%; text-align: center;'><span style='border: thin dashed white; padding: 1% 2% 1% 2%;'><%= @chan.attr[:name] %></span></h2>
+<h3 style='width: 100%; text-align: center;'><%= @chan.attr[:embed] %></h3>
 </div>
+<% end %>
