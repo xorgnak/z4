@@ -44,7 +44,7 @@ module Z4
         puts %[datapoint]
         if m = /##(.+)/.match(@words[0])
           puts %[chan set]
-          @act = true
+          @ok = false
           @cmd = m[1]
           @words.shift
           @text = @words.join(" ")
@@ -60,7 +60,7 @@ module Z4
           end
         elsif m = /#(.+)/.match(@words[0])
           puts %[user set]
-          @act = true
+          @ok = false
           @cmd = m[1]
           @words.shift
           @text = @words.join(" ")
@@ -71,36 +71,8 @@ module Z4
               @a << %[## An affiliate must be set to generate a qr badge.]
             end
           else
-            #if @cmd == 'age'
-            #  if @text.to_i <= @chan.attr[:age].to_i
-            #    @a << %[No. Go home. Stay off of the internet. Get good grades in school.  And don't smoke cigarettes!]
-            #  else
-            #    if @user.attr[:age] == nil
-            #      @user.attr[@cmd.to_sym] = @text
-            #      @a << %[Happy Birthday. Here's 50gp. You should probably also call your mom.]
-            #      @user.stat.incr(:xp)
-            #      @user.stat.incr(:gp,50)
-            #    else
-            #      @a << %[I'm sorry. I can't do that You must be at least #{@chan.attr[:age]} years old to use this channel.]
-            #    end
-            #  end
-            #else
-              #if @user.attr[:age] != nil
-                @user.attr[@cmd.to_sym] = @text
-              #else
-                #@a << %[I'm sorry. I can't do that You must be at least #{@chan.attr[:age]} years old to join this channel.]
-              #end
-            #end
-            
-#            if @cmd == 'area'
-#              @user.attr[:zone] = "#{@user.attr[:area]},#{@chan.attr[:city]},#{@chan.attr[:state]}"
-#              WIKI[@user.attr[:zone]];
-#              if WIKI.gps.has_key?(@text)
-#                @a << %[Your city (#{@user.attr[:zone]}) is a real city!\nHere's 20gp because I know things are expensive there.]
-#                @user.stat.incr(:xp)
-#                @user.stat.incr(:gp,20)
-#              end
-#            end
+            @ok = false
+            @user.attr[@cmd.to_sym] = @text
             
             if @cmd == 'job'
               if x = Iww[@text]
@@ -157,7 +129,7 @@ module Z4
             @a << %[Set #{@cmd} to #{@text}]
           end
         elsif @words[0] == "#"
-          @act = true
+          @ok = false
           [:xp, :gp, :lvl].each { |x| @a << %[#{x}: #{@user.stat[x].to_f}] }
           @user.attr.to_h.each_pair { |k,v| @a << %[##{k} #{v}] }
         end
@@ -165,7 +137,6 @@ module Z4
         puts %[dataset]
         if m = /^#(.+)\?$/.match(@words[0])
           puts "get #{m[1]}"
-          @act = true
           tag = m[1]
           @words.shift
           @text = @words.join(" ")
@@ -180,7 +151,7 @@ module Z4
           @words.shift
           @text = @words.join(" ")
           puts "SET #{@text}"
-          @act = true
+          @ok = false
           mx = m[1].split("-")
           tag = mx[0]
           mx.shift
