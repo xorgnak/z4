@@ -32,6 +32,8 @@ require 'iww'
 require 'remind'
 # local database
 require 'pstore'
+# markdown
+require 'kramdown'
 
 class H
   def initialize(url)

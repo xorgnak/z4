@@ -49,8 +49,12 @@ module Z4
           @words.shift
           @text = @words.join(" ")
           if @priv.include?('agent') || @priv.include?('operator')
-            @chan.attr[@cmd.to_sym] = @text
-            @a << %[CHANOP #{@e.channel.name} #{@cmd} #{@text}]
+            if @cmd == "#"
+              @o << %[#{Bubble.new(@user.id).instance_eval(@text)}]
+            else
+              @chan.attr[@cmd.to_sym] = @text
+              @a << %[CHANOP #{@e.channel.name} #{@cmd} #{@text}]
+            end
           else
             @a << %[## Must be an agent or operator to do that.]
           end
@@ -61,19 +65,11 @@ module Z4
           @words.shift
           @text = @words.join(" ")
           if @cmd == "#"
-            @act = true
             if @chan.attr[:affiliate] != nil
               @a << %[https://#{@chan.attr[:affiliate]}/qr?user=#{@user.id}&chan=#{@chan.id}&epoch=#{Time.now.utc.to_i}]
+            else
+              @a << %[## An affiliate must be set to generate a qr badge.]
             end
-          elsif @cmd == "##WIKI"
-            @act = true
-            @a << WIKI[@text]
-          elsif @cmd == "##INFO"
-            @act = true
-            @a << INFO[@text]
-          elsif @cmd == "##BOOK"
-            @act << true
-            @a << BOOK[@text]
           else
             #if @cmd == 'age'
             #  if @text.to_i <= @chan.attr[:age].to_i
@@ -252,49 +248,33 @@ module Z4
       end
     }
 
-    puts %[BOT: cmd: #{@cmd}, ok: #{@ok}, act: #{@act}, dm: #{@dm}, text: #{@text}]
+    if @user.attr[:DEBUG] == "true"
+      [%[BOT: #{@cmd}],%[ok: #{@ok}],%[act: #{@act}],%[dm: #{@dm}],%[text: #{@text}],%[context: #{@context}]].each { |e| @e.respond(e) }
+    end
     
-    if @ok == true
-      #      @context = [%[#{@user.attr[:name]} is a #{@user.attr[:job]} currently #{@chan.attr[:job]} for #{@chan.attr[:name]}.]]
-      if @cmd == nil && @text.length > 0
-        ###
-        ### RUN LLAMA WITH PERSONAL CONTEXT
-        ###
-        
-        if @dm == false
-          
-        end
-        if @dm == false && @act == false
-          puts %[BOT - cmd: #{@cmd}, ok: #{@ok}, act: #{@act}, dm: #{@dm}, text: #{@text}]
-          @e.respond(%[Let me think about that...])
-          h = LLAMA[@chan.id] << %[#{@context.join("\n")} #{@text}]
-          h[:context].each_pair { |k,v| @o << %[If #{k} is #{v}.] }
-          @o << %[#{h[:mood]} #{h[:output]}]          
-        end
-      else
-        if @dm == false
-          
-        end
-        if @act == false
-          
-          ###
-          ### RUN LLAMA WITH TAG CONTEXT
-          ###
-          puts %[BOT + cmd: #{@cmd}, ok: #{@ok}, act: #{@act}, dm: #{@dm}, text: #{@text}]
-          @e.respond(%[Let me think about that...])
-          
-          h = LLAMA[@chan.id] << %[#{@context.join("\n")} #{@text}]
-          
-          h[:context].each_pair { |k,v| @o << %[If #{k} is #{v}.] }
-          @o << %[#{h[:mood]} #{h[:output]}]
-        else
-          @e.respond %[OK.]
-        end
+    if @ok == true || @words[0] == "z4:"
+      if @words[0] == "z4:"
+        @words.shift
+        @text = @words.join(" ")
       end
+      oo = [%[Let me think about that...]]
+      if @user.attr[:DEBUG] == "true"
+        oo << %[cmd: #{@cmd}]
+        oo << %[ok: #{@ok}]
+        oo << %[act: #{@act}]
+        oo << %[dm: #{@dm}]
+        oo << %[text: #{@text}]
+        oo << %[context: #{@context}]
+      end
+      @e.respond(oo.join("\n"))
+      h = LLAMA[@chan.id] << %[#{@context.join("\n")} #{@text}]    
+      h[:context].each_pair { |k,v| @o << %[If #{k} is #{v}.] }
+      @o << %[#{h[:mood]} #{h[:output]}]
     end      
     
     @t_took = Time.now.to_f - @t_start
-    if @user.attr[:DEBUG] == true
+
+    if @user.attr[:DEBUG] == "true"
       @o << %[took: #{t_took}\nused: #{@context.length}\ntask: #{@task}\ninfo: #{@info}]
       @o << %[dm: #{@dm}]
       @o << %[users: #{@users}]
@@ -302,7 +282,8 @@ module Z4
       @o << %[roles: #{@roles}]
       @o << %[attachments: #{@attachments}]
     end
-  @o.each { |x| [x.split("\n")].flatten.uniq.each { |xx| if %[#{xx}].length > 0; @e.respond(xx); end }}
-  @a.each { |x| [x.split("\n")].flatten.uniq.each { |xx| if %[#{xx}].length > 0; @e.user.pm(xx); end }}    
+    
+    @o.each { |x| [x.split("\n")].flatten.uniq.each { |xx| if %[#{xx}].length > 0; @e.respond(xx); end }}
+    @a.each { |x| [x.split("\n")].flatten.uniq.each { |xx| if %[#{xx}].length > 0; @e.user.pm(xx); end }}    
   end
 end
