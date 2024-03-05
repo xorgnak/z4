@@ -275,7 +275,7 @@ module Z4
     @t_took = Time.now.to_f - @t_start
 
     if @user.attr[:DEBUG] == "true"
-      @o << %[took: #{t_took}\nused: #{@context.length}\ntask: #{@task}\ninfo: #{@info}]
+      @o << %[took: #{@t_took}\nused: #{@context.length}\ntask: #{@task}\ninfo: #{@info}]
       @o << %[dm: #{@dm}]
       @o << %[users: #{@users}]
       @o << %[priv: #{@priv}]
