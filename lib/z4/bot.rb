@@ -30,11 +30,12 @@ module Z4
     }
     
     if @user.attr[:DEBUG] == true
-      @o << %[dm: #{@dm}]
-      @o << %[users: #{@users}]
-      @o << %[priv: #{@priv}]
-      @o << %[roles: #{@roles}]
-      @o << %[attachments: #{@attachments}]
+      @o << %[# DEBUG: MESSAGE]
+      @o << %[# dm: #{@dm}]
+      @o << %[# users: #{@users}]
+      @o << %[# priv: #{@priv}]
+      @o << %[# roles: #{@roles}]
+      @o << %[# attachments: #{@attachments}]
     end
     
 
@@ -220,7 +221,7 @@ module Z4
     }
 
     if @user.attr[:DEBUG] == "true"
-      [%[BOT: #{@cmd}],%[ok: #{@ok}],%[act: #{@act}],%[dm: #{@dm}],%[text: #{@text}],%[context: #{@context}]].each { |e| @e.respond(e) }
+      [%[# DEBUG: PRE], %[# BOT: #{@cmd}],%[# ok: #{@ok}],%[# act: #{@act}],%[# dm: #{@dm}],%[# text: #{@text}],%[# context: #{@context}]].each { |e| @e.respond(e) }
     end
     
     if @ok == true || @words[0] == "z4:"
@@ -230,12 +231,13 @@ module Z4
       end
       oo = [%[Let me think about that...]]
       if @user.attr[:DEBUG] == "true"
-        oo << %[cmd: #{@cmd}]
-        oo << %[ok: #{@ok}]
-        oo << %[act: #{@act}]
-        oo << %[dm: #{@dm}]
-        oo << %[text: #{@text}]
-        oo << %[context: #{@context}]
+        oo << %[# DEBUG: VALID?]
+        oo << %[# cmd: #{@cmd}]
+        oo << %[# ok: #{@ok}]
+        oo << %[# act: #{@act}]
+        oo << %[# dm: #{@dm}]
+        oo << %[# text: #{@text}]
+        oo << %[# context: #{@context}]
       end
       @e.respond(oo.join("\n"))
       h = LLAMA[@chan.id] << %[#{@context.join("\n")} #{@text}]    
@@ -246,12 +248,13 @@ module Z4
     @t_took = Time.now.to_f - @t_start
 
     if @user.attr[:DEBUG] == "true"
-      @o << %[took: #{@t_took}\nused: #{@context.length}\ntask: #{@task}\ninfo: #{@info}]
-      @o << %[dm: #{@dm}]
-      @o << %[users: #{@users}]
-      @o << %[priv: #{@priv}]
-      @o << %[roles: #{@roles}]
-      @o << %[attachments: #{@attachments}]
+      @o << %[# DEBUG: POST]
+      @o << %[# took: #{@t_took}\n# used: #{@context.length}\n# task: #{@task}\n# info: #{@info}]
+      @o << %[# dm: #{@dm}]
+      @o << %[# users: #{@users}]
+      @o << %[# priv: #{@priv}]
+      @o << %[# roles: #{@roles}]
+      @o << %[# attachments: #{@attachments}]
     end
     
     @o.each { |x| [x.split("\n")].flatten.uniq.each { |xx| if %[#{xx}].length > 0; @e.respond(xx); end }}
