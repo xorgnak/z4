@@ -1,8 +1,8 @@
 
 module LLAMA
-  @@POSITIVE = %[:smiley:]
-  @@NEUTRAL = %[:neutral_face:]
-  @@NEGATIVE = %[:face_with_raised_eyebrow:]
+  @@POSITIVE = %[:smiley_cat:]
+  @@NEUTRAL = %[:cat:]
+  @@NEGATIVE = %[:pouting_cat:]
   def self.positive= p
     @@POSITIVE = p
   end
