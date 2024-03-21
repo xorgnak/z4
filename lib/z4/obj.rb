@@ -191,7 +191,7 @@ module OBJ
   
   
   class X
-    attr_reader :id, :type, :meta, :attr, :stat, :data
+    attr_reader :id, :type, :meta, :attr, :stat, :data, :tags, :time
     
     def initialize t, k
       @type = t
@@ -199,7 +199,9 @@ module OBJ
       @meta = HashKey.new(@id, :meta)
       @attr = HashKey.new(@id, :attr)
       @stat = SortedSet.new(@id, :stat)
+      @tags = SortedSet.new(@id, :tags)
       @data = DataSet.new(@id, :data)
+      @time = DataSet.new(@id, :time)
     end
   end
   

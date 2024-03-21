@@ -1,11 +1,11 @@
 module Z4
   def self.message e
     @o, @a, @e, @t_start, @cmd, @act, @ok, @amt, @legal = [], [], e, Time.now.to_f, nil, false, true, 0, false
-
-    @context = []
     
     @user = OBJ[:user][%[#{@e.user.id}]]
     @chan = OBJ[:chan][%[#{@e.channel.id}]]
+
+    @context = []
     
     @text = @e.message.text
     @words = []
@@ -28,17 +28,7 @@ module Z4
     @attachments = []; @e.message.attachments.each { |x|
       @attachments << x.url
     }
-    
-    if @user.attr[:DEBUG] == true
-      @o << %[# DEBUG: MESSAGE]
-      @o << %[# dm: #{@dm}]
-      @o << %[# users: #{@users}]
-      @o << %[# priv: #{@priv}]
-      @o << %[# roles: #{@roles}]
-      @o << %[# attachments: #{@attachments}]
-    end
-    
-
+  
     if /^#.+/.match(@words[0])
       puts %[#################]
       if !/^.+\?$/.match(@words[0]) && !/^.+!$/.match(@words[0])
@@ -54,7 +44,7 @@ module Z4
               @o << %[#{Bubble.new(@user.id).instance_eval(@text)}]
             else
               @chan.attr[@cmd.to_sym] = @text
-              @a << %[CHANOP #{@e.channel.name} #{@cmd} #{@text}]
+              @a << %[[CHANOP][#{@e.channel.name}]##{@cmd} #{@text}]
             end
           else
             @a << %[## Must be an agent or operator to do that.]
@@ -62,6 +52,7 @@ module Z4
         elsif m = /#(.+)/.match(@words[0])
           puts %[user set]
           @ok = false
+          @act = true
           @cmd = m[1]
           @words.shift
           @text = @words.join(" ")
@@ -73,6 +64,7 @@ module Z4
             end
           else
             @ok = false
+            @act = true
             @user.attr[@cmd.to_sym] = @text
             
             if @cmd == 'job'
@@ -130,7 +122,6 @@ module Z4
             @a << %[Set #{@cmd} to #{@text}]
           end
         elsif @words[0] == "#"
-          @ok = false
           [:xp, :gp, :lvl].each { |x| @a << %[#{x}: #{@user.stat[x].to_f}] }
           @user.attr.to_h.each_pair { |k,v| @a << %[##{k} #{v}] }
         end
@@ -141,59 +132,38 @@ module Z4
           tag = m[1]
           @words.shift
           @text = @words.join(" ")
-          c = []
-
-          
-          
-          @o << c
-          
+          # ADD: WIKI, BOOK
+          @context << %[known #{tag} at #{TAG[tag].keys.uniq.insert(-2, "and").join(", ")}.]
         elsif m = /^#(.+)!$/.match(@words[0])
-          puts "set #{m[1]} #{m[2]}"
           @words.shift
           @text = @words.join(" ")
-          puts "SET #{@text}"
           @ok = false
-          mx = m[1].split("-")
+          mx = m[1].split(">")
           tag = mx[0]
-          mx.shift
-          if TAG.safe.include? tag
-            #TAG[tag].mark(@text, @user.id)
-            QUERY[tag] << @text
-            @o << %[HEARD #{tag} #{mx[0]} #{mx[1]}]
-            @users.each do |ee|
-              if "#{mx[0]}".length > 0
-                if TAG.safe(tag).include?(mx[0])
-                  if "#{mx[1]}".length > 0
-                    if TAG.award(tag).include?(mx[1])
-                      TAG[tag].award(@text, ee, mx[0], mx[1])
-                    else
-                      @o << %[Bad award: #{mx[1]}\nAcceptable awards are: #{TAG.award(tag).join(", ")}]
-                    end
-                  else
-                    TAG[tag].win(@text, ee, mx[0])
-                  end
-                else
-                  @o << %[Bad category: #{mx[0]}\nAcceptable awards are: #{TAG.safe(tag).join(", ")}]
-                end
+          sub = mx[1]
+          pip = mx[2]
+#          QUERY[mx[0]] << @text
+          TAG[tag].mark(tag: @text, user: @user.id)
+          @users.each do |ee|
+            if sub
+              if pip
+                TAG[tag].award(tag: @text, user: ee, category: sub, award: pip)
               else
-                TAG[tag].mark(@text, ee)
+                TAG[tag].win(tag: @text, user: ee, category: sub)
               end
-              if @amt > 0
-                Z4.xfer from: h[:user], to: ee, amt: @amt, memo: "tag: #{tag}, category: #{mx[0] || 'none'} award: #{mx[1] || 'none'}, note: #{@text}"
-              end
-              TAG[tag].mark(@text, @user.id)
             end
-            @o << %[TAG: #{m[1]}\nWHEN: #{Time.now.utc}\nWHAT: #{@text}\nPROOF:\n#{@attachments.join("\n")}]
-          else
-            @o << %[Bad tag: #{tag}\nAcceptable tags are: #{TAG.safe.join(", ")}]
-          end    
+            if @amt > 0
+              Z4.xfer from: @user.id, to: ee, amt: @amt, memo: "#{tag}: #{@text}"
+            end
+          end
+          @o << %[TAG: #{m[1]}\nWHEN: #{Time.now.utc}\nWHAT: #{@text}\nPROOF:\n#{@attachments.join("\n")}]
         end
       end
     end
 
     if @dm == false
       Z4.chan.each_pair do |k,v|
-        if @ok == true && @chan.attr[k] == nil
+        if @act == true && @ok == true && @chan.attr[k] == nil
           @ok = false
           @o << %[CHANNEL REQUIREMENT\n#{v}]
         end
@@ -201,7 +171,7 @@ module Z4
     end
 
     Z4.user.each_pair do |k,v|
-      if @ok == true && @user.attr[k] == nil
+      if @act == true && @ok == true && @user.attr[k] == nil
         @ok = false
         @o << %[PROFILE REQUIREMENT\n#{v}]
       end
@@ -219,42 +189,50 @@ module Z4
         @o << Z4.canned(e)
       end
     }
-
-    if @user.attr[:DEBUG] == "true"
-      [%[# DEBUG: PRE], %[# BOT: #{@cmd}],%[# ok: #{@ok}],%[# act: #{@act}],%[# dm: #{@dm}],%[# text: #{@text}],%[# context: #{@context}]].each { |e| @e.respond(e) }
-    end
     
-    if @ok == true || @words[0] == "z4:"
+    if @words[0] == "z4:"
       if @words[0] == "z4:"
         @words.shift
         @text = @words.join(" ")
+        ev = EVENT[@text]
+        if ev.event?
+          @ok = false
+          if @dm == false
+            Remind.set(%[#{@chan.id}], @text)
+          end
+          Remind.set(%[#{@user.id}], @text)
+          @o << %[I'll remember #{@text}]
+        end
       end
-      oo = [%[Let me think about that...]]
-      if @user.attr[:DEBUG] == "true"
-        oo << %[# DEBUG: VALID?]
-        oo << %[# cmd: #{@cmd}]
-        oo << %[# ok: #{@ok}]
-        oo << %[# act: #{@act}]
-        oo << %[# dm: #{@dm}]
-        oo << %[# text: #{@text}]
-        oo << %[# context: #{@context}]
+    end
+
+    @context << Remind.get(@user.id)
+    @context << Remind.get(@chan.id)
+    @context << Meiou[@text]
+
+    @context.flatten!
+    @context.uniq!
+    
+    if @user.attr[:DEBUG] == "true"
+      [%[| DEBUG: PRE | #{@cmd} | #{@ok} | #{@act} | #{@dm} | #{@text}],
+       %[| #{@context}]].each { |e| @e.respond(e) }
+    end
+    
+    if @ok == true
+      @e.respond [%[Let me think about that...], @context,].flatten.uniq.join("\n")  
+      if @dm == true
+        @o << Llamafile.llama(%[#{@context.join("\n")}\n#{@text}\n])[:output]
+      else
+        @o << Meiou[@text]    
       end
-      @e.respond(oo.join("\n"))
-      h = LLAMA[@chan.id] << %[#{@context.join("\n")} #{@text}]    
-      h[:context].each_pair { |k,v| @o << %[If #{k} is #{v}.] }
-      @o << %[#{h[:mood]} #{h[:output]}]
-    end      
+    end
     
     @t_took = Time.now.to_f - @t_start
-
+    
     if @user.attr[:DEBUG] == "true"
-      @o << %[# DEBUG: POST]
-      @o << %[# took: #{@t_took}\n# used: #{@context.length}\n# task: #{@task}\n# info: #{@info}]
-      @o << %[# dm: #{@dm}]
-      @o << %[# users: #{@users}]
-      @o << %[# priv: #{@priv}]
-      @o << %[# roles: #{@roles}]
-      @o << %[# attachments: #{@attachments}]
+      @o << %[| DEBUG: POST | #{@t_took} | #{@context.length} | #{@task} #{@info} #{@dm}]
+      @o << %[| #{@users} | #{@priv} | #{@roles}]
+      @o << %[| #{@attachments}]
     end
     
     @o.each { |x| [x.split("\n")].flatten.uniq.each { |xx| if %[#{xx}].length > 0; @e.respond(xx); end }}

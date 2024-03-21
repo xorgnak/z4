@@ -2,24 +2,12 @@
 require 'eqn'
 # cloud api wraping
 require 'faraday'
-# sentiment analysis
-require 'textmood'
-# input tokenizing
-require 'tokenizer'
-# token scoring
-require 'rwordnet'
-# wikipedia scraping
-require 'wikipedia-client'
 # text interpolation
 require 'erb'
 # web server
 require 'sinatra/base'
 # discord bot
 require 'discordrb'
-# emoji stuff
-require 'gemoji'
-# filler content (everyone loves space)
-require 'astronomy'
 # statistical analysys of events.
 require 'fortune'
 # ??? not sure really, but breaks to remove.
@@ -30,10 +18,16 @@ require 'maiden'
 require 'iww'
 # handles remind files
 require 'remind'
+# handle knowledge base
+require 'meiou'
 # local database
 require 'pstore'
 # markdown
 require 'kramdown'
+# llamafile
+require 'llamafile'
+# random source
+require 'cardtrick'
 
 class H
   def initialize(url)
@@ -56,7 +50,6 @@ module Z4
     @@API
   end
 end
-
 
 Dir['lib/z4/*'].each do |e|
     puts %[loading #{e}];

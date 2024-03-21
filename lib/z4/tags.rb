@@ -43,10 +43,10 @@ module BAG
       @x.attr[k] = v
     end
     def incr k
-      @x.stat.incr(k)
+      @x.tags.incr(k)
     end
     def decr k
-      @x.stat.decr(k)
+      @x.tags.decr(k)
     end
     def to_h
       h, t = {}, Time.now.utc.to_i
@@ -73,7 +73,7 @@ module TAG
     def klass; @k; end
     def id; @id; end
     def to_h
-      h = { class: @k, name: name, data: [], attr: @obj.attr.to_h, stat: @obj.stat.to_h, meta: @obj.meta.to_h }
+      h = { class: @k, name: name, data: [], attr: @obj.attr.to_h, stat: @obj.stat.to_h, tags: @obj.tags.to_h, meta: @obj.meta.to_h }
       @obj.data.each { |e| h[:data] << e }
       return h
     end
@@ -121,7 +121,7 @@ module TAG
     end
     def id; @id; end
     def [] k
-      object(k)
+      tag(k)
     end
     def keys
       a = []
@@ -129,80 +129,34 @@ module TAG
       return a
     end
     def mark h={}
-      BAG[h[:tag]][@id] = Time.now.utc.to_i
-      object(h[:user]).obj.stat.incr(@id)
+      BAG[h[:user]][@id] = Time.now.utc.to_i
+      tag(h[:tag]).obj.tags.incr(@id)
     end
     def win h={}
       mark h
-      @w[h[:user]].obj.stat.incr(h[:category])
+      @w[h[:tag]].obj.tags.incr(@id)
     end
     def award h={}
       win h
-      @a[h[:user]].obj.stat.incr(h[:award])
+      @a[h[:tag]].obj.tags.incr(@id)
     end    
-    def object x
+    def tag x
       @x.data << x
       @t[x]
     end
     def to_h
       h = {}
-      @x.data.each { |e| h[e] = { tag: @t[e].to_h, category: @w[e].to_h, award: @a[e].to_h } }
+      @x.data.each { |e| h[e] = { mark: @t[e].to_h, win: @w[e].to_h, award: @a[e].to_h } }
       return h
-    end
-  end
-
-  @@T = Hash.new { |h,k| h[k] = [] }
-  
-  def self.safe *t
-    if t[0]
-      if t[1]
-        @@T[t[0]] << t[1]
-      else
-        return @@T[t[0]]
-      end
-    else
-      return @@T.keys
-    end
-  end
-
-  @@AWARDS = Hash.new { |h,k| h[k] = [] }
-
-  def self.award *t
-    if t[0]
-      if t[1]
-        @@AWARDS[t[0]] << t[1]
-      else
-        return @@AWARDS[t[0]]
-      end
-    else
-      return @@AWARDS.keys
     end
   end
 
   def self.keys
     @@TAG.keys
   end
+  
   def self.[] k
-    if @@T.keys.include? k
-      @@TAG[k]
-    end
+    @@TAG[k]
   end  
 end
 
-module Z4
-  def self.tag t, h={}
-    h[:types].each { |e| TAG.safe(t, e) }
-    h[:awards].each { |e| TAG.award(t, e) }
-    TAG[t]
-  end
-end
-
-# TAG.safe "beer"
-# TAG["beer"].mark 'testobj', 'award'
-# TAG["beer"].mark 'testobj', 'award', 'result'
-# TAG["beer"].to_h
-# TAG["beer"]['testobj']
-# BAG['testobj'].each { |e| e.depth == level }
-# BAG['testobj'].each {}
-
-# OBJ[:user]['testuser'].bag => BAG['testuser']
