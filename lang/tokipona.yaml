@@ -1,0 +1,791 @@
+# Page 125
+a:
+  alternative: kin
+  particle:
+    - - (emphasis)
+      - (emotion)
+      - (confirmation)
+akesi:
+  noun:
+    - - animal
+    - - reptile
+      - amphibian
+ala:
+  adjective:
+    - - no
+      - not
+      - zero
+alasa:
+  verb:
+    - - hunt
+      - forage
+ale:
+  alternative: ali
+  adjective:
+    - - all
+      - abundant
+      - countless
+      - bountiful
+      - every
+      - plentiful
+  noun:
+    - - abundance
+      - everything
+      - life
+      - universe
+  number:
+    - - 100
+anpa:
+  adjective:
+    - - bowing down
+      - downward
+      - humble
+      - lowly
+      - dependent
+ante:
+  adjective:
+    - - different
+      - altered
+      - changed
+      - other
+anu:
+  particle:
+    - - or
+awen:
+  adjective:
+    - - enduring
+      - kept
+      - protected
+      - safe
+      - waiting
+      - staying
+  pre-verb:
+    - - continue
+e:
+  particle:
+    - - (before the direct object)
+en:
+  particle:
+    - - (between multiple subjects)
+
+# Page 126
+esun:
+  noun:
+    - - market
+      - shop
+      - fair
+      - bazaar
+      - transaction
+ijo:
+  noun:
+    - - thing
+      - phenomenon
+      - object
+      - matter
+ike:
+  adjective:
+    - - bad
+      - negative
+    - - non-essential
+      - irrelevant
+ilo:
+  noun:
+    - - tool
+      - implement
+      - machine
+      - device
+insa:
+  noun:
+    - - centre
+      - content
+      - inside
+      - between
+    - - organ
+      - stomach
+jaki:
+  adjective:
+    - - disgusting
+      - obscene
+      - sickly
+      - toxic
+      - unclean
+      - unsanitary
+jan:
+  noun:
+    - - human
+      - person
+      - somebody
+jelo:
+  adjective:
+    - - yellow
+      - yellowish
+jo:
+  verb:
+    - - have
+      - carry
+      - obtain
+      - hold
+kala:
+  noun:
+    - - fish
+kalama:
+  verb:
+    - - say
+    - - recite
+      - utter
+kama:
+  adjective:
+    - - arriving
+      - coming
+      - future
+      - summoned
+  pre-verb:
+    - - become
+      - manage
+      - succeed
+kasi:
+  noun:
+    - - plant
+      - vegetation
+    - - herb
+      - leaf
+# Page 127
+ken:
+  pre-verb:
+    - - able
+      - allowed
+      - can
+      - may
+  adjective:
+    - - possible
+kepeken:
+  preposition:
+      - - use
+        - with
+kili:
+  noun:
+    - - fruit
+      - vegetable
+      - mushroom
+kiwen:
+  noun:
+    - - object
+      - metal
+      - rock
+      - stone
+ko:
+  noun:
+    - - clay
+      - soft
+      - dough
+      - semi-solid
+      - paste
+      - powder
+kon:
+  noun:
+    - - air
+      - breath
+    - - essence
+      - spirit
+    - - hidden
+      - unseen
+kule:
+  adjective:
+    - - colourful
+      - pigmented
+      - painted
+kulupu:
+  noun:
+    - - communitiy
+      - company
+      - group
+      - nation
+      - society
+      - tribe
+kute:
+  noun:
+    - - ear
+  verb:
+    - - hear
+      - listen
+      - obey
+la:
+  particle:
+    - - (between the context phrase and the main sentence)
+lape:
+  adjective:
+    - - sleeping
+      - resting
+laso:
+  adjective:
+    - - blue
+      - green
+lawa:
+  noun:
+    - - head
+      - mind
+  verb:
+    - - to control
+      - direct
+      - guide
+      - lead
+      - own
+      - plan
+      - regulate
+      - rule
+# Page 128
+len:
+  noun:
+    - - cloth
+      - clothing
+      - fabric
+      - textile
+    - - cover
+      - privacy
+lete:
+  adjective:
+    - - cold
+      - cool
+    - - uncooked
+      - raw
+li:
+  particle:
+    - - (between any subject except mi alone or sina alone and its verbs; also to introduce a new verb for the same subject)
+lili:
+  adjective:
+    - - little
+      - small
+      - short
+    - - few
+    - - young
+linja:
+  noun:
+    - - long
+    - - flexible
+    - - cord
+      - hair
+      - rope
+      - thread
+      - yarn
+lipu:
+  noun:
+    - - flat
+    - - book
+      - document
+      - card
+      - paper
+      - record
+      - website
+loje:
+  adjective:
+    - - red
+      - reddish
+lon:
+  preposition:
+    - - located
+      - present
+      - real
+      - true
+      - existing
+luka:
+  noun:
+    - - arm
+      - hand
+  number:
+    - - five
+lukin:
+  alternative: oko
+  noun:
+    - - eye
+  verb:
+    - - look
+      - see
+      - examine
+      - observe
+      - read
+      - watch
+  pre-verb:
+    - - seek
+      - search
+      - try
+lupa:
+  noun:
+    - - door
+      - hole
+      - orifice
+      - window
+ma:
+  noun:
+    - - earth
+      - land
+    - - outdoors
+      - world
+    - - country
+      - territory
+    - - soil
+# Page 129
+mama:
+  noun:
+    - - parent
+      - ancestor
+    - - creator
+      - originator
+    - - caretaker
+      - sustainer
+mani:
+  noun:
+    - - money
+      - cash
+      - savings
+      - wealth
+    - - large
+meli:
+  noun:
+    - - woman
+      - female
+      - feminine
+      - girl
+    - - wife
+mi:
+  noun:
+    - - I
+      - me
+      - we
+      - us
+mije:
+  noun:
+    - - man
+      - male
+      - masculine
+      - guy
+      - boy
+    - - husband
+moku:
+  verb:
+    - - eat
+      - drink
+      - consume
+      - swallow
+      - ingest
+moli:
+  adjective:
+    - - dead
+      - dying
+monsi:
+  noun:
+    - - back
+      - behind
+      - rear
+mu:
+  particle:
+    - - (animal noise or communication)
+mun:
+  noun:
+    - - moon
+      - night
+      - star
+musi:
+  adjective:
+    - - artistic
+      - entertaining
+      - frivolous
+      - playful
+      - recreational
+mute:
+  adjective:
+    - - many
+      - lot
+      - more
+      - much
+      - several
+      - very
+  noun:
+    - - quantitiy
+nanpa:
+  particle:
+    - - -th (ordinal number)
+  noun:
+    - - numbers
+# Page 130
+nasa:
+  adjective:
+    - - unusual
+      - strange
+    - - foolish
+      - crazy
+    - - drunk
+      - intoxicated
+nasin:
+  noun:
+    - - way
+      - custom
+      - doctrine
+      - method
+      - path
+      - road
+nena:
+  noun:
+    - - bump
+      - button
+      - hill
+      - mountain
+      - nose
+      - protuberance
+ni:
+  adjective:
+    - - that
+      - this
+nimi:
+  noun:
+    - - name
+      - word
+noka:
+  noun:
+    - - foot
+      - leg
+    - - bottom
+      - lower part
+o:
+  particle:
+    - - hey
+    - - oh
+olin:
+  verb:
+    - - love
+      - compassion
+      - respect
+      - like
+ona:
+  noun:
+    - - he
+      - she
+      - it
+      - they
+open:
+  verb:
+    - - begin
+      - start
+    - - open
+    - - turn
+pakala:
+  adjective:
+    - - botched
+      - broken
+      - damaged
+      - harmed
+      - ruined
+pali:
+  verb:
+    - - do
+      - act
+      - work
+    - - build
+      - make
+      - prepare
+palisa:
+  noun:
+    - - branch
+      - rod
+      - stick
+pan:
+  noun:
+    - - cereal
+      - grain
+    - - barley
+      - corn
+      - oat
+      - rice
+      - wheat
+    - - bread
+      - pasta
+# Page 131
+pana:
+  verb:
+    - - give
+      - send
+      - emit
+      - provide
+      - put
+      - release
+pi:
+  particle:
+    - - of
+pilin:
+  noun:
+    - - heart (physical or emotional)
+  adjective:
+    - - feeling (an emotion, a direct experience)
+pimeja:
+  adjective:
+    - - black
+      - dark
+      - unlit
+pini:
+  adjective:
+    - - ago
+      - completed
+      - ended
+      - finished
+      - past
+pipi:
+  adjective:
+    - - bug
+      - insect
+      - ant
+      - spider
+poka:
+  noun:
+    - - hip
+      - side
+    - - next to
+      - nearby
+      - vicinity
+poki:
+  noun:
+    - - container
+      - bag
+      - bowl
+      - box
+      - cup
+      - cupboard
+      - drawer
+      - vessel
+pona:
+  adjective:
+    - - good
+      - positive
+      - useful
+    - - friendly
+      - peaceful
+    - - simple
+pu:
+  adjective:
+    - - interacting with the official Toki Pona book
+sama:
+  adjective:
+    - - same
+      - similar
+    - - sibling
+      - peer
+      - fellow
+  preposition:
+    - - as
+      - like
+seli:
+  adjective:
+    - - fire
+    - - stove
+      - reaction
+      - heat
+selo:
+  noun:
+    - - outside
+      - outer
+    - - bark
+      - peel
+      - shell
+      - skin
+    - - boundary
+seme:
+  particle:
+    - - which
+      - what
+sewi:
+  noun:
+    - - below
+      - highest
+      - elevated
+  adjective:
+    - - awe-inspiring
+      - divine
+      - sacred
+      - supernatural
+sijelo:
+  noun:
+    - - body (of person or animal)
+      - physical
+      - torso
+sike:
+  noun:
+    - - round
+    - - ball
+      - circle
+      - cycle
+      - sphere
+      - wheel
+  adjective:
+    - - year
+sin:
+  alternative: namako
+  adjective:
+    - - new
+      - fresh
+    - - additional
+      - another
+      - extra
+sina:
+  noun:
+    - - you
+sinpin:
+  noun:
+    - - face
+      - foremost
+      - front
+      - wall
+sitelen:
+  noun:
+    - - image
+      - picture
+      - representation
+      - symbol
+      - mark
+      - writing
+sona:
+  verb:
+    - - know
+      - skilled
+      - wise
+    - - know-how
+soweli:
+  noun:
+    - - animal
+      - beast
+      - mammal
+suli:
+  adjective:
+    - - big
+      - heavy
+      - large
+      - long
+      - tall
+    - - adult
+suno:
+  noun:
+    - - sun
+    - - light
+      - brightness
+      - glow
+      - radiance
+      - shine
+    - - lamp
+supa:
+  noun:
+    - - surface
+      - put
+# Page 133
+suwi:
+  adjective:
+    - - sweet
+      - fragrant
+    - - cute
+      - innocent
+      - adorable
+tan:
+  preposition:
+    - - by
+      - from
+      - because
+taso:
+  particle:
+    - - but
+      - however
+  adjective:
+    - - only
+tawa:
+  preposition:
+    - - going
+      - toward
+    - - for
+    - - from
+  adjective:
+    - - moving
+telo:
+  noun:
+    - - water
+      - liquid
+      - fluid
+      - wet
+    - - beverage
+tenpo:
+  noun:
+    - - time
+      - duration
+      - moment
+      - occasion
+      - period
+      - situation
+toki:
+  verb:
+    - - communicate
+      - say
+      - speak
+      - say
+      - talk
+      - language
+      - think
+tomo:
+  noun:
+    - - indoor
+    - - building
+      - home
+      - house
+      - room
+tu:
+  number:
+    - - two
+unpa:
+  verb:
+    - - sexual
+    - - fuck
+    - - sex
+uta:
+  noun:
+    - - mouth
+      - lips
+      - oral
+      - jaw
+utala:
+  verb:
+    - - battle
+      - challange
+      - compete
+      - struggle
+walo:
+  adjective:
+    - - white
+      - whitish
+    - - light
+      - pale
+# Page 134
+wan:
+  adjective:
+    - - unique
+      - united
+  number:
+    - - one
+waso:
+  noun:
+    - - bird
+      - flying
+      - winged
+wawa:
+  adjective:
+    - - strong
+      - powerful
+    - - confident
+      - sure
+    - - energetic
+      - intense
+weka:
+  adjective:
+    - - absent
+      - away
+      - ignored
+wile:
+  pre-verb:
+    - - must
+      - need
+      - require
+      - should
+      - want
+      - wish
