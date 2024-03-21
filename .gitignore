@@ -10,7 +10,9 @@ env.sh
 *~
 */*~
 github.sh
+*.gem
 /db/
+/books/
 /tmp/
 /org/
 broker.log
