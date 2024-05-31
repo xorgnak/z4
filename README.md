@@ -58,7 +58,7 @@ The 'hi' event is used to provide periodic information during the vector.
 2.3. queue the "blink" event to be ru-run.
 
 ```
-on('ok',[[z4(16,0); at(0,"on('blink');");]]);
+on('ok',[[z4(16,0); on('blink');]]);
 on('blink',[[z4(16,2,led,1); at(500,"z4(16,2,led,0);"); at(2000,"on('blink');");]]);
 ```
 
