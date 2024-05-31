@@ -19,7 +19,6 @@ PicoMQTT::Client mqtt("propedicab.com");
 #define NUM_LEDS_A 8
 #define NUM_LEDS_B 8
 #define NUM_LEDS_C 8
-#define NUM_LEDS_D 8
 #define LEDS_PIN_A 36
 #define LEDS_PIN_B 34
 #define LEDS_PIN_C 33
@@ -105,21 +104,15 @@ void rx() {
 
 #include "z4.h"
 
-void setup() {
+void z4_setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(115200);
-  while (!Serial) {
-    delay(1);
-  }
+  while (!Serial) {}
   Serial.println();                               // always a good idea.
 
-#if defined(ESP8266)
-
-#elif defined(ESP32)
   for (int i = 0; i < 17; i = i + 8) {
     z4.chip |= ((ESP.getEfuseMac() >> (40 - i)) & 0xff) << i;
   }
-#endif
 
   FastLED.addLeds<NEOPIXEL, LEDS_PIN_A>(ledsA, NUM_LEDS_A);
   FastLED.addLeds<NEOPIXEL, LEDS_PIN_B>(ledsB, NUM_LEDS_B);
@@ -131,10 +124,11 @@ void setup() {
        String s = request->getParam("i")->value();
        z4.eval(s);
        request->send(201);
+
     } else {
       z4.exec("/index");
       String ss = String("<a href='https://propedicab.com/?net=") + z4.net + String("&dev=") + z4.dev + String("'>HOME</a>");
-      String s = String(z4_index_head) + String("<h1 style='width: 100%; text-align: left;'>") + z4.ui + ss + String("</h1>") + String(z4_index_term) + String(z4_index_tail);
+      String s = String(z4_index_head) + String("<h1 style='width: 100%; text-align: left;'>") + z4.buttons + ss + String("</h1>") + String(z4_index_term) + String(z4_index_tail);
       request->send(200, "text/html", s);
     }
   });
@@ -217,7 +211,7 @@ void setup() {
     if (WiFi.softAP(z4.dev.c_str())) {
       server.begin();
       String ii = WiFi.softAPIP().toString();
-      sprintf(vm.buf, "--[AP] %s %s\n", z4.dev.c_str(), ii.c_str());
+      sprintf(vm.buf, "--[OP] %s %s\n", z4.dev.c_str(), ii.c_str());
       vm.output += String(vm.buf);
     }
   }
@@ -242,12 +236,6 @@ void setup() {
   Serial.println(z4.output());                    // print info or not.
 }
 
-class BTN {
-  public:
-  BTN() {}
-  bool down = false;
-} btn;
-
 class UI
 {
   public:
@@ -257,7 +245,7 @@ class UI
     String prev;
 } ui;
 
-void loop() {
+void z4_loop() {
   z4.now = millis();
   sprintf(vm.buf, "");  
   myButton.update();
@@ -366,4 +354,12 @@ void loop() {
     }    
   }
 
+}
+
+// Arduino Example
+void setup() {
+  z4_setup();
+}
+void loop() {
+  z4_loop();
 }

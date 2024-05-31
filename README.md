@@ -1,3 +1,4 @@
+# the z4 platform
 The z4-lua platform is an evented operating system for the ESP32 family of microcontrollers. 
 It leverages the onboard EEPROM to house user defined events to be executed by interrupt.
 The z4-lua scripting layer provides a user friendly interface to the z4 command.
@@ -6,10 +7,11 @@ The z4 command provides low level access to ESP32 resources.
 # Capabilities:
 - 128x64 oled display
 - buzzer
+- button
 - ir input 
 - web terminal
 - 3x neopixel buses
-- lora interconnection
+- lora mesh
 
 # Why?
 Files are big, have types with extensions, and with big fancy handlers for those extensions.
@@ -36,15 +38,12 @@ lcd(inverted, { "line 0", "line 1" ... }) -- print the lines on the lcd.
 mk(vector) -- create event vector.
 roll(number, sides) -- set the number of registers to random numbers sides, and set register 0 to the total.
 ```
-# Events
+# system events
 Events are small snippets of z4 lua used to control settings and functions.
 The 'ok' event is used to run once within a vector to initialize a safe working enviroment.
 The 'net' event is used to set the network parameters for the vector.
 The 'mud' event is used by the mud function to store vector state information.
 The 'hi' event is used to provide periodic information during the vector.
-
-# Vectors
-A vector is a collection of events and vectors associated with a particular purpose.
 
 # Examples
 
@@ -83,30 +82,49 @@ This example turns the led on, the turns it off after a half second.
 z4(16,2,led,1); at(500,"z4(16,2,led,0);");
 ```
 
-## Conditional Branching.
-The `go(cond,cmd,[[payload]]);` command triggers the z4 0 command `cmd` with the payload.
+## Conditional Branching
+The `go(cond,cmd,payload);` command triggers the z4 0 command `cmd` with the payload.
 This example triggers two different events based on a condition continuously.
 
 ```
-on('choice',[[roll(1,2); z4(4,0,0); go(reg == 1,6,'one'); go(reg == 2,6,'two');]]);
-on('one',[[p("Hello, One!!!"); on('choice');]]);
-on('two',[[p("Hello, Two!!!"); on('choice');]]);
+on('choice',[[z4(16,0); z4(16,2,led,1); roll(1,2); z4(4,0,0); go(reg == 1,6,'one'); go(reg == 2,7,"z4(16,2,led,0);"); at(10000,"on('choice');");]]);
+on('one',[[p("Hello, One!!!"); at(0,"on('choice');");]]);
 ```
 
 # The z4 Boot Process
 When the microcontroller boots, it self-initializes, then creates it's environment.
 There are three steps to this process.
 
+## vectors
+A vector is a collection of events with a collective purpose. The initial vector is `/`, meaning "Main".
+Events contained within vectors below the current vector may be triggered from within, but not events within vectors above.
+Use either of the following to change vectors:
+```
+-- low level
+z4(32,'newVctor');
+-- high level
+jump('newVector');
+```
+
+## events
+An event is a collection of `;` separated operations to carry out a task.
+All events are created the same way. The `on` command simplifies this.
+The following are equivilent ways to set the payload of the `hi` event:
+```
+-- low level
+z4(0,0,"p('My Payload.');"); z4(0,5,'hi');
+-- high level
+on('hi',[[p('My Payload.');]]);
+```
+
 ## event payloads
-When an event is triggered, it's payload is evaluated. A n event's payload can be specified in any of the following ways:
+When an event is triggered, it's payload is evaluated. An event's payload can be specified in any of the following ways:
 
 ```
 -- indirect
-payload = [[p('My Payload.');]];
-on('event',payload);
-
+payload = [[p('My Payload.');]]; on('myEvent',payload);
 -- direct
-on('event',[[p('My Payload.');]]);
+on('myEvent',[[p('My Payload.');]]);
 ```
 
 ## 1. Known safe state

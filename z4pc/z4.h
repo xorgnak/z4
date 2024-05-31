@@ -87,6 +87,9 @@ class Z4 {
 
     String emit = String("OK");
 
+    void setup();
+    void loop();
+
     void eval(String s);        // eval s
     void poll();                // eval vm.poll
     void exec(const char * s);  // exec s
@@ -100,7 +103,7 @@ class Z4 {
     bool debug = false;          // display tmp output
     bool trace = false;
 
-    String ui = String("");
+    String buttons = String("");
 
     long ntp;                   // ntp now
     long now;                   // internal clock
@@ -580,6 +583,10 @@ static int lua_wrapper_z4(lua_State * lua_state) {
     sprintf(vm.buf, "/%s", s);
     z4.context = String(vm.buf);
     LittleFS.mkdir(z4.context.c_str());
+    z4.exec("ok");
+    z4.exec("net");
+    z4.exec("mud");
+    z4.exec("hi");
     
   } else if (m == 127) {
     int mx = luaL_checkinteger(lua_state, 2);
