@@ -1,7 +1,0 @@
-#!/bin/bash
-
-$L='https://packages.redis.io/redis-stack/redis-stack-server-7.2.0-v8-x86_64.AppImage?_gl=1*5qbozp*_ga*MTgwMjg4NzcwMi4xNzA2MzUzNDAy*_ga_8BKGRQKRPV*MTcwNzc4MDE2NS43LjEuMTcwNzc4MDIzMC41Ny4wLjA.*_gcl_au*MTc5OTE3ODE1OS4xNzA2MzUzNDAx'
-
-wget -O llama $L
-
-sudo mv redis /usr/bin/redis

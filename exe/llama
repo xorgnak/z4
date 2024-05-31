@@ -1,7 +1,0 @@
-#!/bin/bash
-
-$L='https://huggingface.co/Bojun-Feng/TinyLlama-1.1B-Chat-v1.0-llamafile/resolve/main/tinyllama-1.1b-chat-v1.0.Q2_K.llamafile?download=true'
-
-wget -O llama $L
-
-sudo mv llama /usr/bin/llama
