@@ -88,7 +88,7 @@ The `go(cond,cmd,[[payload]]);` command triggers the z4 0 command `cmd` with the
 This example triggers two different events based on a condition continuously.
 
 ```
-on('choice',[[z4(16,2,led,1); local x = random(2); go(x == 1,6,'one'); go(x == 2,6,'two');]]);
+on('choice',[[roll(1,2); z4(4,0,0); go(reg == 1,6,'one'); go(reg == 2,6,'two');]]);
 on('one',[[p("Hello, One!!!"); on('choice');]]);
 on('two',[[p("Hello, Two!!!"); on('choice');]]);
 ```
@@ -97,9 +97,21 @@ on('two',[[p("Hello, Two!!!"); on('choice');]]);
 When the microcontroller boots, it self-initializes, then creates it's environment.
 There are three steps to this process.
 
+## event payloads
+When an event is triggered, it's payload is evaluated. A n event's payload can be specified in any of the following ways:
+
+```
+-- indirect
+payload = [[p('My Payload.');]];
+on('event',payload);
+
+-- direct
+on('event',[[p('My Payload.');]]);
+```
+
 ## 1. Known safe state
 If the `ok` event exists, it will be run when the vector is initialized to provide a known safe working state.
-This will be done automatically.
+This will be done automatically. This event's payload should introduce global enviromentals which do *not* need to be updated.
 
 ## 2. Triggered action
 Actions can be triggered using any system event, a branching event, or a timed event.
@@ -108,35 +120,45 @@ Actions can be triggered using any system event, a branching event, or a timed e
 To provide information about the vector at any point, the `hi` event should be used.
 This will not be done automatically.
 ```
-on('hi');
+on('hi',payload);
 ```
 
 ### Other System Events
 ```
-on('disconnected'); => Wifi disconnected.
-on('connecting'); => wifi connecting.
-on('ip'); => Got ip.
-on('ap'); => AP up.
-on('connected'); => mqtt connected.
-on('ntp'); => got time.
-on('btn/1'); => Single click.
-on('btn/2'); => Double click.
-on('btn/3'); => Triple click.
-on('btn/4'); => Quadruple click.
-on('btn/X'); => Long click.
-on('seq/xxxxxx'); => previous ir code.
-on('code/xxxxxx'); => ir code.
+on('disconnected',payload); => Wifi disconnected.
+on('connecting',payload); => wifi connecting.
+on('ip',payload); => Got ip.
+on('ap',payload); => AP up.
+on('connected',payload); => mqtt connected.
+on('ntp',payload); => got time.
+on('btn/1',payload); => Single click.
+on('btn/2',payload); => Double click.
+on('btn/3',payload); => Triple click.
+on('btn/4',payload); => Quadruple click.
+on('btn/X',payload); => Long click.
+on('seq/xxxxxx',payload); => previous ir code.
+on('code/xxxxxx',payload); => ir code.
 ```
 
 # Network
+Access to the we terminal is provided either over a connection to an access point or the creation of one.
+
+## public
 Local networks are used to provide the web terminal and to push telemetry to the cloud server.
 ```
 on('net',[[z4(2,1,'z4','password');]]);
 ```
 
-A Protected access point can also be established for local only use.
+## private
+A Protected access point can also be established for private only use.
 ```
-on('net',[[z4(2,1,'z4','password');]]);
+on('net',[[z4(2,2,'z4','password');]]);
+```
+
+## disconnect
+To disable network access within a vector:
+```
+on('net',[[z4(2,0);]]);
 ```
 
 # z4
@@ -155,11 +177,11 @@ It has many sub-commands or modes. The 0 mode has the special function of provid
 ### z4(0,8,payload) - remove event payload.
 ### z4(0,9,payload) - create vector payload.
 ### z4(0,10,payload) - remove vector payload.
-### z4(0,3,payload,mode) - list events in vector payload. Mode 0 is always used to call.
+### z4(0,11,payload,0) - list events in vector payload.
 
 ## mode 1 - Device
-### z4(z4,0,payload,r/w) - read net to payload as global or write net from payload.
-### z4(z4,1,payload,r/w) - read dev to payload as global or write dev from payload.
+### z4(z4,0,payload,0/1) - read net to payload as global or write net from payload.
+### z4(z4,1,payload,0/1) - read dev to payload as global or write dev from payload.
 
 ## mode 2 - Network
 ### z4(2,0) - Disconnect Wifi.
