@@ -9,7 +9,7 @@ const char lua_z4_p[] PROGMEM = R"=====(
 p = function(e); z4(0,3, tostring(e)); end;
 c = function(e); z4(15,8, e); end;
 ls = function(v); if v then; z4(0,11,'/' .. v,0); else; z4(0,11,'/',0); end; end;
-jump = function(v); if v then; z4(32,'/' .. v); else; z4(32,'/'); end; end;
+jump = function(v); if v then; z4(32,'/' .. v); else; z4(32,''); end; end;
 rm = function(e); z4(0,8,'/' .. e); end;
 lcd = function(m,t); for i,e in ipairs(t) do; z4(127,0,i,m,e); end; end;
 mk = function(v); z4(0,9,'/' .. v .. '/code'); z4(0,9,'/' .. v .. '/seq'); z4(0,9,'/' .. v .. 'btn'); on(v .. '/ok',''); on(v .. '/hi',''); end;
@@ -268,13 +268,17 @@ void Z4::exec(const char * s) {
       String ss = String(vm.buf);
       sprintf(vm.buf, "");
       File file = LittleFS.open(ss.c_str(), "r");
-      vm.branch = file.readString();
+      String sss = file.readString();
       file.close();
       if (z4.trace) {
-        sprintf(vm.buf,"--<[%s] %s\n", s, vm.branch.c_str());
+        sprintf(vm.buf,"--<[%s] %s\n", ss.c_str(), sss.c_str());
         vm.output += String(vm.buf);
         sprintf(vm.buf,"");
       }    
+      if (sss.length() > 1) {
+        at_time.push_back(z4.now);
+        at_macro.push_back(sss);
+      }
 }
 
 static int lua_wrapper_z4(lua_State * lua_state) {
@@ -580,13 +584,13 @@ static int lua_wrapper_z4(lua_State * lua_state) {
 
   } else if (m == 32) {    
     const char * s = luaL_checkstring(lua_state, 2);
-    sprintf(vm.buf, "/%s", s);
+    sprintf(vm.buf, "%s", s);
     z4.context = String(vm.buf);
     LittleFS.mkdir(z4.context.c_str());
-    z4.exec("ok");
-    z4.exec("net");
-    z4.exec("mud");
-    z4.exec("hi");
+    z4.exec("/ok");
+    z4.exec("/net");
+    z4.exec("/mud");
+    z4.exec("/hi");
     
   } else if (m == 127) {
     int mx = luaL_checkinteger(lua_state, 2);
