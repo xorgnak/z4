@@ -191,6 +191,10 @@ void z4_setup() {
   String ss;
   File file;
 
+  ss = String("z4(18,1,25,444); z4(18,1,25,222); z4(18,1,25,444);");
+  lua.Lua_dostring(&ss);
+//  buzzer.noTone();
+
   file = LittleFS.open("/ok", "r");
   ss = file.readString();
   file.close();
