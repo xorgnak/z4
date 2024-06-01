@@ -139,51 +139,33 @@ payload = [[p('My Payload.');]]; on('myEvent',payload);
 on('myEvent',[[p('My Payload.');]]);
 ```
 
-## 1. Known safe state
-If the `ok` event exists, it will be run when the vector is initialized to provide a known safe working state.
-This will be done automatically. This event's payload should introduce global enviromentals which do *not* need to be updated.
-
-## 2. Triggered action
-Actions can be triggered using any system event, a branching event, or a timed event.
-
-## 3. Incremental information
-To provide information about the vector at any point, the `hi` event should be used.
-This will not be done automatically.
+### System Events
 ```
-on('hi',payload);
-```
-
-### Other System Events
-```
-on('disconnected',payload); => Wifi disconnected.
-on('connecting',payload); => wifi connecting.
-on('ip',payload); => Got ip.
-on('ap',payload); => AP up.
-on('connected',payload); => mqtt connected.
-on('ntp',payload); => got time.
-on('btn/1',payload); => Single click.
-on('btn/2',payload); => Double click.
-on('btn/3',payload); => Triple click.
-on('btn/4',payload); => Quadruple click.
-on('btn/X',payload); => Long click.
-on('seq/xxxxxx',payload); => previous ir code.
-on('code/xxxxxx',payload); => ir code.
-on('zap',payload); => ir code finalizer.
+on('disconnected',payload) -- Wifi disconnected.
+on('connecting',payload) -- wifi connecting.
+on('ip',payload) -- Got ip.
+on('ap',payload) -- AP up.
+on('connected',payload) -- mqtt connected.
+on('ntp',payload) -- got time.
+on('btn/1',payload) -- Single click.
+on('btn/2',payload) -- Double click.
+on('btn/3',payload) -- Triple click.
+on('btn/4',payload) -- Quadruple click.
+on('btn/X',payload) -- Long click.
+on('seq/xxxxxx',payload) -- previous ir code.
+on('code/xxxxxx',payload) -- ir code.
+on('zap',payload) -- ir code finalizer.
 ```
 
 # Network
-Access to the we terminal is provided either over a connection to an access point or the creation of one.
+The `net` event establishes the network for the vector.
+Access to the web terminal is provided either over a connection to an access point or the creation of one.
 
 ## public
 Local networks are used to provide the web terminal and to push telemetry to the cloud server.
 ```
-on('net',[[z4(2,1,'z4','password');]]);
-```
-
-## private
-A Protected access point can also be established for private only use.
-```
-on('net',[[z4(2,2,'z4','password');]]);
+on('net',[[z4(2,1,'z4','password');]]) -- connect to access point.
+on('net',[[z4(2,2,'z4','password');]]) -- private access point
 ```
 
 ## disconnect
@@ -213,8 +195,8 @@ z4(0,11,payload,0) -- list events in vector payload.
 ```
 ## mode 1 - Device
 ```
-z4(z4,0,payload,0/1) -- read net to payload as global or write net from payload.
-z4(z4,1,payload,0/1) -- read dev to payload as global or write dev from payload.
+z4(1,0,payload,0/1) -- read net to payload as global or write net from payload.
+z4(1,1,payload,0/1) -- read dev to payload as global or write dev from payload.
 ```
 
 ## mode 2 - Network
