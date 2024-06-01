@@ -13,6 +13,9 @@ The z4 command provides low level access to ESP32 resources.
 - 3x neopixel buses
 - lora mesh
 
+# Upload
+I recommend using Arduino CLI to upload the pre-compiled binary from this repository as documented [here](https://arduino.github.io/arduino-cli/0.35/commands/arduino-cli_upload/).
+
 # Why?
 Files are big, have types with extensions, and with big fancy handlers for those extensions.
 They may or may not be executable, contain content, or be in a binary format. And directories could keep us talking all day.
