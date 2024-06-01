@@ -1,3 +1,7 @@
+The Zee-Four (z4) pocket computer
+
+![standby image](z4pc.gif)
+
 # the z4 platform
 The z4-lua platform is an evented operating system for the ESP32 family of microcontrollers. 
 It leverages the onboard EEPROM to house user defined events to be executed by interrupt.
