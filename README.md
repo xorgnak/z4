@@ -165,13 +165,8 @@ Access to the web terminal is provided either over a connection to an access poi
 Local networks are used to provide the web terminal and to push telemetry to the cloud server.
 ```
 on('net',[[z4(2,1,'z4','password');]]) -- connect to access point.
-on('net',[[z4(2,2,'z4','password');]]) -- private access point
-```
-
-## disconnect
-To disable network access within a vector:
-```
-on('net',[[z4(2,0);]]);
+on('net',[[z4(2,2,'z4','password');]]) -- private access point.
+on('net',[[z4(2,0);]]) -- disconnect network.
 ```
 
 # z4
